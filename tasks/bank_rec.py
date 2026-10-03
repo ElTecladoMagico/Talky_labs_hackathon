@@ -381,9 +381,9 @@ def load(conn):
         return prior[-1]
 
     ap = {(r["company"], r["vendor"], norm_num(r["number"])): r["number"]
-          for r in q("SELECT company, vendor, number FROM ap_invoices WHERE decision = 'POST'")}
+          for r in q("SELECT company, vendor, number FROM ap_invoices WHERE decision IN ('POST', 'POST_PAYMENT_BLOCK')")}
     ap |= {(r["company"], r["vendor_id"], norm_num(r["invoice_number"])): r["invoice_number"]
-           for r in q("SELECT company, vendor_id, invoice_number FROM ap_result WHERE decision = 'POST' AND invoice_number IS NOT NULL")}
+           for r in q("SELECT company, vendor_id, invoice_number FROM ap_result WHERE decision IN ('POST', 'POST_PAYMENT_BLOCK') AND invoice_number IS NOT NULL")}
     return accounts, SimpleNamespace(
         ap=ap, rate=rate, decide=lambda key, ev, opts, fb: review.decide(conn, key, "bank_rec", ev, opts, fb),
         vendor_acc={r["id"]: r["reconciliation_account"] for r in q("SELECT id, reconciliation_account FROM vendors")},
