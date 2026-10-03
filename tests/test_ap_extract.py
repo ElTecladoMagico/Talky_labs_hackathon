@@ -143,3 +143,37 @@ def test_scanned_pdf_uses_native_ocr_instead_of_inventing_values():
     assert d["net"] is not None
     assert "ocr" in d["extraction_methods"]
     assert "NO_READABLE_DOCUMENT" not in d["issues"]
+
+
+def test_unchanged_source_reuses_cache_without_reparsing(monkeypatch):
+    from tasks import ap_extract
+    cached = ap_extract.extract_document(DEV / "API004203")
+    def should_not_parse(text):
+        raise AssertionError("unchanged source reparsed")
+    monkeypatch.setattr(ap_extract, "parse_pdf_text", should_not_parse)
+    assert ap_extract.extract_document(DEV / "API004203", cached=cached) == cached
+
+
+def test_changed_metadata_invalidates_cache(tmp_path):
+    import shutil
+    from tasks.ap_extract import extract_document
+    folder = tmp_path / "API004203"
+    shutil.copytree(DEV / "API004203", folder)
+    cached = extract_document(folder)
+    meta = json.loads((folder / "message.json").read_text())
+    meta["received_at"] = "2026-07-31T23:00:00"
+    (folder / "message.json").write_text(json.dumps(meta))
+    fresh = extract_document(folder, cached=cached)
+    assert fresh["source_hash"] != cached["source_hash"]
+    assert fresh["metadata"]["received_at"] == meta["received_at"]
+
+
+def test_ocr_failure_is_explicit_and_does_not_abort_other_documents(monkeypatch):
+    import subprocess
+    from tasks import ap_extract
+    def timeout(*args, **kwargs):
+        raise subprocess.TimeoutExpired("ap-ocr", 30)
+    monkeypatch.setattr(ap_extract.subprocess, "run", timeout)
+    d = ap_extract.extract_document(DEV / "API005209")
+    assert any(i.startswith("PARSE_ERROR:") for i in d["issues"])
+    assert "NO_READABLE_DOCUMENT" in d["issues"]
