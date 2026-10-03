@@ -149,3 +149,30 @@ def test_run_writes_one_jsonl_per_task_and_skips_missing_modules(conn, tmp_path,
     assert sorted(p.name for p in out.iterdir()) == sorted(f"{t}.jsonl" for t in run.TASKS)
     assert json.loads((out / "ap.jsonl").read_text()) == {"doc_id": "API1", "decision": "POST"}
     assert (out / "close.jsonl").read_text() == ""
+
+
+def test_a_crashing_task_does_not_block_the_others(conn, tmp_path, monkeypatch):
+    def boom(c):
+        raise RuntimeError("bug de un compañero")
+    monkeypatch.setattr(run, "load_task", lambda n: boom if n == "ap" else (lambda c: [{"x": n}]))
+    out = tmp_path / "sub"
+    run.run_tasks(conn, out)
+    assert (out / "ap.jsonl").read_text() == ""
+    assert json.loads((out / "close.jsonl").read_text()) == {"x": "close"}
+
+
+def test_rebuild_reloads_extraction_cache_shared_through_git(phase, tmp_path, monkeypatch):
+    monkeypatch.setattr(db, "CACHE", tmp_path / "cache")
+    c = db.build_db(phase, tmp_path / "a.db")
+    c.execute("insert into doc_extract values ('API1', 'llm', 0.9, '{\"n\": 1}')")
+    db.dump_cache(c, phase)
+    fresh = db.build_db(phase, tmp_path / "teammate.db")  # otro compañero, otra base
+    assert fresh.execute("select source, confidence, data from doc_extract").fetchall() == [("llm", 0.9, '{"n": 1}')]
+
+
+def test_consistency_flags_entries_written_but_not_proposed(conn):
+    je = make_je("1000", [{"account": "62600000", "debit": 9}, {"account": "57200001", "credit": 9}])
+    rows = {"bank_rec": [{"account": "BIN-1000", "company": "1000", "adjustments": [{"category": "BANK_FEE_NOT_BOOKED", "lines": je["lines"]}]}]}
+    assert run.inconsistencies(conn, rows) == {("1000", "62600000"): 9, ("1000", "57200001"): -9}
+    propose(conn, "bank:BL1", "P2", "bank_rec", je)
+    assert run.inconsistencies(conn, rows) == {}
