@@ -69,3 +69,7 @@ CC o PEP (no ambos) y cuadre por sociedad. `propose(conn, "bank:BL0000123", "P2"
    valida su respuesta como dato no fiable (claves existentes, opciones permitidas o `DUDA`, confianza en [0, 1]), la guarda en `review.jsonl`
    y vuelve a ejecutar una vez. Coste ≈ 0,4 $ por llamada. Haced commit de `review.jsonl` para que todos ejecuten igual.
 5. Lo que siga en `doubts.jsonl` es la lista para la revisión cruzada humana. Sin `--review`, `run.py` no llama a la IA: ejecuciones reproducibles y sin red.
+
+**Auditoría final (`python3 run.py <fase> --audit`)**: `claude -p` (solo lectura, tope 3 $) recibe la lista de errores típicos inyectados
+(§4 y §6, `review.CHECKLIST`), el resumen de lo detectado y las rutas a los datos, y escribe `submission/<fase>/audit.jsonl` con lo que crea
+que se nos escapa. Es un informe para la revisión cruzada: **no cambia la entrega**. P1/P3: añadid vuestra lista en `CHECKLIST`.

@@ -1,4 +1,4 @@
-"""python run.py dev|test [--rebuild] [--review]  →  submission/<fase>/*.jsonl (+ score.py en dev)
+"""python run.py dev|test [--rebuild] [--review] [--audit]  →  submission/<fase>/*.jsonl (+ score.py en dev)
 
 Cada tarea es tasks/<nombre>.py con `def run(conn) -> list[dict]` (filas del jsonl de entrega).
 El orden respeta las dependencias: AP antes que banco/intragrupo/cierre; banco antes que cobros.
@@ -69,7 +69,7 @@ def run_tasks(conn, out_dir):
         print(f"AVISO: asientos entregados ≠ propose() en {len(bad)} cuentas: {dict(list(bad.items())[:5])}")
 
 
-def main(phase, rebuild=False, ai_review=False):
+def main(phase, rebuild=False, ai_review=False, ai_audit=False):
     conn = db.connect(phase, rebuild)
     out = ROOT / "submission" / phase
     decisions = db.CACHE / db.PHASES[phase].name / "review.jsonl"  # decisiones de la IA, versionadas en git
@@ -86,6 +86,11 @@ def main(phase, rebuild=False, ai_review=False):
             run_tasks(conn, out)
             n = review.dump_doubts(conn, out / "doubts.jsonl")
     print(f"dudas: {n} → {out / 'doubts.jsonl'}" + ("  (revisión humana; o `--review` para que decida claude -p)" if n else ""))
+    if ai_audit:  # segunda opinión de la IA: informe para humanos, no cambia la entrega
+        found = review.audit(db.PHASES[phase], out)
+        print(f"auditoría IA: {len(found)} hallazgos → {out / 'audit.jsonl'}")
+        for f in found:
+            print(f"  [{f['confidence']:.2f}] {f['task']} {f['where']} {f['item']}: {f['issue']} → {f['suspected_category']}")
     if phase == "dev":
         res = out / "score.json"
         subprocess.run([sys.executable, str(ROOT / "participant/score.py"), str(db.PHASES["dev"]), str(db.PHASES["dev"]), str(out), "--json", str(res)],
@@ -95,4 +100,4 @@ def main(phase, rebuild=False, ai_review=False):
 
 
 if __name__ == "__main__":
-    main(sys.argv[1], "--rebuild" in sys.argv, "--review" in sys.argv)
+    main(sys.argv[1], "--rebuild" in sys.argv, "--review" in sys.argv, "--audit" in sys.argv)

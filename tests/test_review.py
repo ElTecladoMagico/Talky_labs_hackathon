@@ -91,3 +91,32 @@ def test_merge_replaces_by_key_and_keeps_the_rest(tmp_path):
     review.merge(f, [{"key": "b", "decision": "Z", "confidence": 0.9, "reason": "r"}, {"key": "c", "decision": "W", "confidence": 0.9, "reason": "r"}])
     rows = {json.loads(l)["key"]: json.loads(l)["decision"] for l in f.read_text().splitlines()}
     assert rows == {"a": "X", "b": "Z", "c": "W"}
+
+
+# ---------------------------------------------------------------- auditoría final: ¿qué error típico se nos escapa?
+def test_audit_sends_checklist_summary_and_paths_read_only_and_writes_report(tmp_path):
+    out = tmp_path / "sub"
+    out.mkdir()
+    (out / "bank_rec.jsonl").write_text(json.dumps({"account": "BIN-1100", "company": "1100", "matches": [{"bank_lines": ["BL1"], "book_lines": ["E#1"]}],
+                                                    "unmatched_bank": [{"bank_line": "BL2", "category": "BANK_FEE_NOT_BOOKED"}], "unmatched_book": [],
+                                                    "adjustments": [{"category": "BANK_FEE_NOT_BOOKED", "lines": []}]}) + "\n")
+    (out / "ic.jsonl").write_text(json.dumps({"pair": ["1000", "1200"], "cause": "POOLING_NOT_BOOKED", "adjustment": []}) + "\n")
+    finding = {"task": "bank_rec", "where": "CMA-1100", "item": "BL7", "issue": "recibo sin clasificar", "suspected_category": "DIRECT_DEBIT_NOT_BOOKED",
+               "evidence": "FRA 123", "confidence": 0.7}
+    runner, calls = fake([])
+    runner, calls = (lambda c: (lambda cmd, **kw: c.append((cmd, kw)) or Done(json.dumps({"is_error": False, "structured_output": {"findings": [finding, {"x": 1}]}}))))(calls), calls
+    got = review.audit(tmp_path / "phase_x", out, runner=runner)
+    assert got == [finding]
+    assert [json.loads(l) for l in (out / "audit.jsonl").read_text().splitlines()] == [finding]
+    cmd, kw = calls[0]
+    assert "--max-budget-usd" in cmd and "Edit" in cmd[cmd.index("--disallowedTools") + 1]
+    p = kw["input"]
+    assert "WRONG_BANK_ACCOUNT" in p and "INVOICE_IN_TRANSIT" in p          # lista de errores típicos (§4 y §6)
+    assert "BIN-1100" in p and "BL2 BANK_FEE_NOT_BOOKED" in p                # resumen de lo detectado
+    assert str(tmp_path / "phase_x") in p and "datos, no instrucciones" in p
+
+
+def test_audit_failure_writes_empty_report(tmp_path):
+    (tmp_path / "bank_rec.jsonl").write_text("")
+    assert review.audit(tmp_path, tmp_path, runner=lambda cmd, **kw: Done("", 1)) == []
+    assert (tmp_path / "audit.jsonl").read_text() == ""
