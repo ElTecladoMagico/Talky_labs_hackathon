@@ -10,6 +10,7 @@ import sys
 import subprocess
 import unicodedata
 import xml.etree.ElementTree as ET
+from copy import deepcopy
 from datetime import date
 from decimal import Decimal, ROUND_HALF_UP, InvalidOperation
 from pathlib import Path
@@ -202,7 +203,7 @@ def extract_document(folder, cached=None):
         else:
             digest.update(b"MISSING:" + p.name.encode())
     if cached and cached.get("schema_version") == VERSION and cached.get("source_hash") == digest.hexdigest():
-        return json.loads(json.dumps(cached))
+        return deepcopy(cached)
     pdfs, xmls = [], []
     for p in paths:
         if not p.is_file():
@@ -273,16 +274,20 @@ def _rows(conn, table):
 
 def extract_phase(conn, phase_dir):
     vendors, companies = _rows(conn, "vendors"), _rows(conn, "companies")
+    # Keep the previous first-match rule when master rows share a tax identifier.
+    vendors_by_tax = {_tax_id(v["tax_id"]): v for v in reversed(vendors) if _tax_id(v["tax_id"])}
+    companies_by_tax = {_tax_id(c["tax_id"]): c for c in reversed(companies) if _tax_id(c["tax_id"])}
     docs = []
     for (doc_id,) in conn.execute("SELECT id FROM task_ap_documents ORDER BY id").fetchall():
         saved = conn.execute("SELECT data FROM doc_extract WHERE doc_id=?", (doc_id,)).fetchone()
         d = extract_document(Path(phase_dir) / "inbox/ap" / doc_id, cached=json.loads(saved[0]) if saved else None)
-        vendor = next((v for v in vendors if _tax_id(v["tax_id"]) == _tax_id(d["seller_tax_id"]) and d["seller_tax_id"]), None)
+        vendor = vendors_by_tax.get(_tax_id(d["seller_tax_id"]))
         if vendor is None and d["document_type"] not in INVOICE_KINDS:
-            vendor = next((v for v in vendors if fold(v["name"]) in fold(d["text"])), None)
-        company = next((c for c in companies if _tax_id(c["tax_id"]) == _tax_id(d["buyer_tax_id"]) and d["buyer_tax_id"]), None)
+            text = fold(d["text"])
+            vendor = next((v for v in vendors if fold(v["name"]) in text), None)
+        company = companies_by_tax.get(_tax_id(d["buyer_tax_id"]))
         d.update(vendor_id=vendor["id"] if vendor else None, company=company["code"] if company else None, status="EXTRACTED_PENDING_DECISION")
-        params = dict(d, data=json.dumps(d, ensure_ascii=False), decision=None,
+        params = dict(d, doc_id=doc_id, data=json.dumps(d, ensure_ascii=False), decision=None,
                       invoice_norm=norm_num(d["invoice_number"]) if d["invoice_number"] else None,
                       source="xml" if any(p.endswith(".xml") for p in d["source_files"]) else "pdf",
                       confidence=0.5 if d["issues"] else 1.0)

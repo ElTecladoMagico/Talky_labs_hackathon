@@ -161,7 +161,10 @@ def test_unchanged_source_reuses_cache_without_reparsing(monkeypatch):
     def should_not_parse(text):
         raise AssertionError("unchanged source reparsed")
     monkeypatch.setattr(ap_extract, "parse_pdf_text", should_not_parse)
-    assert ap_extract.extract_document(DEV / "API004203", cached=cached) == cached
+    result = ap_extract.extract_document(DEV / "API004203", cached=cached)
+    assert result == cached
+    result["items"][0]["amount"] = 0
+    assert cached["items"][0]["amount"] != 0
 
 
 def test_changed_metadata_invalidates_cache(tmp_path):
@@ -248,9 +251,11 @@ def test_identity_resolution_normalizes_once_without_guessing(seller, buyer, exp
         CREATE TABLE vendors(id TEXT, tax_id TEXT, name TEXT);
         INSERT INTO vendors VALUES ('EMPTY', NULL, 'Unknown');
         INSERT INTO vendors VALUES ('V1', 'A41691415', 'Ferrer y Cano Hierros y Aceros, S.L.');
+        INSERT INTO vendors VALUES ('V2', 'ESA41691415', 'Second master row');
         CREATE TABLE companies(code TEXT, tax_id TEXT, name TEXT);
         INSERT INTO companies VALUES ('EMPTY', NULL, 'Unknown');
         INSERT INTO companies VALUES ('1100', 'A12359962', 'Kalmora Construcción, S.A.U.');
+        INSERT INTO companies VALUES ('OTHER', 'ESA12359962', 'Second master row');
     """)
     try:
         result = ap_extract.extract_phase(conn, DEV.parents[1])[0]
