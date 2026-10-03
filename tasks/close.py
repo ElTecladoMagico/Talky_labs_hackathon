@@ -29,7 +29,7 @@ def split(total, weights):
 
 
 def accrual_estimate(series, month):
-    """Mediana de los cierres de la misma fase del ciclo (cada L meses, L = 1..3 el de menor dispersión). ponytail: no modela cada factura futura."""
+    """Mediana de los cinco últimos cierres de la misma fase del ciclo (cada L meses, L = 1..3 el de menor dispersión). ponytail: no modela cada factura futura; el consumo varía ±15-50 % de un ciclo a otro."""
     best = None
     for L in (1, 2, 3):
         ph = [v for v in (series.get(shift(month, k * L)) for k in range(1, 9 // L + 1)) if v]
@@ -37,7 +37,7 @@ def accrual_estimate(series, month):
             continue
         disp = statistics.mean(abs(a - b) / max(a, b) for a, b in zip(ph, ph[1:]))
         if best is None or disp < best[0] - 0.03:
-            best = (disp, ph[:3])
+            best = (disp, [v for v in (series.get(shift(month, k * L)) for k in range(1, 5 * L + 1)) if v][:5])
     return round(statistics.median(best[1])) if best else None
 
 
@@ -79,6 +79,37 @@ def prepaid(conn, month):
         je = make_je(r["company"], [dict(account=exp["account"], debit=amt, cost_center=exp["cost_center"], wbs=exp["wbs"]), dict(account="48000000", credit=amt)])
         propose(conn, f"close:prepaid:{r['reference']}:{month}", "P3", "close", je)
         rows.append(dict(type="PREPAID", company=r["company"], invoice=r["reference"][5:], amount=-amt, journal_entry=je))
+    return rows + prepaid_new(conn, month)
+
+
+def months(a, b):
+    return (int(b[:4]) * 12 + int(b[5:7])) - (int(a[:4]) * 12 + int(a[5:7]))
+
+
+def prepaid_new(conn, month):
+    """Facturas contabilizadas por P1 cuya cobertura es semestral o anual: se difiere a la 48 lo que cae en los meses siguientes al cierre (el mes en curso se gasta)."""
+    rows = []
+    for r in q(conn, "SELECT doc_id, company, data FROM ap_result WHERE decision IN ('POST', 'POST_PAYMENT_BLOCK') ORDER BY doc_id"):
+        d = json.loads(r["data"])
+        ps, pe = d.get("period_start"), d.get("period_end")
+        if not ps or not pe or d.get("document_type") != "INVOICE" or ps[:7] > month:
+            continue
+        n, left = months(ps, pe) + 1, months(month, pe[:7])
+        if n < 6 or left <= 0 or q(conn, "SELECT 1 FROM je_line WHERE reference = ? AND source = 'CLOSE_PREPAID' LIMIT 1", f"PREP-{r['doc_id']}"):
+            continue
+        je = q(conn, "SELECT lines FROM proposed_je WHERE event_key = ?", f"ap:{r['doc_id']}")
+        if not je:
+            continue
+        exp = defaultdict(int)
+        for l in json.loads(je[0]["lines"]):
+            if l["debit"] and not l["account"].startswith("47") and not l["account"].startswith("40"):
+                exp[(l["account"], l.get("cost_center"), l.get("wbs"))] += l["debit"]
+        amt = sum(exp.values()) * left // n
+        keys = list(exp)
+        lines = [dict(account="48000000", debit=amt)] + [dict(account=a, credit=c, cost_center=cc, wbs=w) for (a, cc, w), c in zip(keys, split(amt, [exp[k] for k in keys]))]
+        out = make_je(r["company"], lines)
+        propose(conn, f"close:prepaid:{r['doc_id']}:{month}", "P3", "close", out)
+        rows.append(dict(type="PREPAID", company=r["company"], invoice=r["doc_id"], amount=amt, journal_entry=out))
     return rows
 
 
