@@ -5,10 +5,11 @@ Los asientos de retrocesión del día 1 no se entregan."""
 import json
 import re
 import statistics
+import sys
 from collections import defaultdict
 from datetime import date
 
-from common import db, statements
+from common import db
 from common.je import make_je, propose
 from tasks import ar_billing
 from tasks.ar_billing import certification, month_end, q
@@ -195,9 +196,7 @@ def baddebt(conn, month):
 
 def fx_rate(conn, cur, local, day):
     """Unidades de moneda local por unidad de `cur`, vía EUR (SYN-BCE del último día publicado), con el 1/tipo redondeado a 6 decimales como el histórico."""
-    def r(c):
-        return 1.0 if c == "EUR" else q(conn, "SELECT rate FROM fx_rates WHERE base = 'EUR' AND currency = ? AND date <= ? ORDER BY date DESC LIMIT 1", c, day)[0]["rate"]
-    return round(1 / r(cur), 6) * r(local)
+    return round(1 / db.fx_rate(conn, cur, day), 6) * db.fx_rate(conn, local, day)
 
 
 def fx_entry(conn, month, company, item, account, partner, assignment, foreign, book, cur, local, day):
@@ -244,8 +243,11 @@ def fx(conn, month):
         local = cur_of[b["company"]]
         if b["currency"] == local:
             continue
-        files = [p for p in (db.phase_dir(conn) / "bank" / b["id"]).glob(f"{month}.*") if not p.name.endswith(".lines.jsonl")]
-        closing = statements.parse(files[0])["closing"]
+        st = q(conn, "SELECT closing FROM bank_statement WHERE account = ? AND month = ?", b["id"], month)
+        if not st:  # sin extracto no hay saldo que valorar: se omite esta partida, no el cierre entero
+            print(f"AVISO close {b['id']}: sin extracto de {month}; no se valora la cuenta en divisa", file=sys.stderr)
+            continue
+        closing = st[0]["closing"]
         book = q(conn, "SELECT SUM(debit - credit) b FROM ledger WHERE company = ? AND account = ?", b["company"], b["gl_account"])[0]["b"]
         rows.append(fx_entry(conn, month, b["company"], f"BANK:{b['id']}", b["gl_account"], None, None, closing, book, b["currency"], local, day))
     return [r for r in rows if r]

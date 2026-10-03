@@ -368,24 +368,12 @@ def load(conn):
         a["book"], a["prev_book"] = _book(q, a, month), _book(q, a, _prev_month(month))
         accounts.append(a)
 
-    rates = defaultdict(list)
-    for r in q("SELECT date, currency, rate FROM fx_rates ORDER BY date"):
-        rates[r["currency"]].append((r["date"], r["rate"]))
-
-    def rate(cur, day):  # SYN-BCE del día o el último publicado
-        prior = [r for d, r in rates[cur] if d <= str(day)[:10]]
-        if cur == "EUR":
-            return 1.0
-        if not prior:
-            raise ValueError(f"sin tipo SYN-BCE para {cur} a {day}")
-        return prior[-1]
-
     ap = {(r["company"], r["vendor"], norm_num(r["number"])): r["number"]
           for r in q("SELECT company, vendor, number FROM ap_invoices WHERE decision IN ('POST', 'POST_PAYMENT_BLOCK')")}
     ap |= {(r["company"], r["vendor_id"], norm_num(r["invoice_number"])): r["invoice_number"]
            for r in q("SELECT company, vendor_id, invoice_number FROM ap_result WHERE decision IN ('POST', 'POST_PAYMENT_BLOCK') AND invoice_number IS NOT NULL")}
     return accounts, SimpleNamespace(
-        ap=ap, rate=rate, decide=lambda key, ev, opts, fb: review.decide(conn, key, "bank_rec", ev, opts, fb),
+        ap=ap, rate=lambda cur, day: db.fx_rate(conn, cur, day), decide=lambda key, ev, opts, fb: review.decide(conn, key, "bank_rec", ev, opts, fb),
         vendor_acc={r["id"]: r["reconciliation_account"] for r in q("SELECT id, reconciliation_account FROM vendors")},
         receipt_customer={r["id"]: r["customer"] for r in q("SELECT id, customer FROM ar_invoices")},
         factoring=_group(q("SELECT * FROM factoring_assignments"), lambda f: f["remittance"]))
