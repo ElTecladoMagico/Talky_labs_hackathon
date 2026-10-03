@@ -133,6 +133,7 @@ def test_arithmetic_reject_preserves_reported_total_but_publishes_calculated_pay
     assert row['decision'] == 'REJECT'
     assert row['reasons'] == ['ARITHMETIC_ERROR']
     assert row['payable'] == 264496
+    assert row['gross'] == 264496
     assert row['source_amounts']['payable'] == row['source_amounts']['gross'] == 308802
     assert row['representations']['xml'] == []
     assert row['journal_entry'] is None
@@ -226,3 +227,42 @@ def test_missing_date_with_active_factor_is_reviewed_without_aborting(conn, monk
     assert row['decision'] == 'HOLD'
     assert row['reasons'] == ['EXTRACTION_REVIEW_REQUIRED']
     assert row['journal_entry'] is None
+
+@pytest.mark.parametrize('doc_id', ['API004338', 'API004373', 'API004445'])
+def test_energy_recurring_cost_matches_golden(full_conn, doc_id):
+    from tasks.ap import run
+    from common.je import je_lines
+    full_conn.execute("DELETE FROM task_ap_documents WHERE id NOT IN (SELECT doc_id FROM doc_extract WHERE json_extract(data,'$.vendor_id')='V100029')")
+    row = next(r for r in run(full_conn) if r['doc_id'] == doc_id)
+    gold = next(json.loads(l) for l in (db.PHASES['dev'] / 'golden/ap.jsonl').read_text().splitlines() if json.loads(l)['doc_id'] == doc_id)
+    assert row['decision'] == gold['decision'] == 'POST'
+    assert sorted(je_lines(row['journal_entry'])) == sorted(je_lines(gold['journal_entry']))
+    assert row['cost_evidence']['method'] == 'RECURRING_SEQUENCE'
+    assert len(row['cost_evidence']['history_months']) >= 2
+
+def test_bank_mandate_rejects_wrong_recipient_and_keeps_document_identity(full_conn):
+    from tasks.ap import run
+    full_conn.execute("DELETE FROM task_ap_documents WHERE id!='API005227'")
+    row, = run(full_conn)
+    assert (row['decision'], row['reasons']) == ('REJECT', ['WRONG_ADDRESSEE'])
+    assert row['company'] == '1100'
+    assert row['source_company'] == '1910'
+    assert row['journal_entry'] is None
+    assert row['bank_evidence'][0]['account'] == 'CMA-1100'
+    assert full_conn.execute('SELECT COUNT(*) FROM proposed_je').fetchone()[0] == 0
+
+def test_incomplete_recurring_cycle_stays_in_review(full_conn):
+    from tasks.ap import run
+    full_conn.execute("DELETE FROM task_ap_documents WHERE id!='API004338'")
+    row, = run(full_conn)
+    assert row['decision'] == 'HOLD'
+    assert row['reasons'] == ['ACCOUNTING_EVIDENCE_AMBIGUOUS']
+    assert row['journal_entry'] is None
+
+def test_bank_mandate_requires_account_company_agreement(full_conn):
+    from tasks.ap import run
+    full_conn.execute("DELETE FROM task_ap_documents WHERE id!='API005227'")
+    full_conn.execute("UPDATE bank_accounts SET company='1200' WHERE id='CMA-1100'")
+    row, = run(full_conn)
+    assert row['company'] == '1910'
+    assert not row.get('bank_evidence')
