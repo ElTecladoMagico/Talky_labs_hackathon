@@ -76,3 +76,23 @@ PYTHONDONTWRITEBYTECODE=1 COVERAGE_FILE=/private/tmp/p1-ponytail.coverage .venv/
 
 Además, reconstrucción SQLite temporal de ambas fases, reextracción desde caché y comparación de cada diccionario con el original: **305 dev y 297 test sin cambios**. Se conservan los cinco avisos. No se han cambiado las bases de trabajo ni las cachés versionadas en esta revisión. Checkpoints RED/GREEN verificados como ancestros del HEAD actual.
 Los pasos 1 y 2 siguen pendientes: esta revisión prepara el flujo, no resuelve los avisos ni completa datos contables.
+
+## Contrato parcial AP/NETTING solicitado por P2/P3
+
+`tasks/ap.py` integra `run(conn)` en el pipeline existente. Revalida las fuentes con el extractor, reutiliza `make_je`/`propose` y publica identidades y decisiones en `ap_result`. Ponytail limita la implementación al perfil `MARKET_REP_FEE`; no añade dependencias ni motores contables paralelos. Los demás perfiles siguen pendientes.
+
+- RED inicial: 11 fallos por ausencia de `tasks.ap`; las pruebas quedaron versionadas en `4bd0073` (checkpoint guardado durante esta sesión).
+- GREEN `68e0a4f`: 11 PASS, cobertura conjunta líneas/ramas del módulo AP 89.61 %. Una prueba de entrada insegura se aisló al documento original: modificar importe/moneda cambia legítimamente la clave de duplicado de otra presentación válida.
+- RED de evidencia modificada `e253cbb`: 1 fallo, 11 pruebas excluidas; no se detectaba un asiento previo cuya fuente dejaba de ser válida.
+- GREEN `42a98b2`: 1 PASS, 11 excluidas; el conflicto ahora obliga al llamante a abortar/rollback, sin eliminar asientos de otros propietarios.
+- Regresión final: **67 PASS en 68.40 s**, cobertura conjunta AP/extractor **91.03 %**. La primera ejecución en sandbox produjo 5 fallos de OCR y 61 PASS; la repetición autorizada con acceso al OCR nativo pasó completa sin modificar el extractor.
+
+Comando final:
+
+```sh
+PYTHONDONTWRITEBYTECODE=1 COVERAGE_FILE=/private/tmp/p1-netting-all.coverage .venv/bin/python -m pytest -q -p no:cacheprovider --cov=tasks.ap --cov=tasks.ap_extract --cov-branch --cov-fail-under=80 --cov-report=term-missing
+```
+
+Verificación del pipeline real en SQLite temporal dev: 2 filas AP, un asiento, ninguna diferencia entre entrega y `propose()`. Prueba de dependencia con consumidor simulado: `ar_cash` observa en `ledger` el abono a `41000000`, proveedor `V100173`, assignment `26012023`, 828850 céntimos. Test temporal: `API004774`, factura `26012027`, POST y un asiento, sin IDs/importes dev fijados en producción.
+
+Publicación autorizada en la base de trabajo dev: `API004299` POST y `API005210` DUPLICATE de la primera, sin asiento propio. Se conservaron las filas `bank_explained` y los eventos de otros propietarios; quedan **303 documentos dev pendientes**. No se usa golden en ejecución. Los módulos P2/P3 no están en este checkout: **no se ha verificado aquí el score ar_cash 1.000 ni 32/32**; requieren integrar este cambio y repetir su ejecución.

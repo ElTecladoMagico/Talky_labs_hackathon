@@ -52,7 +52,7 @@ CC o PEP (no ambos) y cuadre por sociedad. `propose(conn, "bank:BL0000123", "P2"
 
 **Robustez**: si una tarea lanza excepción se entrega vacía y el resto sigue. Al final `run.py` avisa si los asientos entregados no coinciden con `propose()` (entonces `ledger` no es fiable). Comprobado: las respuestas de golden pasan por `make_je` sin rechazos y puntúan 100.
 
-## P1: extracción AP (primer hito, no entrega contable final)
+## P1: extracción AP y contrato parcial NETTING_AP
 
 La extracción está en `tasks/ap_extract.py`. Reutiliza XML estándar, pypdf y la infraestructura SQLite. Para los PDF escaneados usa OCR **local** de Vision en macOS, sin servicios externos.
 
@@ -69,13 +69,17 @@ El comando Swift es solo para macOS. Sin el binario, los escaneos quedan señala
 La caché compartible está en `cache/phase_dev/doc_extract.jsonl` y `cache/phase_test/doc_extract.jsonl`.
 Solo se reutiliza cuando coinciden los bytes de fuentes/metadata y la versión del parser; hay que aumentar `VERSION` si cambia la interpretación del documento.
 
-**Contrato provisional para P2/P3:** `ap_result.decision = NULL` y `data.status = EXTRACTED_PENDING_DECISION`.
+**Contrato para P2/P3:** `tasks/ap.py` publica decisiones para honorarios `MARKET_REP_FEE` comprobados y sus duplicados. `ap_result` contiene `vendor_id`, `invoice_number` y `decision`. Para el resto, `decision = NULL` y `data.status = EXTRACTED_PENDING_DECISION`.
 P2 puede usar la identidad y los importes con su moneda explícita. Los importes de esta extracción están en céntimos de la **moneda del documento**, todavía sin conversión a moneda local. No implican autorización de pago ni contabilización.
 P3 no debe considerar estas filas como `POST`. Una reextracción renueva filas pendientes, pero no sobrescribe decisiones finales ni escribe asientos.
 En una discrepancia, `data.representations.pdf` y `.xml` conservan los dos juegos de importes; no se debe asumir que el total XML explica por sí solo un cargo bancario.
 
 Se publican texto y metadatos como evidencia, no como instrucciones ejecutables. Los avisos están en `data.issues`.
-**Pendiente:** completar extracción de casos especiales y construir `tasks/ap.py` con decisiones, asientos y evaluación dev. Evidencia y límites: [docs/p1-ap.tdd.md](docs/p1-ap.tdd.md).
+**NETTING_AP:** en dev, `API004299` publica `POST`, con abono de 828850 céntimos a `41000000`, proveedor `V100173` y `assignment = '26012023'`. `API005210` publica `DUPLICATE` de `API004299` y no genera asiento. La factura conserva su número original en `ap_result`; el prefijo `F-` solo se elimina para detectar duplicados de este perfil. El importe procede del documento; cuentas y objeto de coste, del maestro/histórico ERP. No se usa golden en ejecución.
+
+Los asientos se registran mediante `propose()` y aparecen en `ledger` antes de `ar_cash`. P1 no compensa efectivo ni escribe `bank_explained`: P2 sigue siendo responsable de las filas `category = 'UNRECORDED_RECEIPT'`; P3 ejecuta la compensación. Repetir AP no duplica el asiento y un evento contable incompatible genera error. Prueba focalizada: `.venv/bin/python -m pytest tests/test_ap.py -q`.
+
+**Pendiente:** completar extracción de casos especiales, el resto de decisiones/asientos AP y FX; evaluar la integración real con P2/P3. Este contrato parcial no equivale a una entrega AP completa. Evidencia y límites: [docs/p1-ap.tdd.md](docs/p1-ap.tdd.md).
 
 Para la siguiente fase, consumir el JSON existente de `doc_extract`, limitado a los documentos solicitados y ordenado por recepción (necesario para duplicados):
 
@@ -87,4 +91,4 @@ docs = [json.loads(data) for (data,) in conn.execute("""
 ```
 
 El ejemplo requiere `import json` y una conexión ya cargada. No crea otra caché ni vuelve a interpretar PDF/XML. Para fuentes nuevas o modificadas, usar primero `extract_phase(conn, phase_dir)`, que valida hash y versión; esa función no hace commit.
-`run.py` vacía `ap_result` al comenzar: el futuro `tasks/ap.py` deberá volver a publicar las decisiones desde estos datos. No depender de que las filas provisionales del CLI sobrevivan al pipeline.
+`run.py` vacía `ap_result` al comenzar: `tasks/ap.py` revalida fuentes/caché y vuelve a publicar las decisiones soportadas. No depender de que las filas provisionales del CLI sobrevivan al pipeline.
