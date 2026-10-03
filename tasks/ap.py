@@ -5,7 +5,7 @@ never a guessed POST. P2 owns bank_explained; P3 owns cash application.
 """
 import json
 import re
-from collections import defaultdict
+from collections import Counter, defaultdict
 from copy import deepcopy
 from decimal import Decimal, ROUND_HALF_UP
 from email.utils import parseaddr
@@ -127,6 +127,18 @@ def _historic_cost(conn, d, vendor, docs=()):
     if bool(cc) == bool(wbs):
         raise ValueError('ACCOUNTING_EVIDENCE_MISSING')
     return dict(account=acc, cost_center=cc, wbs=wbs, tax_code=tc or vendor['default_tax_code'])
+
+
+def _concept_account(conn, d, vendor, description):
+    """Cuenta que el histórico del proveedor usa para este mismo concepto (descripción sin cifras), si es única y clara.
+    Ej.: el canon de saneamiento de las facturas de agua va a 63100000 aunque la cuenta por defecto sea 62800000."""
+    key = lambda s: ' '.join(re.sub(r'[\d.,/%³]+|\s+m\b', ' ', fold(s or '')).split())
+    concept = key(description)  # el texto del diario viene truncado: basta con que sea prefijo (y no trivial)
+    found = Counter(acc for acc, text in conn.execute(
+        """SELECT l.account, l.text FROM ap_invoices h JOIN je_line l ON l.entry_id=h.journal_entry AND l.company=h.company
+           WHERE h.vendor=? AND h.company=? AND h.issue_date<=? AND h.decision IN ('POST','POST_PAYMENT_BLOCK') AND l.account LIKE '6%'""",
+        (vendor['id'], d['company'], d['invoice_date'])) if len(key(text)) >= 12 and concept.startswith(key(text))).most_common(2)
+    return found[0][0] if found and (len(found) == 1 or found[0][1] > found[1][1]) else None
 
 
 def _item_tax(item, code):
@@ -260,6 +272,7 @@ def _coding(conn, d, vendor, pos, receipts, docs=()):
         else:
             line = _historic_cost(conn, d, vendor, docs)
             line.update(amount=item['amount'], po=None, po_item=None)
+            line['account'] = _concept_account(conn, d, vendor, item['description']) or line['account']
             line['tax_code'] = _item_tax(item, line['tax_code'])
             out.append(line)
     if not out:

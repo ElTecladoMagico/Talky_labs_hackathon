@@ -375,7 +375,8 @@ def test_non_po_line_account_follows_history_for_the_same_concept(full_conn, doc
     no a la cuenta por defecto de la factura (12 facturas en dev)."""
     from tasks.ap import run
     from common.je import je_lines
+    from participant import score
     full_conn.execute("DELETE FROM task_ap_documents WHERE id != ?", (doc_id,))
     row, = run(full_conn)
     gold = next(json.loads(l) for l in (db.PHASES['dev'] / 'golden/ap.jsonl').read_text().splitlines() if json.loads(l)['doc_id'] == doc_id)
-    assert sorted(je_lines(row['journal_entry'])) == sorted(je_lines(gold['journal_entry']))
+    assert score.je_match(gold['journal_entry'], row['journal_entry']) == 1.0  # misma comparación que el evaluador
