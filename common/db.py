@@ -67,6 +67,7 @@ def build_db(phase_dir, db_path):
         else:
             conn.execute("INSERT INTO json_files VALUES (?, ?)", (f"{f.parent.name}/{f.stem}", json.dumps(data, ensure_ascii=False)))
 
+    conn.execute("INSERT INTO json_files VALUES ('phase/dir', ?)", (json.dumps(str(phase_dir)),))  # para leer inbox/ desde las tareas
     jes = _read_jsonl(phase_dir / "erp/journal_entries.jsonl")
     head = ("company", "doc_type", "posting_date", "document_date", "reference", "header_text", "source")
     blank = dict.fromkeys(("partner", "cost_center", "wbs", "assignment", "tax_code"))
@@ -113,6 +114,10 @@ def connect(phase, rebuild=False):
 
 def get_json(conn, name):
     return json.loads(conn.execute("SELECT content FROM json_files WHERE name = ?", (name,)).fetchone()[0])
+
+
+def phase_dir(conn):
+    return Path(get_json(conn, "phase/dir"))
 
 
 def reset_run(conn):
