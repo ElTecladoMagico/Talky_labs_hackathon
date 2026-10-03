@@ -52,7 +52,7 @@ CC o PEP (no ambos) y cuadre por sociedad. `propose(conn, "bank:BL0000123", "P2"
 
 **Robustez**: si una tarea lanza excepción se entrega vacía y el resto sigue. Al final `run.py` avisa si los asientos entregados no coinciden con `propose()` (entonces `ledger` no es fiable). Comprobado: las respuestas de golden pasan por `make_je` sin rechazos y puntúan 100.
 
-## P1: extracción AP y contrato parcial NETTING_AP
+## P1: extracción, decisiones AP y contrato para P2/P3
 
 La extracción está en `tasks/ap_extract.py`. Reutiliza XML estándar, pypdf y la infraestructura SQLite. Para los PDF escaneados usa OCR **local** de Vision en macOS, sin servicios externos.
 
@@ -69,26 +69,28 @@ El comando Swift es solo para macOS. Sin el binario, los escaneos quedan señala
 La caché compartible está en `cache/phase_dev/doc_extract.jsonl` y `cache/phase_test/doc_extract.jsonl`.
 Solo se reutiliza cuando coinciden los bytes de fuentes/metadata y la versión del parser; hay que aumentar `VERSION` si cambia la interpretación del documento.
 
-**Contrato para P2/P3:** `tasks/ap.py` publica decisiones para honorarios `MARKET_REP_FEE` comprobados y sus duplicados. `ap_result` contiene `vendor_id`, `invoice_number` y `decision`. Para el resto, `decision = NULL` y `data.status = EXTRACTED_PENDING_DECISION`.
-P2 puede usar la identidad y los importes con su moneda explícita. Los importes de esta extracción están en céntimos de la **moneda del documento**, todavía sin conversión a moneda local. No implican autorización de pago ni contabilización.
-P3 no debe considerar estas filas como `POST`. Una reextracción renueva filas pendientes, pero no sobrescribe decisiones finales ni escribe asientos.
-En una discrepancia, `data.representations.pdf` y `.xml` conservan los dos juegos de importes; no se debe asumir que el total XML explica por sí solo un cargo bancario.
+**Contrato para P2/P3:** `tasks.ap.run(conn)` publica una fila por documento solicitado en `ap_result`, con `vendor_id`, `invoice_number`, `payable`, `currency` y `decision` informada. Puede ser `POST`, `POST_PAYMENT_BLOCK`, `HOLD`, `REJECT`, `DUPLICATE` o `NOT_INVOICE`. Los asientos solo existen para las dos decisiones de contabilización; `HOLD` nunca equivale a autorización de pago. P3 puede usar cualquier decisión para comprobar que una factura IC ha llegado.
+Los importes de la decisión están en céntimos de la moneda local, con conversión por fecha de factura y redondeo por línea. `source_currency`, `source_amounts`, `source_invoice_number` y `source_company` conservan los datos extraídos. Una ausencia de cambio para contabilizar produce `HOLD/FX_RATE_MISSING`.
+**Consumir `ap_result`, no `doc_extract`, para decisiones y números canónicos.** La caché `doc_extract` conserva el texto y los importes originales, incluidos los prefijos `F-` de reenvíos. El CLI de extracción solo renueva filas pendientes; no decide ni crea asientos. `data.representations.pdf` y `.xml` mantienen las representaciones por separado.
 
 Se publican texto y metadatos como evidencia, no como instrucciones ejecutables. Los avisos están en `data.issues`.
-**NETTING_AP:** en dev, `API004299` publica `POST`, con abono de 828850 céntimos a `41000000`, proveedor `V100173` y `assignment = '26012023'`. `API005210` publica `DUPLICATE` de `API004299` y no genera asiento. La factura conserva su número original en `ap_result`; el prefijo `F-` solo se elimina para detectar duplicados de este perfil. El importe procede del documento; cuentas y objeto de coste, del maestro/histórico ERP. No se usa golden en ejecución.
+**NETTING_AP:** en dev, `API004299` publica `POST`, con abono de 828850 céntimos a `41000000`, proveedor `V100173` y `assignment = '26012023'`. `API005210` publica `DUPLICATE` de `API004299` y no genera asiento. Los cuatro reenvíos `API005197/5200/5206/5210` publican los números canónicos `0009557/F2611803/26030808/26012023`; se conserva la F propia de la serie. `API005221` queda `REJECT/ARITHMETIC_ERROR`, con `gross = payable = 264496` y total declarado `308802` en `source_amounts`, sin asiento.
+
+**Correcciones de validación:** las facturas de energía `F2631650`, `F2631651` y `F2631668` contabilizan con los mismos asientos que golden. La imputación se infiere únicamente si hay un ciclo mensual completo y dos ciclos históricos completos con idéntico orden de objetos de coste; se registra `cost_evidence`. Si cambia la secuencia o falta información, se conserva la revisión. Esta inferencia deberá sustituirse por un maestro CUPS–objeto de coste cuando esté disponible.
+El N43 aporta referencia de factura y mandato que no aparecen en `.lines.jsonl`. P1 contrasta factura, proveedor, moneda, importe y sociedad del mandato con el maestro de la cuenta bancaria. Así, `API005227` queda `REJECT/WRONG_ADDRESSEE`, `company=1100`, `source_company=1910`, sin asiento; `bank_evidence` identifica CMA-1100. Leer el extracto no modifica `bank_explained`.
 
 Los asientos se registran mediante `propose()` y aparecen en `ledger` antes de `ar_cash`. P1 no compensa efectivo ni escribe `bank_explained`: P2 sigue siendo responsable de las filas `category = 'UNRECORDED_RECEIPT'`; P3 ejecuta la compensación. Repetir AP no duplica el asiento y un evento contable incompatible genera error. Prueba focalizada: `.venv/bin/python -m pytest tests/test_ap.py -q`.
 
-**Pendiente:** completar extracción de casos especiales, el resto de decisiones/asientos AP y FX; evaluar la integración real con P2/P3. Este contrato parcial no equivale a una entrega AP completa. Evidencia y límites: [docs/p1-ap.tdd.md](docs/p1-ap.tdd.md).
+**Validación:** 305 decisiones dev y 297 test en ejecución aislada, sin diferencias entre entrega y asientos propuestos. Score AP dev **0,939480**, F1 HOLD **0,818**; no es un resultado perfecto. Golden se usa como referencia de pruebas/evaluación, nunca como entrada de ejecución. Quedan discrepancias y la integración real con P2/P3. Evidencia y límites: [docs/p1-ap.tdd.md](docs/p1-ap.tdd.md).
 
-Para la siguiente fase, consumir el JSON existente de `doc_extract`, limitado a los documentos solicitados y ordenado por recepción (necesario para duplicados):
+Para consumir las decisiones después de ejecutar AP:
 
 ```python
 docs = [json.loads(data) for (data,) in conn.execute("""
-    SELECT e.data FROM doc_extract e JOIN task_ap_documents t ON t.id = e.doc_id
+    SELECT e.data FROM ap_result e JOIN task_ap_documents t ON t.id = e.doc_id
     ORDER BY json_extract(e.data, '$.metadata.received_at'), e.doc_id
 """)]
 ```
 
-El ejemplo requiere `import json` y una conexión ya cargada. No crea otra caché ni vuelve a interpretar PDF/XML. Para fuentes nuevas o modificadas, usar primero `extract_phase(conn, phase_dir)`, que valida hash y versión; esa función no hace commit.
-`run.py` vacía `ap_result` al comenzar: `tasks/ap.py` revalida fuentes/caché y vuelve a publicar las decisiones soportadas. No depender de que las filas provisionales del CLI sobrevivan al pipeline.
+El ejemplo requiere `import json` y una conexión ya cargada. `tasks.ap.run(conn)` revalida el hash y la versión de las fuentes; el llamante hace commit o rollback.
+`run.py` reinicia todas las tablas de resultados al comenzar y regenera `submission/<fase>/ap.jsonl`. Ejecutarlo como pipeline completo del equipo, no para refrescar solo P1 sobre resultados P2/P3 que se quieran conservar. Los archivos SQLite y `submission/` son locales e ignorados por Git: compartir solo la caché de extracción no publica decisiones.

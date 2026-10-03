@@ -1,6 +1,6 @@
-# P1 — hito 1: extracción e identidades pendientes
+# P1 — evidencia de extracción, motor AP y correcciones de validación
 
-Estado: extracción implementada; decisiones contables y asientos AP todavía NO implementados.
+Estado actual: motor general AP implementado; consultar la sección final de correcciones para resultados y límites vigentes. Las secciones anteriores conservan la evidencia histórica de cada hito.
 Plan fuente: plan P1 acordado en el chat, derivado del texto del equipo aportado por el usuario.
 No se usa golden como entrada del parser ni como caché de respuestas.
 
@@ -96,3 +96,53 @@ PYTHONDONTWRITEBYTECODE=1 COVERAGE_FILE=/private/tmp/p1-netting-all.coverage .ve
 Verificación del pipeline real en SQLite temporal dev: 2 filas AP, un asiento, ninguna diferencia entre entrega y `propose()`. Prueba de dependencia con consumidor simulado: `ar_cash` observa en `ledger` el abono a `41000000`, proveedor `V100173`, assignment `26012023`, 828850 céntimos. Test temporal: `API004774`, factura `26012027`, POST y un asiento, sin IDs/importes dev fijados en producción.
 
 Publicación autorizada en la base de trabajo dev: `API004299` POST y `API005210` DUPLICATE de la primera, sin asiento propio. Se conservaron las filas `bank_explained` y los eventos de otros propietarios; quedan **303 documentos dev pendientes**. No se usa golden en ejecución. Los módulos P2/P3 no están en este checkout: **no se ha verificado aquí el score ar_cash 1.000 ni 32/32**; requieren integrar este cambio y repetir su ejecución.
+
+## Motor general y correcciones de validación — 2026-10-03
+
+Esta sección sustituye los estados pendientes de los hitos anteriores. El usuario autorizó completar el motor general y pidió corregir los casos comunicados por P2 usando golden como referencia. Ponytail conserva un único módulo AP, los helpers SQLite/asientos existentes y la biblioteca estándar; no se añaden dependencias. Golden solo interviene en pruebas y evaluación offline.
+
+### Checkpoints y garantías
+
+| Cambio | RED real | GREEN real |
+|---|---|---|
+| Motor general y publicación de todos los documentos | `e7ca280`: 17 fallos, 4 PASS | `d24ac25`: 21 PASS, cobertura AP 89,94 % |
+| Garantía, referencia rectificativa y solicitud de anticipo | `80de2ce`: 3 fallos | `9224702`: 3 PASS |
+| Entradas y copias alteradas | `91d2e98`: 5 fallos | `941d2a8`: 5 PASS |
+| Separar CUPS de IBAN y extraer periodos | `d83c59d`: 3 fallos | `a5a2a7c`: 3 PASS |
+| Compras sin pedido, factor e invoice_date ausente | `077f1b3`: 4 fallos | `b176cc4`: 4 PASS |
+| Tres facturas de energía, destinatario y total aritmético | `3b79772`: 5 fallos, 2 guardas PASS | `f33b062`: 7 PASS, 29 excluidas |
+
+Los checkpoints de estas correcciones se verificaron como ancestros de HEAD en `codex/p1-ap`. La regresión previa al último ciclo fue 91 PASS y 91,19 % de cobertura conjunta AP/extractor. El extractor y sus cachés no cambian en el último ciclo.
+
+Comando de la regresión final del motor y la infraestructura:
+
+```sh
+PYTHONDONTWRITEBYTECODE=1 COVERAGE_FILE=/private/tmp/p1-validation-feedback.coverage .venv/bin/python -m pytest tests/test_ap.py tests/test_infra.py -q -p no:cacheprovider --cov=tasks.ap --cov-branch --cov-fail-under=80 --cov-report=term-missing --cov-report=json:/private/tmp/p1-validation-feedback-coverage.json
+```
+
+Resultado: **55 PASS en 143,10 s**; cobertura AP conjunta **90,99 %**, líneas **93,09 %**, ramas **87,26 %**. No hay pruebas omitidas en esta ejecución. Se verifica que filas no contabilizadas carecen de asiento, la repetición es idempotente y los conflictos se detectan; los tests conservan sentinelas de P2/P3.
+
+Las pruebas `test_energy_recurring_cost_matches_golden` comparan todas las líneas contables (sociedad, cuenta, importe, socio y objeto de coste) con golden para `API004338/F2631650`, `API004373/F2631651` y `API004445/F2631668`. Las tres pasan a POST. La inferencia compara dos ciclos históricos mensuales completos con el mismo orden de objetos de coste y exige un ciclo actual completo. Se registra método, meses y posición en `cost_evidence`; con ciclo incompleto sigue HOLD. Es una inferencia del histórico, no una relación explícita CUPS–obra: un cambio del orden de suministros requiere el maestro correspondiente.
+
+La prueba del mandato N43 exige acuerdo con la sociedad de la cuenta bancaria, además de proveedor, número de factura, moneda e importe. `API005227` pasa a REJECT/WRONG_ADDRESSEE, `company=1100`, `source_company=1910`, sin asiento. Una contradicción entre mandato y maestro bancario no modifica la sociedad. Los complementos N43 contienen la referencia que falta en `.lines.jsonl`.
+
+Los cuatro reenvíos `API005197/5200/5206/5210` quedan DUPLICATE, sin asiento y con los números canónicos publicados. `API005221` conserva REJECT/ARITHMETIC_ERROR y publica `gross=payable=264496`; mantiene `308802` en `source_amounts` y la representación PDF. No tiene XML. La base compartida anterior solo tenía dos decisiones; las correcciones de código necesitaban regenerar la entrega y `ap_result`.
+
+### Evaluación y publicación
+
+Ejecución aislada en SQLite nuevo para cada fase: **305/305 dev y 297/297 test** con decisión, todos los asientos cuadrados y ninguna diferencia entre la entrega y `propose()`. Score AP dev con `participant.score.score_ap(golden, salida)`:
+
+- AP: **0,917723 → 0,939480**.
+- F1 HOLD: **0,706 → 0,818**; macro F1 de decisiones: **0,946003**.
+- Dev: 236 POST, 25 HOLD, 18 REJECT, 14 DUPLICATE, 12 NOT_INVOICE.
+- Test: 220 POST, 3 POST_PAYMENT_BLOCK, 27 HOLD, 19 REJECT, 13 DUPLICATE, 15 NOT_INVOICE. No hay golden de test disponible para puntuar esa fase.
+
+La publicación local actualiza `db/kalmora_dev.db`, `db/kalmora_test.db` y únicamente `submission/<fase>/ap.jsonl`. Se regeneran los eventos derivados `owner='P1', task='ap'` dentro de una transacción; la segunda ejecución debe devolver las mismas filas, y las filas bancarias/eventos de otros propietarios deben permanecer idénticos. Copias previas: `/private/tmp/p1-ap-before-dev-20261003.db` y `/private/tmp/p1-ap-before-test-20261003.db`. Son archivos locales ignorados por Git. El código y las pruebas están versionados; P2/P3 deben ejecutar la versión actual para regenerar sus propias bases.
+
+### Límites pendientes
+
+Quedan **9 diferencias de decisión** en dev frente a golden: `API004130`, `API004307`, `API004204`, `API004314`, `API004095`, `API004559`, `API004123`, `API005230` y `API005205`. Los siete primeros requieren completar evidencia de pedidos/imputación; los dos últimos, fraude/representaciones duplicadas. En API005205 el documento escaneado y el original presentan importes distintos: sigue siendo un caso pendiente de doble contabilización, que debe resolverse antes de considerar AP completo.
+
+Persisten cinco avisos de extracción entre ambas fases. Tampoco se ha completado la aplicación de anticipos al cambio histórico. Las copias idénticas con recepción cronológicamente contradictoria usan un representante estable y señalan `RECEIPT_ORDER_CONFLICT` (`API005197`, `API005203`); no se presenta esa selección como prueba de primera recepción real.
+
+No se ha ejecutado el motor real de P2/P3, ausente de este checkout. Los tres recibos de energía y NETTING_AP están preparados en AP/ledger; **no se afirma bank_rec=1,000 ni ar_cash=1,000** hasta repetir la integración del equipo.
