@@ -3,6 +3,8 @@ import json
 import sqlite3
 from pathlib import Path
 
+from common import statements
+
 ROOT = Path(__file__).resolve().parent.parent
 PHASES = {"dev": ROOT / "participant/phase_dev", "test": ROOT / "participant/phase_test"}
 CACHE = ROOT / "cache"  # versionado en git: la extracción de documentos se comparte entre el equipo
@@ -69,8 +71,20 @@ def build_db(phase_dir, db_path):
     _load(conn, "je_line", [dict({"line_id": f"{e['id']}#{l['line']}", "entry_id": e["id"]}, **{k: e.get(k) for k in head}, **dict(blank, **l))
                             for e in jes for l in e["lines"]])
 
-    _load(conn, "bank_line", [dict(r, account=f.parent.name, month=f.name[:7])
-                              for f in sorted((phase_dir / "bank").glob("*/*.lines.jsonl")) for r in _read_jsonl(f)])
+    bank, stmts = [], []
+    for f in sorted((phase_dir / "bank").glob("*/*.lines.jsonl")):
+        account, month = f.parent.name, f.name[:7]
+        lines = [dict(r, account=account, month=month, ref1=None, ref2=None, detail=None) for r in _read_jsonl(f)]
+        raw = [p for p in f.parent.glob(month + ".*") if not p.name.endswith(".lines.jsonl")]
+        if raw:  # el extracto original manda: saldos y referencias completas
+            st = statements.parse(raw[0])
+            statements.enrich(lines, st)
+            stmts.append({"account": account, "month": month, "opening": st["opening"], "closing": st["closing"]})
+        bank += lines
+    _load(conn, "bank_line", bank)
+    conn.execute("DROP TABLE IF EXISTS bank_statement")
+    conn.execute("CREATE TABLE bank_statement(account TEXT, month TEXT, opening INTEGER, closing INTEGER, PRIMARY KEY(account, month))")
+    conn.executemany("INSERT INTO bank_statement VALUES (:account, :month, :opening, :closing)", stmts)
     conn.executescript(LEDGER + "CREATE INDEX ix_je_acc ON je_line(company, account); CREATE INDEX ix_bank ON bank_line(account, month);")
     cache = CACHE / phase_dir.name / "doc_extract.jsonl"
     if cache.exists():
