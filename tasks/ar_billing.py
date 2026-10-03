@@ -48,13 +48,14 @@ def certification(path):
 
 
 def next_number(conn, ctx, company, contract, day):
-    """Siguiente nº de factura de la serie del contrato (prefijo de su última factura, con el año cambiado)."""
+    """Siguiente nº de factura de la serie del contrato (prefijo de su última factura, con el año cambiado).
+    Arranca tras la última factura anterior al mes: los huecos del mes en curso son los nuestros."""
     last = q(conn, "SELECT id FROM ar_invoices WHERE contract = ? ORDER BY date DESC, rowid DESC LIMIT 1", contract) \
         or q(conn, "SELECT id FROM ar_invoices WHERE company = ? ORDER BY date DESC, rowid DESC LIMIT 1", company)
     prefix = re.sub(r"\d+$", "", last[0]["id"])
     prefix = re.sub(r"(?<=\D)(\d{4}|\d{2})-$", lambda m: f"{day.year}-" if len(m.group(1)) == 4 else f"{day.year % 100:02d}-", prefix)
     if prefix not in ctx["seq"]:
-        ctx["seq"][prefix] = max([int(i[len(prefix):]) for (i,) in conn.execute("SELECT id FROM ar_invoices WHERE id LIKE ?", (prefix + "%",))
+        ctx["seq"][prefix] = max([int(i[len(prefix):]) for (i,) in conn.execute("SELECT id FROM ar_invoices WHERE id LIKE ? AND date < ?", (prefix + "%", day.isoformat()[:8] + "01"))
                                   if i[len(prefix):].isdigit()] or [0])
     ctx["seq"][prefix] += 1
     return f"{prefix}{ctx['seq'][prefix]:05d}"
@@ -68,22 +69,15 @@ def advance_left(conn, contract):
     return adv - used
 
 
-def obra(conn, ctx, item):
+def invoice(conn, ctx, item, day, parts):
+    """Factura + asiento. parts = [(descripción, importe, cuenta de ingreso, {"wbs"|"cost_center": …})]; IVA, retención y deducciones salen del contrato."""
     c = ctx["contracts"][item["contract"]]
     cust = ctx["customers"][item["customer"]]
-    cert = certification(ctx["root"] / "inbox/ar/billing" / item["billing_item"] / item["documents"][0])
-    if not cert["approved"]:
-        return dict(billing_item=item["billing_item"], type=item["type"], company=item["company"], customer=item["customer"],
-                    contract=item["contract"], expected="SKIP_PENDING_APPROVAL")
-    net = cert["origin"] - cert["previous"]  # esta certificación = a origen − anterior
-    caps = [[cap, desc, amt] for cap, desc, amt in cert["lines"]]
-    caps[max(range(len(caps)), key=lambda i: caps[i][2])][2] += net - sum(x[2] for x in caps)  # ponytail: el descuadre de redondeo va al capítulo mayor
-    y, m = map(int, item["month"].split("-"))
-    day = date(y, m, calendar.monthrange(y, m)[1])
+    net = sum(x[1] for x in parts)
     code = c["tax"]
     rate = ctx["tax"][code]["rate"] if ctx["tax"][code]["kind"] == "output" else 0
     tax = pct(net, rate)
-    ret = pct(net, c["retention_bp"])
+    ret = pct(net, c.get("retention_bp") or 0)
     ded = []
     if c.get("mx5mill"):
         ded.append(dict(code="MX5MILL", amount=pct(net, 50), account="63100000"))
@@ -95,18 +89,60 @@ def obra(conn, ctx, item):
     lines = [dict(account="43000000", debit=payable, partner=p, assignment=num), dict(account="43000900", debit=ret, partner=p, assignment=num)]
     lines += [dict(account=d["account"], debit=d["amount"], partner=p if d["account"] == "43800000" else None) for d in ded]
     lines.append(dict(account="47700000", credit=tax, tax_code=code))
-    lines += [dict(account=OBRA_ACCOUNT, credit=amt, wbs=f"{c['project']}.{cap}", tax_code=code, text=desc) for cap, desc, amt in caps]
-    face = json.loads(cust["dir3"]) if cust["kind"] == "public" and cust["country"] == "ES" else None
+    lines += [dict(account=acc, credit=amt, tax_code=code, text=desc, **dim) for desc, amt, acc, dim in parts]
     inv = dict(date=day.isoformat(), due_date=(day + timedelta(days=c["terms_days"])).isoformat(), tax_code=code, net=net, tax=tax,
                gross=net + tax, retention=ret, deductions=ded, payable=payable, currency=cust["currency"],
-               lines=[dict(description=d, amount=a, account=OBRA_ACCOUNT, cost_center=None, wbs=f"{c['project']}.{cap}") for cap, d, a in caps])
-    if face:
-        inv["face"] = face
+               lines=[dict(description=d, amount=a, account=acc, cost_center=dim.get("cost_center"), wbs=dim.get("wbs")) for d, a, acc, dim in parts])
+    if cust["kind"] == "public" and cust["country"] == "ES":
+        inv["face"] = json.loads(cust["dir3"])
     return dict(billing_item=item["billing_item"], type=item["type"], company=item["company"], customer=p, contract=c["id"],
                 expected="INVOICE", invoice=inv, journal_entry=make_je(item["company"], [l for l in lines if l.get("debit") or l.get("credit")]))
 
 
-HANDLERS = {"OBRA_CERTIFICATION": obra}
+def month_end(month):
+    y, m = map(int, month.split("-"))
+    return date(y, m, calendar.monthrange(y, m)[1])
+
+
+def obra(conn, ctx, item):
+    c = ctx["contracts"][item["contract"]]
+    cert = certification(ctx["root"] / "inbox/ar/billing" / item["billing_item"] / item["documents"][0])
+    if not cert["approved"]:
+        return dict(billing_item=item["billing_item"], type=item["type"], company=item["company"], customer=item["customer"],
+                    contract=item["contract"], expected="SKIP_PENDING_APPROVAL")
+    net = cert["origin"] - cert["previous"]  # esta certificación = a origen − anterior
+    caps = [[cap, desc, amt] for cap, desc, amt in cert["lines"]]
+    caps[max(range(len(caps)), key=lambda i: caps[i][2])][2] += net - sum(x[2] for x in caps)  # ponytail: el descuadre de redondeo va al capítulo mayor
+    return invoice(conn, ctx, item, month_end(item["month"]),
+                   [(desc, amt, OBRA_ACCOUNT, {"wbs": f"{c['project']}.{cap}"}) for cap, desc, amt in caps])
+
+
+def service_pdf(path):
+    """Filas (concepto, orden, importe, conforme) de la tabla del parte mensual."""
+    t = pdf_lines(path)
+    return [(t[i - 2], t[i - 1], cents(x), t[i + 1].startswith("Conforme")) for i, x in enumerate(t) if re.fullmatch(r"[\d.]+,\d\d [A-Z]{3}", x)]
+
+
+def service(conn, ctx, item):
+    """Canon mensual + servicios extraordinarios solo con conformidad del técnico municipal."""
+    c = ctx["contracts"][item["contract"]]
+    parts = [(f"{c['name']} – {'canon mensual' if conc.startswith('Canon') else conc} {item['month']}", amt, "70500000", {"cost_center": c["cc"]})
+             for conc, _, amt, ok in service_pdf(ctx["root"] / "inbox/ar/billing" / item["billing_item"] / item["documents"][0]) if ok]
+    return invoice(conn, ctx, item, month_end(item["month"]), parts)
+
+
+def revision(conn, ctx, item):
+    """Decreto de revisión de precios: una línea por mes desde la fecha de efectos con (canon nuevo − anterior). Se factura 3 días tras la aprobación."""
+    c = ctx["contracts"][item["contract"]]
+    txt = " ".join(pdf_lines(ctx["root"] / "inbox/ar/billing" / item["billing_item"] / item["documents"][0]))
+    new, old = (cents(x) for x in re.search(r"canon mensual en ([\d.]+,\d\d) EUR \(anterior: ([\d.]+,\d\d) EUR\)", txt).groups())
+    months = re.findall(r"\d{4}-\d\d", re.search(r"fecha de efectos \(([^)]*)\)", txt).group(1))
+    approved = date.fromisoformat(re.search(r"aprobaci.n: (\d{4}-\d\d-\d\d)", txt).group(1))
+    return invoice(conn, ctx, item, approved + timedelta(days=3),
+                   [(f"Revisión de precios – {c['name']} – diferencia {mo}", new - old, "70520000", {"cost_center": c["cc"]}) for mo in months])
+
+
+HANDLERS = {"OBRA_CERTIFICATION": obra, "SERVICE_MONTHLY": service, "PRICE_REVISION": revision}
 
 
 def billing_rows(conn):
