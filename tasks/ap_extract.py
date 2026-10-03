@@ -11,13 +11,13 @@ import subprocess
 import unicodedata
 import xml.etree.ElementTree as ET
 from datetime import date
-from decimal import Decimal, ROUND_HALF_UP
+from decimal import Decimal, ROUND_HALF_UP, InvalidOperation
 from pathlib import Path
 
 from common import db
 from common.je import norm_num
 
-VERSION = 2
+VERSION = 3
 AMOUNT = r"-?\d[\d.,]*[.,]\d{2}"
 INVOICE_KINDS = {"INVOICE", "CREDIT_NOTE", "DOWN_PAYMENT_REQUEST"}
 
@@ -30,8 +30,8 @@ def money(raw):
     s = re.sub(r"[^\d.,+-]", "", raw)
     separator = "," if s.rfind(",") > s.rfind(".") else "."
     if separator in s:
-        other = "." if separator == "," else ","
-        s = s.replace(other, "").replace(separator, ".")
+        whole, fraction = s.rsplit(separator, 1)
+        s = whole.replace(".", "").replace(",", "") + "." + fraction
     return int((Decimal(s) * 100).quantize(Decimal(1), rounding=ROUND_HALF_UP))
 
 
@@ -91,12 +91,19 @@ def _pdf_items(text):
     if not start:
         return []
     body = re.split(r"^(?:Base imponible|Incidência|Certificado a origen|Subtotal)\b", text[start.end():], maxsplit=1, flags=re.M)[0]
-    tokens = [s.strip() for s in body.splitlines() if s.strip()]
+    # ponytail: template tables only; unmatched layouts stay explicit review issues.
+    tokens = []
+    for raw in body.splitlines():
+        raw = raw.strip()
+        if not raw:
+            continue
+        combined = re.fullmatch(r"(-?[\d.,]+)\s+([\w²/%]+)", raw)
+        tokens.extend(combined.groups() if combined else [raw])
     items, description, i = [], [], 0
-    headers = {"Cant.", "Ud.", "Precio", "Importe", "Qtd.", "Un.", "Preço", "Valor", "Código", "Qty", "Unit", "Unit Price", "Amount"}
+    headers = {"cant.", "ud.", "precio", "importe", "qtd.", "un.", "preço", "valor", "código", "qty", "unit", "unit price", "amount", "cant. ud.", "qtd. un."}
     while i < len(tokens):
         token = tokens[i]
-        if token in headers:
+        if token.lower() in headers:
             i += 1
             continue
         if description and i + 3 < len(tokens) and re.fullmatch(r"-?[\d.,]+", token) and re.fullmatch(r"[\w²/%]+", tokens[i+1]) and re.fullmatch(AMOUNT, tokens[i+2]) and re.fullmatch(AMOUNT, tokens[i+3]):
@@ -115,7 +122,7 @@ def _pdf_items(text):
 
 def parse_pdf_text(text):
     d = {"document_type": _kind(text), "text": text}
-    d["invoice_number"] = _match(r"(?:N[º°o] Factura|Fatura N.º|Invoice No\.?|Invoice number)\s*:\s*([^\n]+)", text)
+    d["invoice_number"] = _match(r'(?:N[º°o] Factura|Fatura N[.º°"]+|Invoice No\.?|Invoice number)\s*:\s*([^\n]+)', text)
     raw_date = _match(r"^(?:Fecha|Data|Date|Invoice Date)\s*:\s*([^\n]+)", text)
     if raw_date and re.search(r"^TOTAL\s*\n\$", text, re.M) and "/" in raw_date:
         month, day, year = map(int, raw_date.split("/"))
@@ -218,7 +225,7 @@ def extract_document(folder, cached=None):
                     d["issues"].append(f"OCR_REQUIRED:{p.name}")
             else:
                 d["issues"].append(f"UNSUPPORTED_ATTACHMENT:{p.name}")
-        except (ValueError, ET.ParseError, OSError, subprocess.TimeoutExpired) as exc:
+        except (ValueError, InvalidOperation, ET.ParseError, OSError, subprocess.TimeoutExpired) as exc:
             d["issues"].append(f"PARSE_ERROR:{p.name}:{exc}")
     if pdfs:
         d.update(pdfs[0])
@@ -268,8 +275,12 @@ def extract_phase(conn, phase_dir):
         d.update(vendor_id=vendor["id"] if vendor else None, company=company["code"] if company else None, status="EXTRACTED_PENDING_DECISION")
         payload = json.dumps(d, ensure_ascii=False)
         conn.execute("INSERT OR REPLACE INTO doc_extract VALUES (?,?,?,?)", (doc_id, "xml" if any(p.endswith(".xml") for p in d["source_files"]) else "pdf", 0.5 if d["issues"] else 1.0, payload))
-        # DO NOTHING preserves a colleague's/final decision on extraction-only reruns.
-        conn.execute("INSERT INTO ap_result VALUES (?,?,?,?,?,?,?,?,?,?) ON CONFLICT(doc_id) DO NOTHING", (doc_id, d["company"], d["vendor_id"], d["invoice_number"], norm_num(d["invoice_number"]) if d["invoice_number"] else None, d["invoice_date"], d["payable"], d["currency"], None, payload))
+        # Refresh pending identities; preserve final decisions on extraction-only reruns.
+        conn.execute("""INSERT INTO ap_result VALUES (?,?,?,?,?,?,?,?,?,?) ON CONFLICT(doc_id) DO UPDATE SET
+                        company=excluded.company, vendor_id=excluded.vendor_id, invoice_number=excluded.invoice_number,
+                        invoice_norm=excluded.invoice_norm, invoice_date=excluded.invoice_date, payable=excluded.payable,
+                        currency=excluded.currency, data=excluded.data WHERE ap_result.decision IS NULL""",
+                     (doc_id, d["company"], d["vendor_id"], d["invoice_number"], norm_num(d["invoice_number"]) if d["invoice_number"] else None, d["invoice_date"], d["payable"], d["currency"], None, payload))
         docs.append(d)
     return docs
 
