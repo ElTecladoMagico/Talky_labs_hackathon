@@ -174,3 +174,21 @@ def test_po_missing_receipt_is_held_and_never_posted(full_conn):
     row, = run(full_conn)
     assert row['decision'] == 'HOLD' and 'QTY_NOT_RECEIVED' in row['reasons']
     assert row['journal_entry'] is None
+
+@pytest.mark.parametrize('doc_id,expected,reason', [
+    ('API004100', 'POST', None),
+    ('API004209', 'HOLD', 'QTY_NOT_RECEIVED'),
+    ('API005229', 'HOLD', 'BANK_DETAILS_CHANGED'),
+    ('API004242', 'POST', None),
+    ('API005203', 'DUPLICATE', 'DUPLICATE'),
+])
+def test_document_evidence_controls_matching(full_conn, doc_id, expected, reason):
+    from tasks.ap import run
+    ids = {'API005229': ['API004180', doc_id],
+           'API004242': [doc_id, 'API005223'],
+           'API005203': [doc_id, 'API004468']}.get(doc_id, [doc_id])
+    full_conn.execute('DELETE FROM task_ap_documents WHERE id NOT IN (' + ','.join('?' for _ in ids) + ')', ids)
+    row = next(r for r in run(full_conn) if r['doc_id'] == doc_id)
+    assert row['decision'] == expected
+    if reason:
+        assert reason in row['reasons']
