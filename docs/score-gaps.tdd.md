@@ -20,7 +20,7 @@ En cada paso se ejecutó dev y test desde cero y se comprobó que solo cambian l
 | 3 | El CFDI **no borra la retención de garantía** del PDF (3100) | `test_ap.py::test_cfdi_does_not_erase_*` | `b54e220`, 2 fallos: retención 0 | `1029666` | 5 asientos mejoran. Balance 0.992 → 0.999 |
 | 4 | Periodificaciones: **la mediana usa solo tramos que llegan a fin de mes**. Se arrastra **un ciclo de varios meses cerrado en el cierre anterior** si su factura no llegó como POST (mismo id, o misma sociedad y proveedor facturado hasta ese día). Sin `ap_result` no se arrastra nada. | `test_p3_tasks.py::test_accrual_*`, `test_previous_month_end_*`, `test_one_off_*`, `test_without_ap_*`, `test_first_month_of_an_open_bimonthly_*` | `e94aa27`, 3 fallos; `7e116aa`, 1 fallo | `ae7ed03`, `51faa61` | 8 partidas mejoran, 0 empeoran. Cierre 0.806 → 0.872 |
 
-Validación final: `python3 -m pytest -q --deselect tests/test_ap_extract.py` da **149 pasan**. Los tests de extracción no cambian; los 6 de OCR necesitan el binario local de P1.
+Validación final: `python3 -m pytest -q --deselect tests/test_ap_extract.py` da **150 pasan**. Los tests de extracción no cambian; los 6 de OCR necesitan el binario local de P1.
 
 ## ¿Generaliza fuera de julio de dev?
 
