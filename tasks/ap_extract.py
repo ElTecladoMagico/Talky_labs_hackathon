@@ -7,6 +7,7 @@ import hashlib
 import json
 import re
 import sys
+import subprocess
 import unicodedata
 import xml.etree.ElementTree as ET
 from datetime import date
@@ -16,7 +17,7 @@ from pathlib import Path
 from common import db
 from common.je import norm_num
 
-VERSION = 1
+VERSION = 2
 AMOUNT = r"-?\d[\d.,]*[.,]\d{2}"
 INVOICE_KINDS = {"INVOICE", "CREDIT_NOTE", "DOWN_PAYMENT_REQUEST"}
 
@@ -59,7 +60,7 @@ def _match(pattern, text):
 
 
 def _amount(pattern, text):
-    value = _match(pattern + rf"\s*:?\s*({AMOUNT})", text)
+    value = _match(pattern + rf"\s*:?\s*(?:(?:EUR|USD|GBP|MXN|[$£])\s*)?({AMOUNT})", text)
     return money(value) if value is not None else None
 
 
@@ -92,7 +93,7 @@ def _pdf_items(text):
     body = re.split(r"^(?:Base imponible|Incidência|Certificado a origen|Subtotal)\b", text[start.end():], maxsplit=1, flags=re.M)[0]
     tokens = [s.strip() for s in body.splitlines() if s.strip()]
     items, description, i = [], [], 0
-    headers = {"Cant.", "Ud.", "Precio", "Importe", "Qtd.", "Un.", "Preço", "Valor", "Código"}
+    headers = {"Cant.", "Ud.", "Precio", "Importe", "Qtd.", "Un.", "Preço", "Valor", "Código", "Qty", "Unit", "Unit Price", "Amount"}
     while i < len(tokens):
         token = tokens[i]
         if token in headers:
@@ -114,17 +115,22 @@ def _pdf_items(text):
 
 def parse_pdf_text(text):
     d = {"document_type": _kind(text), "text": text}
-    d["invoice_number"] = _match(r"(?:Nº Factura|Fatura N.º|Invoice No\.?|Invoice number)\s*:\s*([^\n]+)", text)
-    raw_date = _match(r"^(?:Fecha|Data|Date)\s*:\s*([^\n]+)", text)
+    d["invoice_number"] = _match(r"(?:N[º°o] Factura|Fatura N.º|Invoice No\.?|Invoice number)\s*:\s*([^\n]+)", text)
+    raw_date = _match(r"^(?:Fecha|Data|Date|Invoice Date)\s*:\s*([^\n]+)", text)
+    if raw_date and re.search(r"^TOTAL\s*\n\$", text, re.M) and "/" in raw_date:
+        month, day, year = map(int, raw_date.split("/"))
+        raw_date = date(year, month, day).isoformat()
     d["invoice_date"] = date_iso(raw_date) if raw_date else None
-    nifs = re.findall(r"\b(?:NIF|RFC)\s*:?\s*([A-Z0-9]+)", text)
+    nifs = re.findall(r"\b(?:NIF|RFC|Tax ID)\s*:?\s*([A-Z0-9-]+)", text)
     d["seller_tax_id"] = nifs[0] if nifs else None
     recipient = re.split(r"FACTURAR A|FATURAR A|BILL TO", text, maxsplit=1)
-    d["buyer_tax_id"] = _match(r"\b(?:NIF|RFC)\s*:\s*([A-Z0-9]+)", recipient[1]) if len(recipient) == 2 else None
+    d["buyer_tax_id"] = _match(r"\b(?:NIF|RFC|Tax ID)\s*:\s*([A-Z0-9-]+)", recipient[1]) if len(recipient) == 2 else None
     d["net"] = _amount(r"^(?:Base imponible|Incidência|Subtotal)", text)
     d["tax"] = _amount(r"^IVA[^\n]*\n", text)
     d["gross"] = _amount(r"^TOTAL(?: FACTURA)?", text)
-    d["currency"] = _match(rf"{AMOUNT}\s+(EUR|USD|GBP|MXN)\b", text)
+    d["currency"] = _match(rf"{AMOUNT}\s+(EUR|USD|GBP|MXN)\b", text) or _match(rf"\b(EUR|USD|GBP|MXN)\s+{AMOUNT}", text)
+    if d["currency"] is None:
+        d["currency"] = "USD" if re.search(r"^TOTAL\s*\n\$", text, re.M) else ("GBP" if "£" in text else None)
     d["withholding"] = _amount(r"^(?:Retención (?:IRPF|ISR|IVA)[^\n]*|Retenção IRS[^\n]*)\n", text) or 0
     d["retention"] = _amount(r"^(?:Retención (?:de garantía|5[^\n]*)|Retenção 5[^\n]*)\n", text) or 0
     if d["net"] is not None:
@@ -134,7 +140,7 @@ def parse_pdf_text(text):
     d["payable"] = _amount(r"^(?:Total a pagar|TOTAL A PAGAR|Importe a pagar|Amount due)", text)
     if d["payable"] is None and d["gross"] is not None:
         d["payable"] = d["gross"] - d["withholding"] - d["retention"]
-    d["iban"] = _match(r"\b((?:ES|PT|DE|FR|GB|NL|IT)\d{2}[A-Z0-9]{10,30})\b", text)
+    d["iban"] = _match(r"\b((?:ES|PT|DE|FR|GB|NL|IT|IE)\d{2}[A-Z0-9]{10,30})\b", text)
     d["po_refs"] = list(dict.fromkeys(re.findall(r"\b450\d{7}\b", text)))
     d["items"] = _pdf_items(text)
     if len(d["po_refs"]) == 1:
@@ -175,7 +181,7 @@ def extract_document(folder):
     if any(not p.is_relative_to(folder.resolve()) for p in paths):
         raise ValueError("unsafe attachment path")
     d = dict.fromkeys(("invoice_number", "invoice_date", "currency", "seller_tax_id", "buyer_tax_id", "net", "tax", "gross", "payable", "iban", "credit_reference"))
-    d.update(doc_id=metadata.get("doc_id", folder.name), document_type=None, items=[], po_refs=[], withholding=0, retention=0, text="", issues=[], metadata=metadata, schema_version=VERSION)
+    d.update(doc_id=metadata.get("doc_id", folder.name), document_type=None, items=[], po_refs=[], withholding=0, retention=0, text="", issues=[], metadata=metadata, schema_version=VERSION, extraction_methods=[])
     digest = hashlib.sha256((folder / "message.json").read_bytes())
     pdfs, xmls = [], []
     for p in paths:
@@ -186,16 +192,27 @@ def extract_document(folder):
         try:
             if p.suffix.lower() == ".xml":
                 xmls.append(parse_xml(p))
+                d["extraction_methods"].append("xml")
             elif p.suffix.lower() == ".pdf":
                 from pypdf import PdfReader
                 text = "\n".join(page.extract_text() or "" for page in PdfReader(p).pages)
+                ocr = Path(sys.executable).parent / "ap-ocr"
+                if not text.strip() and sys.platform == "darwin" and ocr.is_file():
+                    result = subprocess.run([str(ocr), str(p)], capture_output=True, text=True, timeout=30)
+                    if result.returncode == 0:
+                        text = result.stdout
+                        d["extraction_methods"].append("ocr")
+                    else:
+                        d["issues"].append(f"OCR_FAILED:{p.name}:{result.stderr[:200]}")
                 if text.strip():
                     pdfs.append(parse_pdf_text(text))
+                    if "ocr" not in d["extraction_methods"]:
+                        d["extraction_methods"].append("pdf")
                 else:
                     d["issues"].append(f"OCR_REQUIRED:{p.name}")
             else:
                 d["issues"].append(f"UNSUPPORTED_ATTACHMENT:{p.name}")
-        except (ValueError, ET.ParseError, OSError) as exc:
+        except (ValueError, ET.ParseError, OSError, subprocess.TimeoutExpired) as exc:
             d["issues"].append(f"PARSE_ERROR:{p.name}:{exc}")
     if pdfs:
         d.update(pdfs[0])
