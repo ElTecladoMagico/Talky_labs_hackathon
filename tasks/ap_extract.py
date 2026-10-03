@@ -17,7 +17,7 @@ from pathlib import Path
 from common import db
 from common.je import norm_num
 
-VERSION = 3
+VERSION = 4
 AMOUNT = r"-?\d[\d.,]*[.,]\d{2}"
 INVOICE_KINDS = {"INVOICE", "CREDIT_NOTE", "DOWN_PAYMENT_REQUEST"}
 
@@ -174,7 +174,13 @@ def parse_xml(path):
         tax = money(taxes.get("TotalImpuestosTrasladados", "0")) if taxes is not None else 0
         withholding = money(taxes.get("TotalImpuestosRetenidos", "0")) if taxes is not None else 0
         gross = money(root.get("Total")) + withholding
-        return {"document_type": "CREDIT_NOTE" if root.get("TipoDeComprobante") == "E" else "INVOICE", "invoice_number": root.get("Folio"), "invoice_date": date_iso(root.get("Fecha")), "currency": root.get("Moneda"), "seller_tax_id": seller.get("Rfc"), "buyer_tax_id": buyer.get("Rfc"), "net": money(root.get("SubTotal")), "tax": tax, "gross": gross, "withholding": withholding, "retention": 0, "payable": money(root.get("Total")), "items": items}
+        result = {"document_type": "CREDIT_NOTE" if root.get("TipoDeComprobante") == "E" else "INVOICE", "invoice_number": root.get("Folio"), "invoice_date": date_iso(root.get("Fecha")), "currency": root.get("Moneda"), "seller_tax_id": seller.get("Rfc"), "buyer_tax_id": buyer.get("Rfc"), "net": money(root.get("SubTotal")), "tax": tax, "gross": gross, "withholding": withholding, "retention": 0, "payable": money(root.get("Total")), "items": items}
+        if result["document_type"] == "CREDIT_NOTE":
+            for field in ("net", "tax", "gross", "withholding", "payable"):
+                result[field] = -abs(result[field])
+            for item in items:
+                item["amount"] = -abs(item["amount"])
+        return result
     if root.tag != "Facturae":
         raise ValueError("unsupported XML schema")
     items = [_receipt({"description": e.findtext("ItemDescription", ""), "quantity_milli": int(Decimal(e.findtext("Quantity")) * 1000), "unit_price": money(e.findtext("UnitPriceWithoutTax")), "amount": money(e.findtext("GrossAmount")), "po": e.findtext("IssuerTransactionReference")}) for e in root.findall(".//InvoiceLine")]
@@ -241,6 +247,9 @@ def extract_document(folder, cached=None):
                 item["po"] = item.get("po") or d["po_refs"][0]
     if not pdfs and not xmls:
         d["issues"].append("NO_READABLE_DOCUMENT")
+    fields = ("invoice_number", "invoice_date", "net", "tax", "gross", "withholding", "retention", "payable", "currency", "seller_tax_id", "buyer_tax_id")
+    d["representations"] = {kind: [{k: representation.get(k) for k in fields} for representation in sources]
+                            for kind, sources in (("pdf", pdfs), ("xml", xmls))}
     if d["document_type"] in INVOICE_KINDS:
         for field in ("invoice_number", "invoice_date", "currency", "seller_tax_id", "net", "tax", "gross", "payable"):
             if d[field] is None:
