@@ -1,0 +1,13 @@
+{
+ "doc_id": "API004561",
+ "channel": "email",
+ "received_at": "2026-09-07T19:19:00",
+ "mailbox": "facturas.proveedores@kalmora.example",
+ "attachments": [
+  "factura_0031295.pdf"
+ ],
+ "from": "facturacion@elggraveras.es",
+ "to": "facturas.proveedores@kalmora.example",
+ "subject": "ELGGraveras – documentación de facturación",
+ "body": ""
+}

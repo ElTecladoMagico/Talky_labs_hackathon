@@ -1,0 +1,14 @@
+{
+ "doc_id": "API004797",
+ "channel": "cfdi",
+ "received_at": "2026-09-02T14:57:00",
+ "mailbox": "facturas.proveedores@kalmora.example",
+ "attachments": [
+  "factura_F2625914.pdf",
+  "7036E5C0-747B-46F9-80AC-EA7C58D57EC7.xml"
+ ],
+ "from": "facturacion@spmmaterialesparac.mx",
+ "to": "facturas.proveedores@kalmora.example",
+ "subject": "FRA F2625914 KALMORA MEXICO",
+ "body": "Saludos cordiales,\nDpto. Administración"
+}

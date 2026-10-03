@@ -1,0 +1,13 @@
+{
+ "doc_id": "API004760",
+ "channel": "email",
+ "received_at": "2026-09-07T19:57:00",
+ "mailbox": "facturas.proveedores@kalmora.example",
+ "attachments": [
+  "factura_FV-2026-13108.pdf"
+ ],
+ "from": "facturacion@nássuministrosdeob.es",
+ "to": "facturas.proveedores@kalmora.example",
+ "subject": "NÁS-Suministros de Obra – documentación de facturación",
+ "body": "Adjunto remitimos la documentación indicada en el asunto."
+}

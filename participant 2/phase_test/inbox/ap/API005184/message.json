@@ -1,0 +1,13 @@
+{
+ "doc_id": "API005184",
+ "channel": "email",
+ "received_at": "2026-09-30T09:44:00",
+ "mailbox": "facturas.proveedores@kalmora.example",
+ "attachments": [
+  "factura_IC1200-26-0007.pdf"
+ ],
+ "from": "intercompany@kalmora.example",
+ "to": "facturas.proveedores@kalmora.example",
+ "subject": "Facturas del mes",
+ "body": "Saludos cordiales,\nDpto. Administración"
+}

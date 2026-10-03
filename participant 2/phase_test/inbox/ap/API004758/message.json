@@ -1,0 +1,13 @@
+{
+ "doc_id": "API004758",
+ "channel": "email",
+ "received_at": "2026-09-14T11:35:00",
+ "mailbox": "facturas.proveedores@kalmora.example",
+ "attachments": [
+  "factura_2026-011907.pdf"
+ ],
+ "from": "facturacion@aguasdecalablanca.es",
+ "to": "facturas.proveedores@kalmora.example",
+ "subject": "FRA 2026-011907 KALMORA SERV URBANOS",
+ "body": "Adjunto remitimos la documentación indicada en el asunto."
+}

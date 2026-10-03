@@ -1,0 +1,13 @@
+{
+ "doc_id": "API004703",
+ "channel": "email",
+ "received_at": "2026-09-07T11:04:00",
+ "mailbox": "facturas.proveedores@kalmora.example",
+ "attachments": [
+  "factura_TD-019973.pdf"
+ ],
+ "from": "facturacion@señalizacionesvial.es",
+ "to": "facturas.proveedores@kalmora.example",
+ "subject": "Factura TD-019973",
+ "body": "Adjunto remitimos la documentación indicada en el asunto."
+}

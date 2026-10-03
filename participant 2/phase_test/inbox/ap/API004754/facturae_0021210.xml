@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<fe:Facturae xmlns:fe="http://www.facturae.gob.es/formato/Versiones/Facturaev3_2_2.xml">
+ <FileHeader><SchemaVersion>3.2.2</SchemaVersion><Modality>I</Modality><InvoiceIssuerType>EM</InvoiceIssuerType>
+  <Batch><BatchIdentifier>B992816740021210</BatchIdentifier><InvoicesCount>1</InvoicesCount>
+   <TotalInvoicesAmount><TotalAmount>482.16</TotalAmount></TotalInvoicesAmount><TotalOutstandingAmount><TotalAmount>482.16</TotalAmount></TotalOutstandingAmount>
+   <TotalExecutableAmount><TotalAmount>482.16</TotalAmount></TotalExecutableAmount><InvoiceCurrencyCode>EUR</InvoiceCurrencyCode></Batch></FileHeader>
+ <Parties>
+  <SellerParty><TaxIdentification><PersonTypeCode>J</PersonTypeCode><ResidenceTypeCode>R</ResidenceTypeCode><TaxIdentificationNumber>B99281674</TaxIdentificationNumber></TaxIdentification>
+   <LegalEntity><CorporateName>Bricolaje Profesional Navalcedro, S.L.</CorporateName><AddressInSpain><Address>Calle Real 114</Address><PostCode>42988</PostCode><Town>Valdemora</Town><Province>Granada</Province><CountryCode>ESP</CountryCode></AddressInSpain></LegalEntity></SellerParty>
+  <BuyerParty><TaxIdentification><PersonTypeCode>J</PersonTypeCode><ResidenceTypeCode>R</ResidenceTypeCode><TaxIdentificationNumber>B60331798</TaxIdentificationNumber></TaxIdentification>
+   <LegalEntity><CorporateName>Kalmora Servicios Urbanos, S.L.U.</CorporateName></LegalEntity></BuyerParty>
+ </Parties>
+ <Invoices><Invoice>
+  <InvoiceHeader><InvoiceNumber>0021210</InvoiceNumber><InvoiceDocumentType>FC</InvoiceDocumentType><InvoiceClass>OO</InvoiceClass>
+   </InvoiceHeader>
+  <InvoiceIssueData><IssueDate>2026-08-31</IssueDate><InvoicingPeriod><StartDate>2026-08-01</StartDate><EndDate>2026-08-31</EndDate></InvoicingPeriod><InvoiceCurrencyCode>EUR</InvoiceCurrencyCode><TaxCurrencyCode>EUR</TaxCurrencyCode><LanguageName>es</LanguageName></InvoiceIssueData>
+  <TaxesOutputs><Tax><TaxTypeCode>01</TaxTypeCode><TaxRate>21.00</TaxRate><TaxableBase><TotalAmount>398.48</TotalAmount></TaxableBase><TaxAmount><TotalAmount>83.68</TotalAmount></TaxAmount></Tax></TaxesOutputs>
+  
+  <InvoiceTotals><TotalGrossAmount>398.48</TotalGrossAmount><TotalGrossAmountBeforeTaxes>398.48</TotalGrossAmountBeforeTaxes>
+   <TotalTaxOutputs>83.68</TotalTaxOutputs><TotalTaxesWithheld>0.00</TotalTaxesWithheld><InvoiceTotal>482.16</InvoiceTotal>
+   
+   <TotalOutstandingAmount>482.16</TotalOutstandingAmount><TotalExecutableAmount>482.16</TotalExecutableAmount></InvoiceTotals>
+  <Items><InvoiceLine><ItemDescription>Tornillería y fijaciones varias – AL-008552 (06/08)</ItemDescription><Quantity>2.000</Quantity><UnitPriceWithoutTax>50.320000</UnitPriceWithoutTax><TotalCost>100.64</TotalCost><GrossAmount>100.64</GrossAmount><TaxesOutputs><Tax><TaxTypeCode>01</TaxTypeCode><TaxRate>21.00</TaxRate><TaxableBase><TotalAmount>100.64</TotalAmount></TaxableBase></Tax></TaxesOutputs></InvoiceLine><InvoiceLine><ItemDescription>Cinta de balizamiento (rollo 200 m) – AL-008563 (19/08)</ItemDescription><Quantity>24.000</Quantity><UnitPriceWithoutTax>6.120000</UnitPriceWithoutTax><TotalCost>146.88</TotalCost><GrossAmount>146.88</GrossAmount><TaxesOutputs><Tax><TaxTypeCode>01</TaxTypeCode><TaxRate>21.00</TaxRate><TaxableBase><TotalAmount>146.88</TotalAmount></TaxableBase></Tax></TaxesOutputs></InvoiceLine><InvoiceLine><ItemDescription>Tornillería y fijaciones varias – AL-008556 (31/08)</ItemDescription><Quantity>3.000</Quantity><UnitPriceWithoutTax>50.320000</UnitPriceWithoutTax><TotalCost>150.96</TotalCost><GrossAmount>150.96</GrossAmount><TaxesOutputs><Tax><TaxTypeCode>01</TaxTypeCode><TaxRate>21.00</TaxRate><TaxableBase><TotalAmount>150.96</TotalAmount></TaxableBase></Tax></TaxesOutputs></InvoiceLine></Items>
+  <AdditionalData><InvoiceAdditionalInformation> </InvoiceAdditionalInformation></AdditionalData>
+ </Invoice></Invoices>
+</fe:Facturae>

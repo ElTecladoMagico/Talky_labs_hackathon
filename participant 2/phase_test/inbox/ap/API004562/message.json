@@ -1,0 +1,13 @@
+{
+ "doc_id": "API004562",
+ "channel": "email",
+ "received_at": "2026-09-07T07:12:00",
+ "mailbox": "facturas.proveedores@kalmora.example",
+ "attachments": [
+  "factura_F2604693.pdf"
+ ],
+ "from": "facturacion@morenoymoraferrall.es",
+ "to": "facturas.proveedores@kalmora.example",
+ "subject": "Envío de factura nº F2604693",
+ "body": "Les enviamos la factura correspondiente al periodo. Quedamos a su disposición."
+}

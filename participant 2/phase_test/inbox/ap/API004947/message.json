@@ -1,0 +1,13 @@
+{
+ "doc_id": "API004947",
+ "channel": "email",
+ "received_at": "2026-09-15T19:16:00",
+ "mailbox": "facturas.proveedores@kalmora.example",
+ "attachments": [
+  "factura_2026-294.pdf"
+ ],
+ "from": "facturacion@eduardonúñezortega.es",
+ "to": "facturas.proveedores@kalmora.example",
+ "subject": "Factura 2026/294",
+ "body": "Adjunto remitimos la documentación indicada en el asunto."
+}

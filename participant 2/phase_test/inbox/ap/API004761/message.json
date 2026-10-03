@@ -1,0 +1,13 @@
+{
+ "doc_id": "API004761",
+ "channel": "email",
+ "received_at": "2026-09-08T07:45:00",
+ "mailbox": "facturas.proveedores@kalmora.example",
+ "attachments": [
+  "factura_2026-007175.pdf"
+ ],
+ "from": "facturacion@aguasdemontalbar.es",
+ "to": "facturas.proveedores@kalmora.example",
+ "subject": "Envío de factura nº 2026-007175",
+ "body": ""
+}

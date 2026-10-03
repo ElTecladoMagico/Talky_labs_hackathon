@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<fe:Facturae xmlns:fe="http://www.facturae.gob.es/formato/Versiones/Facturaev3_2_2.xml">
+ <FileHeader><SchemaVersion>3.2.2</SchemaVersion><Modality>I</Modality><InvoiceIssuerType>EM</InvoiceIssuerType>
+  <Batch><BatchIdentifier>A934320072026-035927</BatchIdentifier><InvoicesCount>1</InvoicesCount>
+   <TotalInvoicesAmount><TotalAmount>239888.74</TotalAmount></TotalInvoicesAmount><TotalOutstandingAmount><TotalAmount>229975.98</TotalAmount></TotalOutstandingAmount>
+   <TotalExecutableAmount><TotalAmount>229975.98</TotalAmount></TotalExecutableAmount><InvoiceCurrencyCode>EUR</InvoiceCurrencyCode></Batch></FileHeader>
+ <Parties>
+  <SellerParty><TaxIdentification><PersonTypeCode>J</PersonTypeCode><ResidenceTypeCode>R</ResidenceTypeCode><TaxIdentificationNumber>A93432007</TaxIdentificationNumber></TaxIdentification>
+   <LegalEntity><CorporateName>Instalaciones Eléctricas Hermanos, S.L.</CorporateName><AddressInSpain><Address>Ronda de Poniente 46</Address><PostCode>14911</PostCode><Town>Sierramayor</Town><Province>Madrid</Province><CountryCode>ESP</CountryCode></AddressInSpain></LegalEntity></SellerParty>
+  <BuyerParty><TaxIdentification><PersonTypeCode>J</PersonTypeCode><ResidenceTypeCode>R</ResidenceTypeCode><TaxIdentificationNumber>A12359962</TaxIdentificationNumber></TaxIdentification>
+   <LegalEntity><CorporateName>Kalmora Construcción, S.A.U.</CorporateName></LegalEntity></BuyerParty>
+ </Parties>
+ <Invoices><Invoice>
+  <InvoiceHeader><InvoiceNumber>2026-035927</InvoiceNumber><InvoiceDocumentType>FC</InvoiceDocumentType><InvoiceClass>OO</InvoiceClass>
+   </InvoiceHeader>
+  <InvoiceIssueData><IssueDate>2026-08-31</IssueDate><InvoicingPeriod><StartDate>2026-08-01</StartDate><EndDate>2026-08-31</EndDate></InvoicingPeriod><InvoiceCurrencyCode>EUR</InvoiceCurrencyCode><TaxCurrencyCode>EUR</TaxCurrencyCode><LanguageName>es</LanguageName></InvoiceIssueData>
+  <TaxesOutputs><Tax><TaxTypeCode>01</TaxTypeCode><TaxRate>21.00</TaxRate><TaxableBase><TotalAmount>198255.16</TotalAmount></TaxableBase><TaxAmount><TotalAmount>41633.58</TotalAmount></TaxAmount></Tax></TaxesOutputs>
+  
+  <InvoiceTotals><TotalGrossAmount>198255.16</TotalGrossAmount><TotalGrossAmountBeforeTaxes>198255.16</TotalGrossAmountBeforeTaxes>
+   <TotalTaxOutputs>41633.58</TotalTaxOutputs><TotalTaxesWithheld>0.00</TotalTaxesWithheld><InvoiceTotal>239888.74</InvoiceTotal>
+   <AmountsWithheld><WithholdingReason>Retención de garantía</WithholdingReason><WithholdingAmount>9912.76</WithholdingAmount></AmountsWithheld>
+   <TotalOutstandingAmount>229975.98</TotalOutstandingAmount><TotalExecutableAmount>229975.98</TotalExecutableAmount></InvoiceTotals>
+  <Items><InvoiceLine><ItemDescription>Línea de BT RZ1-K 4x25 instalada</ItemDescription><Quantity>1880.000</Quantity><UnitPriceWithoutTax>18.580000</UnitPriceWithoutTax><TotalCost>34930.40</TotalCost><GrossAmount>34930.40</GrossAmount><IssuerTransactionReference>4500021222</IssuerTransactionReference><TaxesOutputs><Tax><TaxTypeCode>01</TaxTypeCode><TaxRate>21.00</TaxRate><TaxableBase><TotalAmount>34930.40</TotalAmount></TaxableBase></Tax></TaxesOutputs></InvoiceLine><InvoiceLine><ItemDescription>Tubería PE100 Ø110 instalada</ItemDescription><Quantity>2596.000</Quantity><UnitPriceWithoutTax>29.420000</UnitPriceWithoutTax><TotalCost>76374.32</TotalCost><GrossAmount>76374.32</GrossAmount><IssuerTransactionReference>4500021222</IssuerTransactionReference><TaxesOutputs><Tax><TaxTypeCode>01</TaxTypeCode><TaxRate>21.00</TaxRate><TaxableBase><TotalAmount>76374.32</TotalAmount></TaxableBase></Tax></TaxesOutputs></InvoiceLine><InvoiceLine><ItemDescription>Cuadro general de protección</ItemDescription><Quantity>18.000</Quantity><UnitPriceWithoutTax>4830.580000</UnitPriceWithoutTax><TotalCost>86950.44</TotalCost><GrossAmount>86950.44</GrossAmount><IssuerTransactionReference>4500021222</IssuerTransactionReference><TaxesOutputs><Tax><TaxTypeCode>01</TaxTypeCode><TaxRate>21.00</TaxRate><TaxableBase><TotalAmount>86950.44</TotalAmount></TaxableBase></Tax></TaxesOutputs></InvoiceLine></Items>
+  <AdditionalData><InvoiceAdditionalInformation> </InvoiceAdditionalInformation></AdditionalData>
+ </Invoice></Invoices>
+</fe:Facturae>

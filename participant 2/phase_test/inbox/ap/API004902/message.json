@@ -1,0 +1,13 @@
+{
+ "doc_id": "API004902",
+ "channel": "email",
+ "received_at": "2026-09-28T07:17:00",
+ "mailbox": "facturas.proveedores@kalmora.example",
+ "attachments": [
+  "factura_G202621078.pdf"
+ ],
+ "from": "facturacion@fernándezyrocatopo.es",
+ "to": "facturas.proveedores@kalmora.example",
+ "subject": "Fernández y Roca Topografía – documentación de facturación",
+ "body": "Buenos días, adjuntamos factura. Un saludo."
+}

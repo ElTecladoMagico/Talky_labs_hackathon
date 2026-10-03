@@ -1,0 +1,13 @@
+{
+ "doc_id": "API004682",
+ "channel": "email",
+ "received_at": "2026-09-04T07:39:00",
+ "mailbox": "facturas.proveedores@kalmora.example",
+ "attachments": [
+  "factura_F2633683.pdf"
+ ],
+ "from": "facturacion@hormigonespreparad.es",
+ "to": "facturas.proveedores@kalmora.example",
+ "subject": "FRA F2633683 KALMORA CONSTRUCCION",
+ "body": "Adjunto remitimos la documentación indicada en el asunto."
+}

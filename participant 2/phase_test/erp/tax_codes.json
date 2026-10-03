@@ -1,0 +1,210 @@
+{
+ "tax_codes": {
+  "S21": {
+   "country": "ES",
+   "kind": "input",
+   "rate": 2100,
+   "desc": "IVA soportado 21 % deducible"
+  },
+  "S10": {
+   "country": "ES",
+   "kind": "input",
+   "rate": 1000,
+   "desc": "IVA soportado 10 % deducible"
+  },
+  "S04": {
+   "country": "ES",
+   "kind": "input",
+   "rate": 400,
+   "desc": "IVA soportado 4 % deducible"
+  },
+  "SEX": {
+   "country": "ES",
+   "kind": "exempt",
+   "rate": 0,
+   "desc": "Operación exenta o no sujeta (seguros, financieros, arrendamiento rústico, tasas)"
+  },
+  "SISP": {
+   "country": "ES",
+   "kind": "reverse",
+   "rate": 2100,
+   "desc": "ISP ejecuciones de obra art. 84.Uno.2º f) LIVA: autorrepercusión 21 %"
+  },
+  "SIC": {
+   "country": "ES",
+   "kind": "reverse",
+   "rate": 2100,
+   "desc": "Adquisición intracomunitaria de bienes: autorrepercusión 21 %"
+  },
+  "SIS": {
+   "country": "ES",
+   "kind": "reverse",
+   "rate": 2100,
+   "desc": "Servicios prestados por no establecidos (art. 69/84.Uno.2º a): autorrepercusión 21 %"
+  },
+  "SIMP": {
+   "country": "ES",
+   "kind": "import",
+   "rate": 2100,
+   "desc": "IVA a la importación liquidado en DUA (suplido por el transitario)"
+  },
+  "SND": {
+   "country": "ES",
+   "kind": "nondeductible",
+   "rate": 2100,
+   "desc": "IVA soportado no deducible (mayor gasto)"
+  },
+  "SREAV": {
+   "country": "ES",
+   "kind": "exempt",
+   "rate": 0,
+   "desc": "Régimen especial agencias de viajes: cuota no repercutida ni deducible"
+  },
+  "R21": {
+   "country": "ES",
+   "kind": "output",
+   "rate": 2100,
+   "desc": "IVA repercutido 21 %"
+  },
+  "R10": {
+   "country": "ES",
+   "kind": "output",
+   "rate": 1000,
+   "desc": "IVA repercutido 10 % (limpieza viaria, recogida y tratamiento de residuos)"
+  },
+  "RISP": {
+   "country": "ES",
+   "kind": "output_reverse",
+   "rate": 0,
+   "desc": "Sin IVA: inversión del sujeto pasivo art. 84.Uno.2º f) LIVA (cliente empresario/promotor)"
+  },
+  "REX": {
+   "country": "ES",
+   "kind": "output",
+   "rate": 0,
+   "desc": "Exento / no sujeto"
+  },
+  "P23": {
+   "country": "PT",
+   "kind": "input",
+   "rate": 2300,
+   "desc": "IVA dedutível 23 %"
+  },
+  "P13": {
+   "country": "PT",
+   "kind": "input",
+   "rate": 1300,
+   "desc": "IVA dedutível 13 %"
+  },
+  "P06": {
+   "country": "PT",
+   "kind": "input",
+   "rate": 600,
+   "desc": "IVA dedutível 6 %"
+  },
+  "PSIS": {
+   "country": "PT",
+   "kind": "reverse",
+   "rate": 2300,
+   "desc": "IVA autoliquidação – serviços adquiridos a sujeito passivo não residente (art. 2.º n.º 1 i) CIVA)"
+  },
+  "PAUT": {
+   "country": "PT",
+   "kind": "reverse",
+   "rate": 2300,
+   "desc": "IVA autoliquidação construção civil art. 2.º n.º 1 j) CIVA (23 %)"
+  },
+  "PR23": {
+   "country": "PT",
+   "kind": "output",
+   "rate": 2300,
+   "desc": "IVA liquidado 23 %"
+  },
+  "PR06": {
+   "country": "PT",
+   "kind": "output",
+   "rate": 600,
+   "desc": "IVA liquidado 6 % (empreitadas de reabilitação/obras públicas municipais)"
+  },
+  "PRAUT": {
+   "country": "PT",
+   "kind": "output_reverse",
+   "rate": 0,
+   "desc": "IVA autoliquidação – adquirente (sem IVA na fatura)"
+  },
+  "M16": {
+   "country": "MX",
+   "kind": "input",
+   "rate": 1600,
+   "desc": "IVA acreditable 16 %"
+  },
+  "M00": {
+   "country": "MX",
+   "kind": "exempt",
+   "rate": 0,
+   "desc": "Tasa 0 % / exento"
+  },
+  "MR16": {
+   "country": "MX",
+   "kind": "output",
+   "rate": 1600,
+   "desc": "IVA trasladado 16 %"
+  }
+ },
+ "withholdings": {
+  "IRPF15": {
+   "rate": 1500,
+   "account": "47510000",
+   "desc": "Retención IRPF actividades profesionales 15 %",
+   "model": "111"
+  },
+  "IRPF7": {
+   "rate": 700,
+   "account": "47510000",
+   "desc": "Retención IRPF nuevos profesionales 7 %",
+   "model": "111"
+  },
+  "IRPF19": {
+   "rate": 1900,
+   "account": "47510000",
+   "desc": "Retención arrendamiento inmueble urbano 19 %",
+   "model": "115"
+  },
+  "MXISR10": {
+   "rate": 1000,
+   "account": "47510000",
+   "desc": "Retención ISR honorarios persona física 10 %",
+   "model": "MX-DIOT"
+  },
+  "MXIVAR": {
+   "rate": 1067,
+   "account": "47510000",
+   "desc": "Retención IVA 2/3 honorarios persona física (10,6667 %)",
+   "model": "MX-DIOT"
+  },
+  "MXFLETE": {
+   "rate": 400,
+   "account": "47510000",
+   "desc": "Retención IVA autotransporte de carga 4 %",
+   "model": "MX-DIOT"
+  },
+  "PTIRS25": {
+   "rate": 2500,
+   "account": "47510000",
+   "desc": "Retenção na fonte IRS categoria B 25 %",
+   "model": "PT-DMR"
+  }
+ },
+ "customer_deductions": {
+  "RET_GAR5": {
+   "rate": 500,
+   "account": "43000900",
+   "desc": "Retención de garantía 5 % (cliente privado)"
+  },
+  "MX5MILL": {
+   "rate": 50,
+   "account": "63100000",
+   "desc": "Derecho de inspección y vigilancia de obra pública 5 al millar (0,5 %)"
+  }
+ }
+}

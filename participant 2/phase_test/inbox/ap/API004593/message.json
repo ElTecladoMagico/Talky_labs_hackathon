@@ -1,0 +1,13 @@
+{
+ "doc_id": "API004593",
+ "channel": "email",
+ "received_at": "2026-09-07T16:23:00",
+ "mailbox": "facturas.proveedores@kalmora.example",
+ "attachments": [
+  "factura_F2611191.pdf"
+ ],
+ "from": "facturacion@gómezycasalsfontan.es",
+ "to": "facturas.proveedores@kalmora.example",
+ "subject": "FRA F2611191 KALMORA CONSTRUCCION",
+ "body": ""
+}

@@ -1,0 +1,11 @@
+{
+ "billing_item": "BILL-MKT-1300-01-202608",
+ "type": "MARKET_SETTLEMENT",
+ "company": "1300",
+ "contract": "MKT-1300-01",
+ "customer": "C200080",
+ "month": "2026-09",
+ "documents": [
+  "documento.pdf"
+ ]
+}

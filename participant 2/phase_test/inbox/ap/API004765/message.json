@@ -1,0 +1,13 @@
+{
+ "doc_id": "API004765",
+ "channel": "email",
+ "received_at": "2026-09-14T09:01:00",
+ "mailbox": "facturas.proveedores@kalmora.example",
+ "attachments": [
+  "factura_26020911.pdf"
+ ],
+ "from": "facturacion@aguasdefuenteclara.es",
+ "to": "facturas.proveedores@kalmora.example",
+ "subject": "Aguas de Fuenteclara – documentación de facturación",
+ "body": ""
+}

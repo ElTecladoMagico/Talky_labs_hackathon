@@ -1,0 +1,11 @@
+{
+ "billing_item": "BILL-CT-1200-PJ01-REV2026",
+ "type": "PRICE_REVISION",
+ "company": "1200",
+ "contract": "CT-1200-PJ01",
+ "customer": "C200003",
+ "month": "2026-09",
+ "documents": [
+  "documento.pdf"
+ ]
+}

@@ -1,0 +1,13 @@
+{
+ "doc_id": "API004772",
+ "channel": "email",
+ "received_at": "2026-09-03T09:19:00",
+ "mailbox": "facturas.proveedores@kalmora.example",
+ "attachments": [
+  "factura_F2612187.pdf"
+ ],
+ "from": "facturacion@rrooperaciónymante.es",
+ "to": "facturas.proveedores@kalmora.example",
+ "subject": "Factura F2612187",
+ "body": "Les enviamos la factura correspondiente al periodo. Quedamos a su disposición."
+}

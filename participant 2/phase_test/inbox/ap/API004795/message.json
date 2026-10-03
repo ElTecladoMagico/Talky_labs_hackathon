@@ -1,0 +1,14 @@
+{
+ "doc_id": "API004795",
+ "channel": "cfdi",
+ "received_at": "2026-09-02T16:11:00",
+ "mailbox": "facturas.proveedores@kalmora.example",
+ "attachments": [
+  "factura_2026-009949.pdf",
+  "33BC3E1B-4AE4-4C3E-B61A-B74F5B6B05FF.xml"
+ ],
+ "from": "facturacion@edificacionesménde.mx",
+ "to": "facturas.proveedores@kalmora.example",
+ "subject": "Facturas del mes",
+ "body": ""
+}

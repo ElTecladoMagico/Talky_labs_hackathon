@@ -1,0 +1,13 @@
+{
+ "doc_id": "API004771",
+ "channel": "email",
+ "received_at": "2026-09-01T13:39:00",
+ "mailbox": "facturas.proveedores@kalmora.example",
+ "attachments": [
+  "factura_2026-019448.pdf"
+ ],
+ "from": "facturacion@mrooperaciónymante.es",
+ "to": "facturas.proveedores@kalmora.example",
+ "subject": "Factura 2026-019448",
+ "body": ""
+}

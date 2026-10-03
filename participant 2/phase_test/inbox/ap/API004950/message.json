@@ -1,0 +1,13 @@
+{
+ "doc_id": "API004950",
+ "channel": "email",
+ "received_at": "2026-09-17T08:47:00",
+ "mailbox": "facturas.proveedores@kalmora.example",
+ "attachments": [
+  "factura_2026-874.pdf"
+ ],
+ "from": "facturacion@manuelfonttorres.es",
+ "to": "facturas.proveedores@kalmora.example",
+ "subject": "Manuel Font Torres – documentación de facturación",
+ "body": "Les enviamos la factura correspondiente al periodo. Quedamos a su disposición."
+}

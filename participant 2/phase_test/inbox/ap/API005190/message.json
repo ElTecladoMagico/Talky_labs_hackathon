@@ -1,0 +1,13 @@
+{
+ "doc_id": "API005190",
+ "channel": "email",
+ "received_at": "2026-09-09T09:50:00",
+ "mailbox": "facturas.proveedores@kalmora.example",
+ "attachments": [
+  "letter_cession_API005190.pdf"
+ ],
+ "from": "facturacion@instalacioneseléct.es",
+ "to": "facturas.proveedores@kalmora.example",
+ "subject": "Notificación de cesión de créditos",
+ "body": ""
+}

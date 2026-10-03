@@ -1,0 +1,13 @@
+{
+ "doc_id": "API004608",
+ "channel": "email",
+ "received_at": "2026-09-03T10:02:00",
+ "mailbox": "facturas.proveedores@kalmora.example",
+ "attachments": [
+  "factura_FV-2026-34551.pdf"
+ ],
+ "from": "facturacion@lcfferreteríaindus.es",
+ "to": "facturas.proveedores@kalmora.example",
+ "subject": "Facturas del mes",
+ "body": "Buenos días, adjuntamos factura. Un saludo."
+}

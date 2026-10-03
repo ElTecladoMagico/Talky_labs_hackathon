@@ -1,0 +1,13 @@
+{
+ "doc_id": "API004751",
+ "channel": "email",
+ "received_at": "2026-09-02T17:51:00",
+ "mailbox": "facturas.proveedores@kalmora.example",
+ "attachments": [
+  "factura_D-032916.pdf"
+ ],
+ "from": "facturacion@quintanayolivaequi.es",
+ "to": "facturas.proveedores@kalmora.example",
+ "subject": "Factura D-032916",
+ "body": "Saludos cordiales,\nDpto. Administración"
+}

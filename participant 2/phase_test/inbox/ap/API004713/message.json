@@ -1,0 +1,13 @@
+{
+ "doc_id": "API004713",
+ "channel": "email",
+ "received_at": "2026-09-04T09:02:00",
+ "mailbox": "facturas.proveedores@kalmora.example",
+ "attachments": [
+  "factura_0037353.pdf"
+ ],
+ "from": "facturacion@petrocardibéricade.es",
+ "to": "facturas.proveedores@kalmora.example",
+ "subject": "Petrocard Ibérica de Carburantes – documentación de facturación",
+ "body": ""
+}

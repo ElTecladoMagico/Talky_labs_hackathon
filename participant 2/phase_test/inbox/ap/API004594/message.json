@@ -1,0 +1,13 @@
+{
+ "doc_id": "API004594",
+ "channel": "email",
+ "received_at": "2026-09-07T08:50:00",
+ "mailbox": "facturas.proveedores@kalmora.example",
+ "attachments": [
+  "factura_FN-017970.pdf"
+ ],
+ "from": "facturacion@lorenzoyurrutiabri.es",
+ "to": "facturas.proveedores@kalmora.example",
+ "subject": "Facturas del mes",
+ "body": "Adjunto remitimos la documentación indicada en el asunto."
+}

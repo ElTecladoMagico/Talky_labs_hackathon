@@ -1,0 +1,13 @@
+{
+ "doc_id": "API004775",
+ "channel": "email",
+ "received_at": "2026-09-03T15:04:00",
+ "mailbox": "facturas.proveedores@kalmora.example",
+ "attachments": [
+  "invoice_26025119.pdf"
+ ],
+ "from": "facturacion@construçõesparrahe.pt",
+ "to": "facturas.proveedores@kalmora.example",
+ "subject": "FRA 26025119 KALMORA PORTUGAL",
+ "body": "Adjunto remitimos la documentación indicada en el asunto."
+}

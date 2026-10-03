@@ -1,0 +1,13 @@
+{
+ "doc_id": "API005240",
+ "channel": "email",
+ "received_at": "2026-09-21T07:25:00",
+ "mailbox": "facturas.proveedores@kalmora.example",
+ "attachments": [
+  "factura_FV202622652.pdf"
+ ],
+ "from": "facturacion@señalizacionesvial.es",
+ "to": "facturas.proveedores@kalmora.example",
+ "subject": "Señalizaciones Viales Redondo Hermanos – documentación de facturación",
+ "body": "Adjunto remitimos la documentación indicada en el asunto."
+}

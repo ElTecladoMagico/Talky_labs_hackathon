@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<fe:Facturae xmlns:fe="http://www.facturae.gob.es/formato/Versiones/Facturaev3_2_2.xml">
+ <FileHeader><SchemaVersion>3.2.2</SchemaVersion><Modality>I</Modality><InvoiceIssuerType>EM</InvoiceIssuerType>
+  <Batch><BatchIdentifier>B15297959NEN26/34012</BatchIdentifier><InvoicesCount>1</InvoicesCount>
+   <TotalInvoicesAmount><TotalAmount>2544.18</TotalAmount></TotalInvoicesAmount><TotalOutstandingAmount><TotalAmount>2544.18</TotalAmount></TotalOutstandingAmount>
+   <TotalExecutableAmount><TotalAmount>2544.18</TotalAmount></TotalExecutableAmount><InvoiceCurrencyCode>EUR</InvoiceCurrencyCode></Batch></FileHeader>
+ <Parties>
+  <SellerParty><TaxIdentification><PersonTypeCode>J</PersonTypeCode><ResidenceTypeCode>R</ResidenceTypeCode><TaxIdentificationNumber>B15297959</TaxIdentificationNumber></TaxIdentification>
+   <LegalEntity><CorporateName>Aguas de Puerto Alcor, S.A. (empresa mixta)</CorporateName><AddressInSpain><Address>Calle Mayor 105</Address><PostCode>52291</PostCode><Town>Santa Olaria</Town><Province>Granada</Province><CountryCode>ESP</CountryCode></AddressInSpain></LegalEntity></SellerParty>
+  <BuyerParty><TaxIdentification><PersonTypeCode>J</PersonTypeCode><ResidenceTypeCode>R</ResidenceTypeCode><TaxIdentificationNumber>B60331798</TaxIdentificationNumber></TaxIdentification>
+   <LegalEntity><CorporateName>Kalmora Servicios Urbanos, S.L.U.</CorporateName></LegalEntity></BuyerParty>
+ </Parties>
+ <Invoices><Invoice>
+  <InvoiceHeader><InvoiceNumber>NEN26/34012</InvoiceNumber><InvoiceDocumentType>FC</InvoiceDocumentType><InvoiceClass>OO</InvoiceClass>
+   </InvoiceHeader>
+  <InvoiceIssueData><IssueDate>2026-09-03</IssueDate><InvoicingPeriod><StartDate>2026-07-01</StartDate><EndDate>2026-08-31</EndDate></InvoicingPeriod><InvoiceCurrencyCode>EUR</InvoiceCurrencyCode><TaxCurrencyCode>EUR</TaxCurrencyCode><LanguageName>es</LanguageName></InvoiceIssueData>
+  <TaxesOutputs><Tax><TaxTypeCode>01</TaxTypeCode><TaxRate>10.00</TaxRate><TaxableBase><TotalAmount>2156.09</TotalAmount></TaxableBase><TaxAmount><TotalAmount>215.61</TotalAmount></TaxAmount></Tax><Tax><TaxTypeCode>01</TaxTypeCode><TaxRate>0.00</TaxRate><TaxableBase><TotalAmount>172.48</TotalAmount></TaxableBase><TaxAmount><TotalAmount>0.00</TotalAmount></TaxAmount></Tax></TaxesOutputs>
+  
+  <InvoiceTotals><TotalGrossAmount>2328.57</TotalGrossAmount><TotalGrossAmountBeforeTaxes>2328.57</TotalGrossAmountBeforeTaxes>
+   <TotalTaxOutputs>215.61</TotalTaxOutputs><TotalTaxesWithheld>0.00</TotalTaxesWithheld><InvoiceTotal>2544.18</InvoiceTotal>
+   
+   <TotalOutstandingAmount>2544.18</TotalOutstandingAmount><TotalExecutableAmount>2544.18</TotalExecutableAmount></InvoiceTotals>
+  <Items><InvoiceLine><ItemDescription>Abastecimiento de agua 1134 m³</ItemDescription><Quantity>1134.000</Quantity><UnitPriceWithoutTax>1336.770000</UnitPriceWithoutTax><TotalCost>1336.77</TotalCost><GrossAmount>1336.77</GrossAmount><TaxesOutputs><Tax><TaxTypeCode>01</TaxTypeCode><TaxRate>10.00</TaxRate><TaxableBase><TotalAmount>1336.77</TotalAmount></TaxableBase></Tax></TaxesOutputs></InvoiceLine><InvoiceLine><ItemDescription>Cuota de servicio y alcantarillado</ItemDescription><Quantity>1.000</Quantity><UnitPriceWithoutTax>819.320000</UnitPriceWithoutTax><TotalCost>819.32</TotalCost><GrossAmount>819.32</GrossAmount><TaxesOutputs><Tax><TaxTypeCode>01</TaxTypeCode><TaxRate>10.00</TaxRate><TaxableBase><TotalAmount>819.32</TotalAmount></TaxableBase></Tax></TaxesOutputs></InvoiceLine><InvoiceLine><ItemDescription>Canon de saneamiento autonómico (no sujeto a IVA)</ItemDescription><Quantity>1.000</Quantity><UnitPriceWithoutTax>172.480000</UnitPriceWithoutTax><TotalCost>172.48</TotalCost><GrossAmount>172.48</GrossAmount><TaxesOutputs><Tax><TaxTypeCode>01</TaxTypeCode><TaxRate>0.00</TaxRate><TaxableBase><TotalAmount>172.48</TotalAmount></TaxableBase></Tax></TaxesOutputs></InvoiceLine></Items>
+  <AdditionalData><InvoiceAdditionalInformation> </InvoiceAdditionalInformation></AdditionalData>
+ </Invoice></Invoices>
+</fe:Facturae>

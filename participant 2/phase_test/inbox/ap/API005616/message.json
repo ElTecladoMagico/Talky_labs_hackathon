@@ -1,0 +1,13 @@
+{
+ "doc_id": "API005616",
+ "channel": "email",
+ "received_at": "2026-09-11T18:01:00",
+ "mailbox": "facturas.proveedores@kalmora.example",
+ "attachments": [
+  "proforma_API005616.pdf"
+ ],
+ "from": "facturacion@lcfferreteríaindus.es",
+ "to": "facturas.proveedores@kalmora.example",
+ "subject": "Proforma para su aprobación",
+ "body": "Saludos cordiales,\nDpto. Administración"
+}

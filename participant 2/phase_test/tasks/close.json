@@ -1,0 +1,11 @@
+{
+ "month": "2026-09",
+ "steps": [
+  "ACCRUAL",
+  "PREPAID",
+  "WIP_REVENUE",
+  "FX_REVAL",
+  "BAD_DEBT",
+  "DOUBTFUL_RECLASS"
+ ]
+}

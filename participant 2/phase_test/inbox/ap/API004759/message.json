@@ -1,0 +1,11 @@
+{
+ "doc_id": "API004759",
+ "channel": "portal",
+ "received_at": "2026-09-14T14:06:00",
+ "mailbox": "facturas.proveedores@kalmora.example",
+ "attachments": [
+  "factura_26013672.pdf"
+ ],
+ "source": "Portal de proveedores (descarga)",
+ "uploaded_by": "facturacion@aguasdesantaolaria.es"
+}

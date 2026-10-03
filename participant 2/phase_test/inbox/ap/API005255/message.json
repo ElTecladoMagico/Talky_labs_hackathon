@@ -1,0 +1,13 @@
+{
+ "doc_id": "API005255",
+ "channel": "email",
+ "received_at": "2026-09-14T07:00:00",
+ "mailbox": "facturas.proveedores@kalmora.example",
+ "attachments": [
+  "factura_0008099.pdf"
+ ],
+ "from": "facturacion@valladosyservicios.es",
+ "to": "facturas.proveedores@kalmora.example",
+ "subject": "Vallados y Servicios de Obra Larrañaga Hermanos – documentación de facturación",
+ "body": "Buenos días, adjuntamos factura. Un saludo."
+}

@@ -1,0 +1,13 @@
+{
+ "doc_id": "API004763",
+ "channel": "email",
+ "received_at": "2026-09-04T14:40:00",
+ "mailbox": "facturas.proveedores@kalmora.example",
+ "attachments": [
+  "factura_26038003.pdf"
+ ],
+ "from": "facturacion@mlssuministrosdeli.es",
+ "to": "facturas.proveedores@kalmora.example",
+ "subject": "Factura 26038003",
+ "body": ""
+}

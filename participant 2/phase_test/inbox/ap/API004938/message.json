@@ -1,0 +1,13 @@
+{
+ "doc_id": "API004938",
+ "channel": "email",
+ "received_at": "2026-09-08T08:06:00",
+ "mailbox": "facturas.proveedores@kalmora.example",
+ "attachments": [
+  "factura_FV-2026-03545.pdf"
+ ],
+ "from": "facturacion@flotarentrentingde.es",
+ "to": "facturas.proveedores@kalmora.example",
+ "subject": "Flotarent Renting de Vehículos – documentación de facturación",
+ "body": "Adjunto remitimos la documentación indicada en el asunto."
+}

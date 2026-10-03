@@ -1,0 +1,14 @@
+{
+ "doc_id": "API005012",
+ "channel": "cfdi",
+ "received_at": "2026-09-30T19:44:00",
+ "mailbox": "facturas.proveedores@kalmora.example",
+ "attachments": [
+  "factura_2026-021196.pdf",
+  "BF0D68E7-E99C-4A33-B2E5-B705594B6D79.xml"
+ ],
+ "from": "facturacion@edificacionesinteg.mx",
+ "to": "facturas.proveedores@kalmora.example",
+ "subject": "Envío de factura nº 2026-021196",
+ "body": "Buenos días, adjuntamos factura. Un saludo."
+}

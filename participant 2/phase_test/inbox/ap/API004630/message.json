@@ -1,0 +1,13 @@
+{
+ "doc_id": "API004630",
+ "channel": "email",
+ "received_at": "2026-09-07T10:32:00",
+ "mailbox": "facturas.proveedores@kalmora.example",
+ "attachments": [
+  "factura_0033718.pdf"
+ ],
+ "from": "facturacion@espinosayálvarezgr.es",
+ "to": "facturas.proveedores@kalmora.example",
+ "subject": "Envío de factura nº 0033718",
+ "body": ""
+}

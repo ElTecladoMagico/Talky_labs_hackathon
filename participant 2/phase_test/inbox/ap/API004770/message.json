@@ -1,0 +1,13 @@
+{
+ "doc_id": "API004770",
+ "channel": "email",
+ "received_at": "2026-09-14T08:49:00",
+ "mailbox": "facturas.proveedores@kalmora.example",
+ "attachments": [
+  "factura_F2607695.pdf"
+ ],
+ "from": "facturacion@aguasdenavalcedro.es",
+ "to": "facturas.proveedores@kalmora.example",
+ "subject": "Factura F2607695",
+ "body": "Adjunto remitimos la documentación indicada en el asunto."
+}

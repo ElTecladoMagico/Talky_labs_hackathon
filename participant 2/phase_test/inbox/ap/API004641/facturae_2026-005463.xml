@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<fe:Facturae xmlns:fe="http://www.facturae.gob.es/formato/Versiones/Facturaev3_2_2.xml">
+ <FileHeader><SchemaVersion>3.2.2</SchemaVersion><Modality>I</Modality><InvoiceIssuerType>EM</InvoiceIssuerType>
+  <Batch><BatchIdentifier>A894513382026-005463</BatchIdentifier><InvoicesCount>1</InvoicesCount>
+   <TotalInvoicesAmount><TotalAmount>2284.71</TotalAmount></TotalInvoicesAmount><TotalOutstandingAmount><TotalAmount>2284.71</TotalAmount></TotalOutstandingAmount>
+   <TotalExecutableAmount><TotalAmount>2284.71</TotalAmount></TotalExecutableAmount><InvoiceCurrencyCode>EUR</InvoiceCurrencyCode></Batch></FileHeader>
+ <Parties>
+  <SellerParty><TaxIdentification><PersonTypeCode>J</PersonTypeCode><ResidenceTypeCode>R</ResidenceTypeCode><TaxIdentificationNumber>A89451338</TaxIdentificationNumber></TaxIdentification>
+   <LegalEntity><CorporateName>Aguas de Riofrío del Llano, S.A. (empresa mixta)</CorporateName><AddressInSpain><Address>Paseo de la Estación 100</Address><PostCode>32479</PostCode><Town>Santa Olaria</Town><Province>Málaga</Province><CountryCode>ESP</CountryCode></AddressInSpain></LegalEntity></SellerParty>
+  <BuyerParty><TaxIdentification><PersonTypeCode>J</PersonTypeCode><ResidenceTypeCode>R</ResidenceTypeCode><TaxIdentificationNumber>A12359962</TaxIdentificationNumber></TaxIdentification>
+   <LegalEntity><CorporateName>Kalmora Construcción, S.A.U.</CorporateName></LegalEntity></BuyerParty>
+ </Parties>
+ <Invoices><Invoice>
+  <InvoiceHeader><InvoiceNumber>2026-005463</InvoiceNumber><InvoiceDocumentType>FC</InvoiceDocumentType><InvoiceClass>OO</InvoiceClass>
+   </InvoiceHeader>
+  <InvoiceIssueData><IssueDate>2026-09-10</IssueDate><InvoicingPeriod><StartDate>2026-07-01</StartDate><EndDate>2026-08-31</EndDate></InvoicingPeriod><InvoiceCurrencyCode>EUR</InvoiceCurrencyCode><TaxCurrencyCode>EUR</TaxCurrencyCode><LanguageName>es</LanguageName></InvoiceIssueData>
+  <TaxesOutputs><Tax><TaxTypeCode>01</TaxTypeCode><TaxRate>10.00</TaxRate><TaxableBase><TotalAmount>1936.20</TotalAmount></TaxableBase><TaxAmount><TotalAmount>193.62</TotalAmount></TaxAmount></Tax><Tax><TaxTypeCode>01</TaxTypeCode><TaxRate>0.00</TaxRate><TaxableBase><TotalAmount>154.89</TotalAmount></TaxableBase><TaxAmount><TotalAmount>0.00</TotalAmount></TaxAmount></Tax></TaxesOutputs>
+  
+  <InvoiceTotals><TotalGrossAmount>2091.09</TotalGrossAmount><TotalGrossAmountBeforeTaxes>2091.09</TotalGrossAmountBeforeTaxes>
+   <TotalTaxOutputs>193.62</TotalTaxOutputs><TotalTaxesWithheld>0.00</TotalTaxesWithheld><InvoiceTotal>2284.71</InvoiceTotal>
+   
+   <TotalOutstandingAmount>2284.71</TotalOutstandingAmount><TotalExecutableAmount>2284.71</TotalExecutableAmount></InvoiceTotals>
+  <Items><InvoiceLine><ItemDescription>Abastecimiento de agua 1019 m³</ItemDescription><Quantity>1019.000</Quantity><UnitPriceWithoutTax>1200.440000</UnitPriceWithoutTax><TotalCost>1200.44</TotalCost><GrossAmount>1200.44</GrossAmount><TaxesOutputs><Tax><TaxTypeCode>01</TaxTypeCode><TaxRate>10.00</TaxRate><TaxableBase><TotalAmount>1200.44</TotalAmount></TaxableBase></Tax></TaxesOutputs></InvoiceLine><InvoiceLine><ItemDescription>Cuota de servicio y alcantarillado</ItemDescription><Quantity>1.000</Quantity><UnitPriceWithoutTax>735.760000</UnitPriceWithoutTax><TotalCost>735.76</TotalCost><GrossAmount>735.76</GrossAmount><TaxesOutputs><Tax><TaxTypeCode>01</TaxTypeCode><TaxRate>10.00</TaxRate><TaxableBase><TotalAmount>735.76</TotalAmount></TaxableBase></Tax></TaxesOutputs></InvoiceLine><InvoiceLine><ItemDescription>Canon de saneamiento autonómico (no sujeto a IVA)</ItemDescription><Quantity>1.000</Quantity><UnitPriceWithoutTax>154.890000</UnitPriceWithoutTax><TotalCost>154.89</TotalCost><GrossAmount>154.89</GrossAmount><TaxesOutputs><Tax><TaxTypeCode>01</TaxTypeCode><TaxRate>0.00</TaxRate><TaxableBase><TotalAmount>154.89</TotalAmount></TaxableBase></Tax></TaxesOutputs></InvoiceLine></Items>
+  <AdditionalData><InvoiceAdditionalInformation> </InvoiceAdditionalInformation></AdditionalData>
+ </Invoice></Invoices>
+</fe:Facturae>

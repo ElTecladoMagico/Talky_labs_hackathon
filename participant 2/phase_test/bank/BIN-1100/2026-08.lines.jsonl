@@ -1,0 +1,27 @@
+{"bank_line": "BL0004158", "booking_date": "2026-08-03", "value_date": "2026-08-03", "amount": -4935000, "currency": "EUR", "text": "TRANSFERENCIA A UTE KALMORA HIDROCON L9"}
+{"bank_line": "BL0005672", "booking_date": "2026-08-03", "value_date": "2026-08-03", "amount": 4935000, "currency": "EUR", "text": "TRASPASO CASH POOLING SALDO CERO"}
+{"bank_line": "BL0005768", "booking_date": "2026-08-03", "value_date": "2026-08-03", "amount": -7011700, "currency": "EUR", "text": "TRANSFERENCIA A PEÑA Y RIBAS ENCOFRADOS, S.A"}
+{"bank_line": "BL0000600", "booking_date": "2026-08-04", "value_date": "2026-08-04", "amount": 324663563, "currency": "EUR", "text": "TRANSFERENCIA DE AYUNTAMIENTO DE SIERRAMAYOR"}
+{"bank_line": "BL0005676", "booking_date": "2026-08-04", "value_date": "2026-08-04", "amount": -324663563, "currency": "EUR", "text": "TRASPASO CASH POOLING SALDO CERO"}
+{"bank_line": "BL0003079", "booking_date": "2026-08-10", "value_date": "2026-08-10", "amount": -77486052, "currency": "EUR", "text": "ORDEN TRANSFERENCIAS SEPA REMESA 20260810-450"}
+{"bank_line": "BL0003080", "booking_date": "2026-08-10", "value_date": "2026-08-10", "amount": -1190, "currency": "EUR", "text": "COMISION EMISION TRANSFERENCIAS SEPA"}
+{"bank_line": "BL0003278", "booking_date": "2026-08-10", "value_date": "2026-08-10", "amount": -1448623, "currency": "EUR", "text": "TRANSFERENCIA A ENCOFRADOS TÉCNICA, S.L."}
+{"bank_line": "BL0003279", "booking_date": "2026-08-10", "value_date": "2026-08-10", "amount": -2743045, "currency": "EUR", "text": "TRANSFERENCIA A INSTALACIONES ELÉCTRICAS HER"}
+{"bank_line": "BL0003281", "booking_date": "2026-08-10", "value_date": "2026-08-10", "amount": -3119842, "currency": "EUR", "text": "TRANSFERENCIA A ACABADOS Y REFORMAS RUIZ, S."}
+{"bank_line": "BL0005682", "booking_date": "2026-08-10", "value_date": "2026-08-10", "amount": 84798752, "currency": "EUR", "text": "TRASPASO CASH POOLING SALDO CERO"}
+{"bank_line": "BL0000583", "booking_date": "2026-08-13", "value_date": "2026-08-13", "amount": 35211017, "currency": "EUR", "text": "TRANSFERENCIA DE TESORERIA AYUNTAMIENTO DE ALCA"}
+{"bank_line": "BL0005688", "booking_date": "2026-08-13", "value_date": "2026-08-13", "amount": -35211017, "currency": "EUR", "text": "TRASPASO CASH POOLING SALDO CERO"}
+{"bank_line": "BL0000601", "booking_date": "2026-08-17", "value_date": "2026-08-17", "amount": 74227403, "currency": "EUR", "text": "TRANSFERENCIA DE AYUNTAMIENTO DE SIERRAMAYOR"}
+{"bank_line": "BL0004671", "booking_date": "2026-08-17", "value_date": "2026-08-17", "amount": -30000000, "currency": "EUR", "text": "TRASPASO A CTA 1390150259"}
+{"bank_line": "BL0005692", "booking_date": "2026-08-17", "value_date": "2026-08-17", "amount": -44227403, "currency": "EUR", "text": "TRASPASO CASH POOLING SALDO CERO"}
+{"bank_line": "BL0000655", "booking_date": "2026-08-24", "value_date": "2026-08-24", "amount": 50465526, "currency": "EUR", "text": "TRANSFERENCIA DE LOGÍSTICA VEGALTA, S.L."}
+{"bank_line": "BL0004673", "booking_date": "2026-08-24", "value_date": "2026-08-24", "amount": -80000000, "currency": "EUR", "text": "TRASPASO A CTA 1390150259"}
+{"bank_line": "BL0005698", "booking_date": "2026-08-24", "value_date": "2026-08-24", "amount": 29534474, "currency": "EUR", "text": "TRASPASO CASH POOLING SALDO CERO"}
+{"bank_line": "BL0003131", "booking_date": "2026-08-25", "value_date": "2026-08-25", "amount": -2607570, "currency": "EUR", "text": "ORDEN TRANSFERENCIAS SEPA REMESA 20260825-463"}
+{"bank_line": "BL0003132", "booking_date": "2026-08-25", "value_date": "2026-08-25", "amount": -70, "currency": "EUR", "text": "COMISION EMISION TRANSFERENCIAS SEPA"}
+{"bank_line": "BL0005702", "booking_date": "2026-08-25", "value_date": "2026-08-25", "amount": 2607640, "currency": "EUR", "text": "TRASPASO CASH POOLING SALDO CERO"}
+{"bank_line": "BL0004675", "booking_date": "2026-08-27", "value_date": "2026-08-27", "amount": -20000000, "currency": "EUR", "text": "TRASPASO A CTA 1390150259"}
+{"bank_line": "BL0005706", "booking_date": "2026-08-27", "value_date": "2026-08-27", "amount": 20000000, "currency": "EUR", "text": "TRASPASO CASH POOLING SALDO CERO"}
+{"bank_line": "BL0003666", "booking_date": "2026-08-31", "value_date": "2026-08-31", "amount": -3000, "currency": "EUR", "text": "COMISION MANTENIMIENTO CUENTA"}
+{"bank_line": "BL0004022", "booking_date": "2026-08-31", "value_date": "2026-08-31", "amount": -42388261, "currency": "EUR", "text": "ORDEN NOMINAS 08/2026"}
+{"bank_line": "BL0005710", "booking_date": "2026-08-31", "value_date": "2026-08-31", "amount": 42391261, "currency": "EUR", "text": "TRASPASO CASH POOLING SALDO CERO"}

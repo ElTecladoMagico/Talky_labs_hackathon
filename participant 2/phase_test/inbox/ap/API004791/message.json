@@ -1,0 +1,14 @@
+{
+ "doc_id": "API004791",
+ "channel": "cfdi",
+ "received_at": "2026-09-07T14:02:00",
+ "mailbox": "facturas.proveedores@kalmora.example",
+ "attachments": [
+  "factura_TR26-37381.pdf",
+  "2975F974-745C-4D12-B7AA-9C7B5D438A89.xml"
+ ],
+ "from": "facturacion@materialesparacons.mx",
+ "to": "facturas.proveedores@kalmora.example",
+ "subject": "Materiales para Construcción Encino – documentación de facturación",
+ "body": "Les enviamos la factura correspondiente al periodo. Quedamos a su disposición."
+}

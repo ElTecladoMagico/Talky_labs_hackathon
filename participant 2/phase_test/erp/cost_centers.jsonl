@@ -1,0 +1,25 @@
+{"id": "CC-1000-DIR", "company": "1000", "desc": "Dirección general"}
+{"id": "CC-1000-FIN", "company": "1000", "desc": "Dirección financiera y tesorería"}
+{"id": "CC-1000-IT", "company": "1000", "desc": "Sistemas"}
+{"id": "CC-1000-RRHH", "company": "1000", "desc": "Personas"}
+{"id": "CC-1000-LEG", "company": "1000", "desc": "Asesoría jurídica"}
+{"id": "CC-1000-COM", "company": "1000", "desc": "Comunicación y marca"}
+{"id": "CC-1100-ADM", "company": "1100", "desc": "Estructura de construcción – sede Madrid"}
+{"id": "CC-1100-MAQ", "company": "1100", "desc": "Parque de maquinaria propia"}
+{"id": "CC-1200-ADM", "company": "1200", "desc": "Estructura de servicios urbanos – sede Barcelona"}
+{"id": "CC-1200-TALLER", "company": "1200", "desc": "Taller central de flota"}
+{"id": "CC-1300-ADM", "company": "1300", "desc": "Estructura de energía – sede Sevilla"}
+{"id": "CC-1910-ADM", "company": "1910", "desc": "Gerencia de la UTE"}
+{"id": "CC-2100-ADM", "company": "2100", "desc": "Estrutura Lisboa"}
+{"id": "CC-3100-ADM", "company": "3100", "desc": "Estructura Ciudad de México"}
+{"id": "CC-1200-LV01", "company": "1200", "desc": "Limpieza viaria de Puerto Alcor"}
+{"id": "CC-1200-RR01", "company": "1200", "desc": "Recogida de residuos urbanos de Valdemora"}
+{"id": "CC-1200-LV02", "company": "1200", "desc": "Limpieza viaria y playas de Calablanca"}
+{"id": "CC-1200-PJ01", "company": "1200", "desc": "Mantenimiento de parques y jardines de Santa Olaria"}
+{"id": "CC-1200-AL01", "company": "1200", "desc": "Mantenimiento del alumbrado público de Montalbar"}
+{"id": "CC-1200-RR02", "company": "1200", "desc": "Recogida selectiva y punto limpio de Fuenteclara"}
+{"id": "CC-1200-LV03", "company": "1200", "desc": "Limpieza de edificios municipales de Torrecastro"}
+{"id": "CC-1200-PJ02", "company": "1200", "desc": "Conservación de zonas verdes de Navalcedro"}
+{"id": "CC-1300-PSF1", "company": "1300", "desc": "PSF Campollano I (49,9 MWp)"}
+{"id": "CC-1300-PSF2", "company": "1300", "desc": "PSF Lomaseca (32,4 MWp)"}
+{"id": "CC-1300-PSF3", "company": "1300", "desc": "PSF Vegalta Solar (21,0 MWp)"}

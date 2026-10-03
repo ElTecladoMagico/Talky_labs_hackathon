@@ -1,0 +1,13 @@
+{
+ "doc_id": "API004826",
+ "channel": "email",
+ "received_at": "2026-09-11T17:26:00",
+ "mailbox": "facturas.proveedores@kalmora.example",
+ "attachments": [
+  "factura_TKD26-28736.pdf"
+ ],
+ "from": "facturacion@rmllaboratoriodeco.es",
+ "to": "facturas.proveedores@kalmora.example",
+ "subject": "FRA TKD26/28736 KALMORA CONSTRUCCION",
+ "body": "Saludos cordiales,\nDpto. Administración"
+}

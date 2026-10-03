@@ -1,0 +1,14 @@
+{
+ "doc_id": "API004798",
+ "channel": "cfdi",
+ "received_at": "2026-09-03T16:26:00",
+ "mailbox": "facturas.proveedores@kalmora.example",
+ "attachments": [
+  "factura_2026-001247.pdf",
+  "4406D434-765E-46B1-9FB2-E89015519B8D.xml"
+ ],
+ "from": "facturacion@autotransportessan.mx",
+ "to": "facturas.proveedores@kalmora.example",
+ "subject": "Factura 2026-001247",
+ "body": "Les enviamos la factura correspondiente al periodo. Quedamos a su disposición."
+}

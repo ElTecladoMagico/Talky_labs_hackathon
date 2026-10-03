@@ -1,0 +1,14 @@
+{
+ "doc_id": "API005262",
+ "channel": "cfdi",
+ "received_at": "2026-09-03T16:44:00",
+ "mailbox": "facturas.proveedores@kalmora.example",
+ "attachments": [
+  "factura_FV-2026-36917.pdf",
+  "300AA08C-E070-4258-A8D3-CC41535FAC05.xml"
+ ],
+ "from": "facturacion@obrasyterraceríasm.mx",
+ "to": "facturas.proveedores@kalmora.example",
+ "subject": "Facturas del mes",
+ "body": "Adjunto remitimos la documentación indicada en el asunto."
+}

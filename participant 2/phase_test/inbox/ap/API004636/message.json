@@ -1,0 +1,13 @@
+{
+ "doc_id": "API004636",
+ "channel": "email",
+ "received_at": "2026-09-03T16:36:00",
+ "mailbox": "facturas.proveedores@kalmora.example",
+ "attachments": [
+  "factura_FV-2026-31349.pdf"
+ ],
+ "from": "facturacion@alquilerdemaquinar.es",
+ "to": "facturas.proveedores@kalmora.example",
+ "subject": "Factura FV-2026-31349",
+ "body": "Buenos días, adjuntamos factura. Un saludo."
+}

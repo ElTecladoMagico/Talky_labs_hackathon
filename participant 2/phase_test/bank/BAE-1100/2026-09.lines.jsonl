@@ -1,0 +1,13 @@
+{"bank_line": "BL0003110", "booking_date": "2026-09-01", "value_date": "2026-09-01", "amount": -2872055, "currency": "EUR", "text": "CONFIRMING VTO 010926 REMESA CF110026081055"}
+{"bank_line": "BL0000092", "booking_date": "2026-09-02", "value_date": "2026-09-02", "amount": 11152077, "currency": "EUR", "text": "LIQUIDACION FACTORING OB26-00041"}
+{"bank_line": "BL0003068", "booking_date": "2026-09-04", "value_date": "2026-09-04", "amount": -3616951, "currency": "EUR", "text": "CONFIRMING VTO 040926 REMESA CF110026071042"}
+{"bank_line": "BL0000049", "booking_date": "2026-09-07", "value_date": "2026-09-07", "amount": 100628843, "currency": "EUR", "text": "ABONO ANTICIPO FACTORING REMESA FAC26090759"}
+{"bank_line": "BL0003067", "booking_date": "2026-09-07", "value_date": "2026-09-07", "amount": -19102749, "currency": "EUR", "text": "CONFIRMING VTO 070926 REMESA CF110026071041"}
+{"bank_line": "BL0003072", "booking_date": "2026-09-07", "value_date": "2026-09-07", "amount": -29132692, "currency": "EUR", "text": "CONFIRMING VTO 070926 REMESA CF110026072745"}
+{"bank_line": "BL0000050", "booking_date": "2026-09-09", "value_date": "2026-09-09", "amount": 14071332, "currency": "EUR", "text": "ABONO ANTICIPO FACTORING REMESA FAC26090977"}
+{"bank_line": "BL0000094", "booking_date": "2026-09-23", "value_date": "2026-09-23", "amount": 4313181, "currency": "EUR", "text": "LIQUIDACION FACTORING OB26-00048"}
+{"bank_line": "BL0004568", "booking_date": "2026-09-28", "value_date": "2026-09-28", "amount": 30000000, "currency": "EUR", "text": "TRASPASO DE CTA 2848142243"}
+{"bank_line": "BL0003113", "booking_date": "2026-09-29", "value_date": "2026-09-29", "amount": -179900988, "currency": "EUR", "text": "CONFIRMING VTO 290926 REMESA CF110026081058"}
+{"bank_line": "BL0003134", "booking_date": "2026-09-29", "value_date": "2026-09-29", "amount": -42951399, "currency": "EUR", "text": "CONFIRMING VTO 290926 REMESA CF110026082565"}
+{"bank_line": "BL0003684", "booking_date": "2026-09-30", "value_date": "2026-09-30", "amount": -3000, "currency": "EUR", "text": "COMISION MANTENIMIENTO CUENTA"}
+{"bank_line": "BL0003693", "booking_date": "2026-09-30", "value_date": "2026-09-30", "amount": -2539400, "currency": "EUR", "text": "COMISION AVALES TECNICOS 2026T3 (LINEA AV-2211)"}

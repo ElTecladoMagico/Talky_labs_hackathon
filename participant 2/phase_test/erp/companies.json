@@ -1,0 +1,108 @@
+[
+ {
+  "code": "1000",
+  "name": "Kalmora Infraestructuras y Servicios, S.A.",
+  "short": "KALMORA HOLDING",
+  "country": "ES",
+  "currency": "EUR",
+  "role": "holding",
+  "city": "Madrid",
+  "street": "Paseo de la Castellana Norte 211, planta 14",
+  "postal_code": "28046",
+  "tax_id": "A04071952",
+  "vat_id": "ESA04071952",
+  "partners": null
+ },
+ {
+  "code": "1100",
+  "name": "Kalmora Construcción, S.A.U.",
+  "short": "KALMORA CONSTRUCCION",
+  "country": "ES",
+  "currency": "EUR",
+  "role": "construction",
+  "city": "Madrid",
+  "street": "Avenida de Valdemora 40",
+  "postal_code": "28050",
+  "tax_id": "A12359962",
+  "vat_id": "ESA12359962",
+  "partners": null
+ },
+ {
+  "code": "1200",
+  "name": "Kalmora Servicios Urbanos, S.L.U.",
+  "short": "KALMORA SERV URBANOS",
+  "country": "ES",
+  "currency": "EUR",
+  "role": "urban_services",
+  "city": "Barcelona",
+  "street": "Carrer de la Indústria 312",
+  "postal_code": "08025",
+  "tax_id": "B60331798",
+  "vat_id": "ESB60331798",
+  "partners": null
+ },
+ {
+  "code": "1300",
+  "name": "Kalmora Energía Renovable, S.L.U.",
+  "short": "KALMORA ENERGIA",
+  "country": "ES",
+  "currency": "EUR",
+  "role": "energy",
+  "city": "Sevilla",
+  "street": "Avenida de la Innovación 9, Edificio Renta Sevilla",
+  "postal_code": "41020",
+  "tax_id": "B92876545",
+  "vat_id": "ESB92876545",
+  "partners": null
+ },
+ {
+  "code": "1910",
+  "name": "UTE Kalmora Construcción – Hidrocon Obras, Ley 18/1982 (UTE Línea 9 Valdemora)",
+  "short": "UTE LINEA 9",
+  "country": "ES",
+  "currency": "EUR",
+  "role": "ute",
+  "city": "Valdemora",
+  "street": "Camino de la Estación s/n, oficina de obra",
+  "postal_code": "45210",
+  "partners": [
+   [
+    "1100",
+    5000
+   ],
+   [
+    "EXT-HIDROCON",
+    5000
+   ]
+  ],
+  "tax_id": "U54740005",
+  "vat_id": "ESU54740005"
+ },
+ {
+  "code": "2100",
+  "name": "Kalmora Portugal – Construção e Serviços, Lda.",
+  "short": "KALMORA PORTUGAL",
+  "country": "PT",
+  "currency": "EUR",
+  "role": "construction",
+  "city": "Lisboa",
+  "street": "Avenida da Liberdade 190, 5.º",
+  "postal_code": "1250-147",
+  "tax_id": "530581901",
+  "vat_id": "PT530581901",
+  "partners": null
+ },
+ {
+  "code": "3100",
+  "name": "Kalmora México Infraestructura, S.A. de C.V.",
+  "short": "KALMORA MEXICO",
+  "country": "MX",
+  "currency": "MXN",
+  "role": "construction",
+  "city": "Ciudad de México",
+  "street": "Av. Paseo de la Reforma 2620, piso 9, Col. Lomas Altas",
+  "postal_code": "11950",
+  "tax_id": "KMI91110719K",
+  "partners": null
+ }
+]

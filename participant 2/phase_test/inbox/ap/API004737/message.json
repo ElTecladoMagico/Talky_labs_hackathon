@@ -1,0 +1,13 @@
+{
+ "doc_id": "API004737",
+ "channel": "email",
+ "received_at": "2026-09-08T19:50:00",
+ "mailbox": "facturas.proveedores@kalmora.example",
+ "attachments": [
+  "factura_L202622116.pdf"
+ ],
+ "from": "facturacion@mensajeríaexprésra.es",
+ "to": "facturas.proveedores@kalmora.example",
+ "subject": "Mensajería Exprés Rayo – documentación de facturación",
+ "body": "Buenos días, adjuntamos factura. Un saludo."
+}

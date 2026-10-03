@@ -1,0 +1,13 @@
+{
+ "doc_id": "API004686",
+ "channel": "email",
+ "received_at": "2026-09-08T12:35:00",
+ "mailbox": "facturas.proveedores@kalmora.example",
+ "attachments": [
+  "factura_26012516.pdf"
+ ],
+ "from": "facturacion@peñayribasencofrad.es",
+ "to": "facturas.proveedores@kalmora.example",
+ "subject": "Facturas del mes",
+ "body": "Buenos días, adjuntamos factura. Un saludo."
+}

@@ -1,0 +1,13 @@
+{
+ "doc_id": "API005624",
+ "channel": "email",
+ "received_at": "2026-09-04T19:02:00",
+ "mailbox": "facturas.proveedores@kalmora.example",
+ "attachments": [
+  "certificate_art43_API005624.pdf"
+ ],
+ "from": "facturacion@instalacionesinteg.es",
+ "to": "facturas.proveedores@kalmora.example",
+ "subject": "Certificado de estar al corriente (art. 43 LGT)",
+ "body": "Buenos días, adjuntamos factura. Un saludo."
+}

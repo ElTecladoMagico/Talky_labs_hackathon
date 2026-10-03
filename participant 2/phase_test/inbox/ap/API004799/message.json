@@ -1,0 +1,14 @@
+{
+ "doc_id": "API004799",
+ "channel": "cfdi",
+ "received_at": "2026-09-03T11:09:00",
+ "mailbox": "facturas.proveedores@kalmora.example",
+ "attachments": [
+  "factura_2026-007842.pdf",
+  "3784B5EA-12FC-4889-8C5F-507A3F0A60B3.xml"
+ ],
+ "from": "facturacion@comisióndeenergíad.mx",
+ "to": "facturas.proveedores@kalmora.example",
+ "subject": "Facturas del mes",
+ "body": "Les enviamos la factura correspondiente al periodo. Quedamos a su disposición."
+}

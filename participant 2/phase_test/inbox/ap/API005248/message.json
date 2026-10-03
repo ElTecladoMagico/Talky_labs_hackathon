@@ -1,0 +1,13 @@
+{
+ "doc_id": "API005248",
+ "channel": "email",
+ "received_at": "2026-09-01T18:30:00",
+ "mailbox": "facturas.proveedores@kalmora.example",
+ "attachments": [
+  "factura_PES20263335.pdf"
+ ],
+ "from": "facturacion@asfaltosglobal.es",
+ "to": "facturas.proveedores@kalmora.example",
+ "subject": "FRA PES20263335 KALMORA CONSTRUCCION",
+ "body": ""
+}

@@ -1,0 +1,14 @@
+{
+ "doc_id": "API004471",
+ "channel": "email",
+ "received_at": "2026-09-21T09:28:00",
+ "mailbox": "facturas.proveedores@kalmora.example",
+ "attachments": [
+  "factura_F2628037.pdf",
+  "DUA_26ES563297183254.pdf"
+ ],
+ "from": "facturacion@transitariosrovira.es",
+ "to": "facturas.proveedores@kalmora.example",
+ "subject": "FRA F2628037 KALMORA CONSTRUCCION",
+ "body": "Adjunto remitimos la documentación indicada en el asunto."
+}

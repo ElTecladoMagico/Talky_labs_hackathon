@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<fe:Facturae xmlns:fe="http://www.facturae.gob.es/formato/Versiones/Facturaev3_2_2.xml">
+ <FileHeader><SchemaVersion>3.2.2</SchemaVersion><Modality>I</Modality><InvoiceIssuerType>EM</InvoiceIssuerType>
+  <Batch><BatchIdentifier>B01385340F2610442</BatchIdentifier><InvoicesCount>1</InvoicesCount>
+   <TotalInvoicesAmount><TotalAmount>1029.83</TotalAmount></TotalInvoicesAmount><TotalOutstandingAmount><TotalAmount>1029.83</TotalAmount></TotalOutstandingAmount>
+   <TotalExecutableAmount><TotalAmount>1029.83</TotalAmount></TotalExecutableAmount><InvoiceCurrencyCode>EUR</InvoiceCurrencyCode></Batch></FileHeader>
+ <Parties>
+  <SellerParty><TaxIdentification><PersonTypeCode>J</PersonTypeCode><ResidenceTypeCode>R</ResidenceTypeCode><TaxIdentificationNumber>B01385340</TaxIdentificationNumber></TaxIdentification>
+   <LegalEntity><CorporateName>Bricolaje Profesional Vega, S.L.</CorporateName><AddressInSpain><Address>Ronda de Poniente 112</Address><PostCode>43715</PostCode><Town>Villamar del Río</Town><Province>Madrid</Province><CountryCode>ESP</CountryCode></AddressInSpain></LegalEntity></SellerParty>
+  <BuyerParty><TaxIdentification><PersonTypeCode>J</PersonTypeCode><ResidenceTypeCode>R</ResidenceTypeCode><TaxIdentificationNumber>B60331798</TaxIdentificationNumber></TaxIdentification>
+   <LegalEntity><CorporateName>Kalmora Servicios Urbanos, S.L.U.</CorporateName></LegalEntity></BuyerParty>
+ </Parties>
+ <Invoices><Invoice>
+  <InvoiceHeader><InvoiceNumber>F2610442</InvoiceNumber><InvoiceDocumentType>FC</InvoiceDocumentType><InvoiceClass>OO</InvoiceClass>
+   </InvoiceHeader>
+  <InvoiceIssueData><IssueDate>2026-09-04</IssueDate><InvoicingPeriod><StartDate>2026-08-01</StartDate><EndDate>2026-08-31</EndDate></InvoicingPeriod><InvoiceCurrencyCode>EUR</InvoiceCurrencyCode><TaxCurrencyCode>EUR</TaxCurrencyCode><LanguageName>es</LanguageName></InvoiceIssueData>
+  <TaxesOutputs><Tax><TaxTypeCode>01</TaxTypeCode><TaxRate>21.00</TaxRate><TaxableBase><TotalAmount>851.10</TotalAmount></TaxableBase><TaxAmount><TotalAmount>178.73</TotalAmount></TaxAmount></Tax></TaxesOutputs>
+  
+  <InvoiceTotals><TotalGrossAmount>851.10</TotalGrossAmount><TotalGrossAmountBeforeTaxes>851.10</TotalGrossAmountBeforeTaxes>
+   <TotalTaxOutputs>178.73</TotalTaxOutputs><TotalTaxesWithheld>0.00</TotalTaxesWithheld><InvoiceTotal>1029.83</InvoiceTotal>
+   
+   <TotalOutstandingAmount>1029.83</TotalOutstandingAmount><TotalExecutableAmount>1029.83</TotalExecutableAmount></InvoiceTotals>
+  <Items><InvoiceLine><ItemDescription>Tornillería y fijaciones varias – AL-071698 (05/08)</ItemDescription><Quantity>4.000</Quantity><UnitPriceWithoutTax>55.500000</UnitPriceWithoutTax><TotalCost>222.00</TotalCost><GrossAmount>222.00</GrossAmount><TaxesOutputs><Tax><TaxTypeCode>01</TaxTypeCode><TaxRate>21.00</TaxRate><TaxableBase><TotalAmount>222.00</TotalAmount></TaxableBase></Tax></TaxesOutputs></InvoiceLine><InvoiceLine><ItemDescription>Discos de corte Ø230 (caja 25) – AL-071692 (07/08)</ItemDescription><Quantity>2.000</Quantity><UnitPriceWithoutTax>70.950000</UnitPriceWithoutTax><TotalCost>141.90</TotalCost><GrossAmount>141.90</GrossAmount><TaxesOutputs><Tax><TaxTypeCode>01</TaxTypeCode><TaxRate>21.00</TaxRate><TaxableBase><TotalAmount>141.90</TotalAmount></TaxableBase></Tax></TaxesOutputs></InvoiceLine><InvoiceLine><ItemDescription>Cinta de balizamiento (rollo 200 m) – AL-071683 (12/08)</ItemDescription><Quantity>24.000</Quantity><UnitPriceWithoutTax>6.750000</UnitPriceWithoutTax><TotalCost>162.00</TotalCost><GrossAmount>162.00</GrossAmount><TaxesOutputs><Tax><TaxTypeCode>01</TaxTypeCode><TaxRate>21.00</TaxRate><TaxableBase><TotalAmount>162.00</TotalAmount></TaxableBase></Tax></TaxesOutputs></InvoiceLine><InvoiceLine><ItemDescription>Cemento CEM II 25 kg – AL-071674 (13/08)</ItemDescription><Quantity>36.000</Quantity><UnitPriceWithoutTax>5.950000</UnitPriceWithoutTax><TotalCost>214.20</TotalCost><GrossAmount>214.20</GrossAmount><TaxesOutputs><Tax><TaxTypeCode>01</TaxTypeCode><TaxRate>21.00</TaxRate><TaxableBase><TotalAmount>214.20</TotalAmount></TaxableBase></Tax></TaxesOutputs></InvoiceLine><InvoiceLine><ItemDescription>Tornillería y fijaciones varias – AL-071706 (27/08)</ItemDescription><Quantity>2.000</Quantity><UnitPriceWithoutTax>55.500000</UnitPriceWithoutTax><TotalCost>111.00</TotalCost><GrossAmount>111.00</GrossAmount><TaxesOutputs><Tax><TaxTypeCode>01</TaxTypeCode><TaxRate>21.00</TaxRate><TaxableBase><TotalAmount>111.00</TotalAmount></TaxableBase></Tax></TaxesOutputs></InvoiceLine></Items>
+  <AdditionalData><InvoiceAdditionalInformation> </InvoiceAdditionalInformation></AdditionalData>
+ </Invoice></Invoices>
+</fe:Facturae>

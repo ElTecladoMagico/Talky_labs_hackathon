@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<cfdi:Comprobante xmlns:cfdi="http://www.sat.gob.mx/cfd/4" Version="4.0" Serie="202" Folio="2026-021196" Fecha="2026-09-30T10:00:00"
+ SubTotal="1955605.09" Moneda="MXN" Total="2268501.90" TipoDeComprobante="I" Exportacion="01" MetodoPago="PPD" FormaPago="99" LugarExpedicion="54132">
+ <cfdi:Emisor Rfc="EDI981120754" Nombre="EDIFICACIONES INTEGRAL, S.A. DE C.V." RegimenFiscal="601"/>
+ <cfdi:Receptor Rfc="KMI91110719K" Nombre="KALMORA MEXICO INFRAESTRUCTURA" DomicilioFiscalReceptor="11950" RegimenFiscalReceptor="601" UsoCFDI="G03"/>
+ <cfdi:Conceptos><cfdi:Concepto ClaveProdServ="72141000" Cantidad="2187.000" ClaveUnidad="E48" Descripcion="Línea de BT RZ1-K 4x25 instalada" ValorUnitario="358.43" Importe="783886.41" ObjetoImp="02"/><cfdi:Concepto ClaveProdServ="72141000" Cantidad="914.000" ClaveUnidad="E48" Descripcion="Tubería PE100 Ø110 instalada" ValorUnitario="526.02" Importe="480782.28" ObjetoImp="02"/><cfdi:Concepto ClaveProdServ="72141000" Cantidad="8.000" ClaveUnidad="E48" Descripcion="Cuadro general de protección" ValorUnitario="86367.05" Importe="690936.40" ObjetoImp="02"/></cfdi:Conceptos>
+ <cfdi:Impuestos TotalImpuestosTrasladados="312896.81">
+  <cfdi:Traslados><cfdi:Traslado Base="1955605.09" Impuesto="002" TipoFactor="Tasa" TasaOCuota="0.160000" Importe="312896.81"/></cfdi:Traslados>
+ </cfdi:Impuestos>
+ <cfdi:Complemento><tfd:TimbreFiscalDigital xmlns:tfd="http://www.sat.gob.mx/TimbreFiscalDigital" Version="1.1" UUID="BF0D68E7-E99C-4A33-B2E5-B705594B6D79" FechaTimbrado="2026-09-30T10:05:12" RfcProvCertif="SAT970701NN3" NoCertificadoSAT="00001000000509846663"/></cfdi:Complemento>
+</cfdi:Comprobante>

@@ -1,0 +1,14 @@
+{
+ "doc_id": "API004790",
+ "channel": "cfdi",
+ "received_at": "2026-09-07T14:49:00",
+ "mailbox": "facturas.proveedores@kalmora.example",
+ "attachments": [
+  "factura_T26-26956.pdf",
+  "4E194C56-3D90-46B9-8D5B-5E401FCAE3C6.xml"
+ ],
+ "from": "facturacion@acerosdelnorte.mx",
+ "to": "facturas.proveedores@kalmora.example",
+ "subject": "FRA T26/26956 KALMORA MEXICO",
+ "body": "Buenos días, adjuntamos factura. Un saludo."
+}

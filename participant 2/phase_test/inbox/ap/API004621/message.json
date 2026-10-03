@@ -1,0 +1,13 @@
+{
+ "doc_id": "API004621",
+ "channel": "email",
+ "received_at": "2026-09-07T15:13:00",
+ "mailbox": "facturas.proveedores@kalmora.example",
+ "attachments": [
+  "factura_RH-023577.pdf"
+ ],
+ "from": "facturacion@estructurasintegra.es",
+ "to": "facturas.proveedores@kalmora.example",
+ "subject": "Facturas del mes",
+ "body": ""
+}

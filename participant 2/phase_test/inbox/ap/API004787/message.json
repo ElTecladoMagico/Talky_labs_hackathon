@@ -1,0 +1,14 @@
+{
+ "doc_id": "API004787",
+ "channel": "cfdi",
+ "received_at": "2026-09-08T11:44:00",
+ "mailbox": "facturas.proveedores@kalmora.example",
+ "attachments": [
+  "factura_BM-030407.pdf",
+  "3EF287A6-74C5-404D-8C25-D8EAF67250E9.xml"
+ ],
+ "from": "facturacion@construccionesvall.mx",
+ "to": "facturas.proveedores@kalmora.example",
+ "subject": "FRA BM-030407 KALMORA MEXICO",
+ "body": ""
+}

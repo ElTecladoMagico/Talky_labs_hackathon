@@ -1,0 +1,13 @@
+{
+ "doc_id": "API004603",
+ "channel": "email",
+ "received_at": "2026-09-04T18:11:00",
+ "mailbox": "facturas.proveedores@kalmora.example",
+ "attachments": [
+  "factura_H-017342.pdf"
+ ],
+ "from": "facturacion@hormigonesurrutiae.es",
+ "to": "facturas.proveedores@kalmora.example",
+ "subject": "FRA H-017342 KALMORA CONSTRUCCION",
+ "body": "Buenos días, adjuntamos factura. Un saludo."
+}

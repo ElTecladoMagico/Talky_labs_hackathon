@@ -1,0 +1,13 @@
+{
+ "doc_id": "API004814",
+ "channel": "email",
+ "received_at": "2026-09-28T15:52:00",
+ "mailbox": "facturas.proveedores@kalmora.example",
+ "attachments": [
+  "factura_F2631712.pdf"
+ ],
+ "from": "facturacion@energíapeninsularc.es",
+ "to": "facturas.proveedores@kalmora.example",
+ "subject": "Envío de factura nº F2631712",
+ "body": ""
+}

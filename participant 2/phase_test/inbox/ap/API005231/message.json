@@ -1,0 +1,13 @@
+{
+ "doc_id": "API005231",
+ "channel": "email",
+ "received_at": "2026-09-30T10:09:00",
+ "mailbox": "facturas.proveedores@kalmora.example",
+ "attachments": [
+  "factura_2026020515.pdf"
+ ],
+ "from": "facturacion@aguirreygómezconst.es",
+ "to": "facturas.proveedores@kalmora.example",
+ "subject": "Aguirre y Gómez Construcciones Estructurales – documentación de facturación",
+ "body": "Buenos días, adjuntamos factura. Un saludo."
+}

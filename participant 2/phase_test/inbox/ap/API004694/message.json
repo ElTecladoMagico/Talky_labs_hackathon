@@ -1,0 +1,13 @@
+{
+ "doc_id": "API004694",
+ "channel": "email",
+ "received_at": "2026-09-01T15:49:00",
+ "mailbox": "facturas.proveedores@kalmora.example",
+ "attachments": [
+  "factura_26009682.pdf"
+ ],
+ "from": "facturacion@hormigonespeninsul.es",
+ "to": "facturas.proveedores@kalmora.example",
+ "subject": "Factura 26009682",
+ "body": "Buenos días, adjuntamos factura. Un saludo."
+}

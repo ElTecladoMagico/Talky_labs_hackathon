@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<fe:Facturae xmlns:fe="http://www.facturae.gob.es/formato/Versiones/Facturaev3_2_2.xml">
+ <FileHeader><SchemaVersion>3.2.2</SchemaVersion><Modality>I</Modality><InvoiceIssuerType>EM</InvoiceIssuerType>
+  <Batch><BatchIdentifier>A49925794F2610972</BatchIdentifier><InvoicesCount>1</InvoicesCount>
+   <TotalInvoicesAmount><TotalAmount>2153.30</TotalAmount></TotalInvoicesAmount><TotalOutstandingAmount><TotalAmount>2153.30</TotalAmount></TotalOutstandingAmount>
+   <TotalExecutableAmount><TotalAmount>2153.30</TotalAmount></TotalExecutableAmount><InvoiceCurrencyCode>EUR</InvoiceCurrencyCode></Batch></FileHeader>
+ <Parties>
+  <SellerParty><TaxIdentification><PersonTypeCode>J</PersonTypeCode><ResidenceTypeCode>R</ResidenceTypeCode><TaxIdentificationNumber>A49925794</TaxIdentificationNumber></TaxIdentification>
+   <LegalEntity><CorporateName>Áridos Herrera 2000, S.L.</CorporateName><AddressInSpain><Address>Travesía del Molino 151</Address><PostCode>29946</PostCode><Town>Lomaseca</Town><Province>Cádiz</Province><CountryCode>ESP</CountryCode></AddressInSpain></LegalEntity></SellerParty>
+  <BuyerParty><TaxIdentification><PersonTypeCode>J</PersonTypeCode><ResidenceTypeCode>R</ResidenceTypeCode><TaxIdentificationNumber>A12359962</TaxIdentificationNumber></TaxIdentification>
+   <LegalEntity><CorporateName>Kalmora Construcción, S.A.U.</CorporateName></LegalEntity></BuyerParty>
+ </Parties>
+ <Invoices><Invoice>
+  <InvoiceHeader><InvoiceNumber>F2610972</InvoiceNumber><InvoiceDocumentType>FC</InvoiceDocumentType><InvoiceClass>OO</InvoiceClass>
+   </InvoiceHeader>
+  <InvoiceIssueData><IssueDate>2026-08-31</IssueDate><InvoicingPeriod><StartDate>2026-08-01</StartDate><EndDate>2026-08-31</EndDate></InvoicingPeriod><InvoiceCurrencyCode>EUR</InvoiceCurrencyCode><TaxCurrencyCode>EUR</TaxCurrencyCode><LanguageName>es</LanguageName></InvoiceIssueData>
+  <TaxesOutputs><Tax><TaxTypeCode>01</TaxTypeCode><TaxRate>21.00</TaxRate><TaxableBase><TotalAmount>1779.59</TotalAmount></TaxableBase><TaxAmount><TotalAmount>373.71</TotalAmount></TaxAmount></Tax></TaxesOutputs>
+  
+  <InvoiceTotals><TotalGrossAmount>1779.59</TotalGrossAmount><TotalGrossAmountBeforeTaxes>1779.59</TotalGrossAmountBeforeTaxes>
+   <TotalTaxOutputs>373.71</TotalTaxOutputs><TotalTaxesWithheld>0.00</TotalTaxesWithheld><InvoiceTotal>2153.30</InvoiceTotal>
+   
+   <TotalOutstandingAmount>2153.30</TotalOutstandingAmount><TotalExecutableAmount>2153.30</TotalExecutableAmount></InvoiceTotals>
+  <Items><InvoiceLine><ItemDescription>Zahorra artificial ZA-25 – AL-005396 (10/08)</ItemDescription><Quantity>23.690</Quantity><UnitPriceWithoutTax>13.150000</UnitPriceWithoutTax><TotalCost>311.52</TotalCost><GrossAmount>311.52</GrossAmount><TaxesOutputs><Tax><TaxTypeCode>01</TaxTypeCode><TaxRate>21.00</TaxRate><TaxableBase><TotalAmount>311.52</TotalAmount></TaxableBase></Tax></TaxesOutputs></InvoiceLine><InvoiceLine><ItemDescription>Arena 0/4 lavada – AL-005394 (11/08)</ItemDescription><Quantity>29.290</Quantity><UnitPriceWithoutTax>17.430000</UnitPriceWithoutTax><TotalCost>510.52</TotalCost><GrossAmount>510.52</GrossAmount><TaxesOutputs><Tax><TaxTypeCode>01</TaxTypeCode><TaxRate>21.00</TaxRate><TaxableBase><TotalAmount>510.52</TotalAmount></TaxableBase></Tax></TaxesOutputs></InvoiceLine><InvoiceLine><ItemDescription>Arena 0/4 lavada – AL-005386 (21/08)</ItemDescription><Quantity>18.980</Quantity><UnitPriceWithoutTax>17.430000</UnitPriceWithoutTax><TotalCost>330.82</TotalCost><GrossAmount>330.82</GrossAmount><TaxesOutputs><Tax><TaxTypeCode>01</TaxTypeCode><TaxRate>21.00</TaxRate><TaxableBase><TotalAmount>330.82</TotalAmount></TaxableBase></Tax></TaxesOutputs></InvoiceLine><InvoiceLine><ItemDescription>Zahorra artificial ZA-25 – AL-005381 (25/08)</ItemDescription><Quantity>47.660</Quantity><UnitPriceWithoutTax>13.150000</UnitPriceWithoutTax><TotalCost>626.73</TotalCost><GrossAmount>626.73</GrossAmount><TaxesOutputs><Tax><TaxTypeCode>01</TaxTypeCode><TaxRate>21.00</TaxRate><TaxableBase><TotalAmount>626.73</TotalAmount></TaxableBase></Tax></TaxesOutputs></InvoiceLine></Items>
+  <AdditionalData><InvoiceAdditionalInformation> </InvoiceAdditionalInformation></AdditionalData>
+ </Invoice></Invoices>
+</fe:Facturae>

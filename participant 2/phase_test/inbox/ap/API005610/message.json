@@ -1,0 +1,13 @@
+{
+ "doc_id": "API005610",
+ "channel": "email",
+ "received_at": "2026-09-21T15:51:00",
+ "mailbox": "facturas.proveedores@kalmora.example",
+ "attachments": [
+  "factura_R-F2607697.pdf"
+ ],
+ "from": "facturacion@aguasdenavalcedro.es",
+ "to": "facturas.proveedores@kalmora.example",
+ "subject": "Factura rectificativa R-F2607697",
+ "body": "Saludos cordiales,\nDpto. Administración"
+}

@@ -1,0 +1,13 @@
+{
+ "doc_id": "API004712",
+ "channel": "email",
+ "received_at": "2026-09-21T14:41:00",
+ "mailbox": "facturas.proveedores@kalmora.example",
+ "attachments": [
+  "factura_2026-016797.pdf"
+ ],
+ "from": "facturacion@reddeestacionessol.es",
+ "to": "facturas.proveedores@kalmora.example",
+ "subject": "Red de Estaciones Solred Norte – documentación de facturación",
+ "body": "Adjunto remitimos la documentación indicada en el asunto."
+}

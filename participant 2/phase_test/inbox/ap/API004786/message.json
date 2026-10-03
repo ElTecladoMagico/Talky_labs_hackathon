@@ -1,0 +1,13 @@
+{
+ "doc_id": "API004786",
+ "channel": "email",
+ "received_at": "2026-09-04T10:53:00",
+ "mailbox": "facturas.proveedores@kalmora.example",
+ "attachments": [
+  "invoice_L202614954.pdf"
+ ],
+ "from": "facturacion@energialusacomerci.pt",
+ "to": "facturas.proveedores@kalmora.example",
+ "subject": "Energia Lusa Comercial – documentación de facturación",
+ "body": "Les enviamos la factura correspondiente al periodo. Quedamos a su disposición."
+}

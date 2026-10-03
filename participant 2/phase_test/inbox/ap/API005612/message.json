@@ -1,0 +1,11 @@
+{
+ "doc_id": "API005612",
+ "channel": "portal",
+ "received_at": "2026-09-29T13:20:00",
+ "mailbox": "facturas.proveedores@kalmora.example",
+ "attachments": [
+  "factura_R-2026-037654.pdf"
+ ],
+ "source": "Portal de proveedores (descarga)",
+ "uploaded_by": "facturacion@eléctricadelllanoc.es"
+}

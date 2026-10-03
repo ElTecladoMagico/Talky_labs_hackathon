@@ -1,0 +1,13 @@
+{
+ "doc_id": "API005615",
+ "channel": "email",
+ "received_at": "2026-09-14T11:01:00",
+ "mailbox": "facturas.proveedores@kalmora.example",
+ "attachments": [
+  "factura_R-SS202633786.pdf"
+ ],
+ "from": "facturacion@materialdeoficinaa.es",
+ "to": "facturas.proveedores@kalmora.example",
+ "subject": "Factura rectificativa R-SS202633786",
+ "body": "Saludos cordiales,\nDpto. Administración"
+}

@@ -1,0 +1,13 @@
+{
+ "doc_id": "API004780",
+ "channel": "email",
+ "received_at": "2026-09-04T07:01:00",
+ "mailbox": "facturas.proveedores@kalmora.example",
+ "attachments": [
+  "invoice_AGC26-38132.pdf"
+ ],
+ "from": "facturacion@engenhariaeconstru.pt",
+ "to": "facturas.proveedores@kalmora.example",
+ "subject": "Envío de factura nº AGC26/38132",
+ "body": "Saludos cordiales,\nDpto. Administración"
+}

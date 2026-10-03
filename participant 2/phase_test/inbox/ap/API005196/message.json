@@ -1,0 +1,13 @@
+{
+ "doc_id": "API005196",
+ "channel": "email",
+ "received_at": "2026-09-22T15:39:00",
+ "mailbox": "facturas.proveedores@kalmora.example",
+ "attachments": [
+  "letter_bank_change_API005196.pdf"
+ ],
+ "from": "facturacion@instalacioneseléct.es",
+ "to": "facturas.proveedores@kalmora.example",
+ "subject": "Cambio de cuenta bancaria",
+ "body": "Adjunto remitimos la documentación indicada en el asunto."
+}

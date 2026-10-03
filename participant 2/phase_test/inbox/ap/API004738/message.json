@@ -1,0 +1,13 @@
+{
+ "doc_id": "API004738",
+ "channel": "email",
+ "received_at": "2026-09-07T17:04:00",
+ "mailbox": "facturas.proveedores@kalmora.example",
+ "attachments": [
+  "factura_SS202633778.pdf"
+ ],
+ "from": "facturacion@materialdeoficinaa.es",
+ "to": "facturas.proveedores@kalmora.example",
+ "subject": "FRA SS202633778 KALMORA SERV URBANOS",
+ "body": "Les enviamos la factura correspondiente al periodo. Quedamos a su disposición."
+}

@@ -1,0 +1,13 @@
+{
+ "doc_id": "API004769",
+ "channel": "email",
+ "received_at": "2026-09-14T16:37:00",
+ "mailbox": "facturas.proveedores@kalmora.example",
+ "attachments": [
+  "factura_0034550.pdf"
+ ],
+ "from": "facturacion@suministrosdeobram.es",
+ "to": "facturas.proveedores@kalmora.example",
+ "subject": "Factura 0034550",
+ "body": ""
+}

@@ -1,0 +1,13 @@
+{
+ "doc_id": "API005241",
+ "channel": "email",
+ "received_at": "2026-09-09T13:14:00",
+ "mailbox": "facturas.proveedores@kalmora.example",
+ "attachments": [
+  "factura_2026-016727.pdf"
+ ],
+ "from": "facturacion@ferrerycanohierros.es",
+ "to": "facturas.proveedores@kalmora.example",
+ "subject": "Envío de factura nº 2026-016727",
+ "body": "Buenos días, adjuntamos factura. Un saludo."
+}

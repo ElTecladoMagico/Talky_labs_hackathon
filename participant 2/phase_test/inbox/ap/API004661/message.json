@@ -1,0 +1,13 @@
+{
+ "doc_id": "API004661",
+ "channel": "email",
+ "received_at": "2026-09-07T13:42:00",
+ "mailbox": "facturas.proveedores@kalmora.example",
+ "attachments": [
+  "factura_FV-2026-22652.pdf"
+ ],
+ "from": "facturacion@señalizacionesvial.es",
+ "to": "facturas.proveedores@kalmora.example",
+ "subject": "FRA FV-2026-22652 KALMORA CONSTRUCCION",
+ "body": "Buenos días, adjuntamos factura. Un saludo."
+}

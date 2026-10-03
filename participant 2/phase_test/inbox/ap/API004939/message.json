@@ -1,0 +1,13 @@
+{
+ "doc_id": "API004939",
+ "channel": "email",
+ "received_at": "2026-09-25T07:18:00",
+ "mailbox": "facturas.proveedores@kalmora.example",
+ "attachments": [
+  "invoice_F2624043.pdf"
+ ],
+ "from": "facturacion@kranwerksindelfeld.com",
+ "to": "facturas.proveedores@kalmora.example",
+ "subject": "Facturas del mes",
+ "body": "Adjunto remitimos la documentación indicada en el asunto."
+}

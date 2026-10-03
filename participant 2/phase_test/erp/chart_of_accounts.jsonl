@@ -1,0 +1,97 @@
+{"account": "10000000", "description": "Capital social", "type": "BS", "open_items": false}
+{"account": "11300000", "description": "Reservas voluntarias", "type": "BS", "open_items": false}
+{"account": "12900000", "description": "Resultado del ejercicio", "type": "BS", "open_items": false}
+{"account": "16330000", "description": "Deudas a largo plazo con empresas del grupo", "type": "BS", "open_items": false}
+{"account": "17000000", "description": "Deudas a largo plazo con entidades de crédito", "type": "BS", "open_items": false}
+{"account": "21300000", "description": "Maquinaria", "type": "BS", "open_items": false}
+{"account": "21700000", "description": "Equipos para procesos de información", "type": "BS", "open_items": false}
+{"account": "21800000", "description": "Elementos de transporte", "type": "BS", "open_items": false}
+{"account": "23100000", "description": "Construcciones en curso (inmovilizado propio)", "type": "BS", "open_items": false}
+{"account": "24230000", "description": "Créditos a largo plazo a empresas del grupo", "type": "BS", "open_items": false}
+{"account": "28130000", "description": "Amortización acumulada de maquinaria", "type": "BS", "open_items": false}
+{"account": "40000000", "description": "Proveedores", "type": "BS", "open_items": true}
+{"account": "40000900", "description": "Proveedores, retenciones por garantía (obra)", "type": "BS", "open_items": true}
+{"account": "40090000", "description": "Proveedores, facturas pendientes de recibir", "type": "BS", "open_items": false}
+{"account": "40300000", "description": "Proveedores, empresas del grupo", "type": "BS", "open_items": true}
+{"account": "40700000", "description": "Anticipos a proveedores", "type": "BS", "open_items": true}
+{"account": "41000000", "description": "Acreedores por prestaciones de servicios", "type": "BS", "open_items": true}
+{"account": "43000000", "description": "Clientes", "type": "BS", "open_items": true}
+{"account": "43000900", "description": "Clientes, retenciones por garantía", "type": "BS", "open_items": true}
+{"account": "43090000", "description": "Clientes, obra ejecutada pendiente de certificar", "type": "BS", "open_items": false}
+{"account": "43100000", "description": "Clientes, efectos comerciales en cartera (pagarés)", "type": "BS", "open_items": true}
+{"account": "43300000", "description": "Clientes, empresas del grupo", "type": "BS", "open_items": true}
+{"account": "43600000", "description": "Clientes de dudoso cobro", "type": "BS", "open_items": true}
+{"account": "43800000", "description": "Anticipos de clientes", "type": "BS", "open_items": true}
+{"account": "44000000", "description": "Deudores varios", "type": "BS", "open_items": true}
+{"account": "46500000", "description": "Remuneraciones pendientes de pago", "type": "BS", "open_items": false}
+{"account": "47000000", "description": "Hacienda Pública, deudora por IVA", "type": "BS", "open_items": false}
+{"account": "47200000", "description": "Hacienda Pública, IVA soportado", "type": "BS", "open_items": false}
+{"account": "47210000", "description": "Hacienda Pública, IVA soportado ISP/intracomunitario/importación (autorrepercutido)", "type": "BS", "open_items": false}
+{"account": "47300000", "description": "Hacienda Pública, retenciones y pagos a cuenta", "type": "BS", "open_items": false}
+{"account": "47400000", "description": "Activos por impuesto diferido", "type": "BS", "open_items": false}
+{"account": "47500000", "description": "Hacienda Pública, acreedora por IVA", "type": "BS", "open_items": false}
+{"account": "47510000", "description": "Hacienda Pública, acreedora por retenciones practicadas (IRPF)", "type": "BS", "open_items": false}
+{"account": "47520000", "description": "Hacienda Pública, acreedora por impuesto sobre sociedades", "type": "BS", "open_items": false}
+{"account": "47530000", "description": "Hacienda Pública, acreedora por IVPEE", "type": "BS", "open_items": false}
+{"account": "47600000", "description": "Organismos de la Seguridad Social, acreedores", "type": "BS", "open_items": false}
+{"account": "47700000", "description": "Hacienda Pública, IVA repercutido", "type": "BS", "open_items": false}
+{"account": "47710000", "description": "Hacienda Pública, IVA repercutido ISP/intracomunitario/importación (autorrepercutido)", "type": "BS", "open_items": false}
+{"account": "48000000", "description": "Gastos anticipados", "type": "BS", "open_items": false}
+{"account": "48500000", "description": "Ingresos anticipados", "type": "BS", "open_items": false}
+{"account": "49000000", "description": "Deterioro de valor de créditos por operaciones comerciales", "type": "BS", "open_items": false}
+{"account": "52000000", "description": "Deudas a corto plazo con entidades de crédito", "type": "BS", "open_items": false}
+{"account": "52080000", "description": "Deudas por efectos descontados / anticipos de factoring", "type": "BS", "open_items": false}
+{"account": "55200000", "description": "Cuenta corriente con empresas del grupo (cash pooling)", "type": "BS", "open_items": true}
+{"account": "55210000", "description": "Cuenta corriente con UTE", "type": "BS", "open_items": true}
+{"account": "55220000", "description": "Cuenta corriente con socios de UTE", "type": "BS", "open_items": true}
+{"account": "55300000", "description": "Cuenta corriente con entidad de factoring", "type": "BS", "open_items": true}
+{"account": "55500000", "description": "Partidas pendientes de aplicación (cobros sin identificar)", "type": "BS", "open_items": true}
+{"account": "55510000", "description": "Partidas pendientes de aplicación (reclamaciones a bancos)", "type": "BS", "open_items": true}
+{"account": "56500000", "description": "Fianzas constituidas a corto plazo", "type": "BS", "open_items": false}
+{"account": "57200001", "description": "Bancos c/c – Banco Ibérico del Norte", "type": "BS", "open_items": false}
+{"account": "57200002", "description": "Bancos c/c – Caja Mediterránea", "type": "BS", "open_items": false}
+{"account": "57200003", "description": "Bancos c/c – Banco Atlántico Empresas", "type": "BS", "open_items": false}
+{"account": "57200004", "description": "Bancos c/c – Banco Lusitano", "type": "BS", "open_items": false}
+{"account": "57200005", "description": "Bancos c/c MXN – Banco del Anáhuac", "type": "BS", "open_items": false}
+{"account": "57200006", "description": "Bancos c/c USD – Banco del Anáhuac", "type": "BS", "open_items": false}
+{"account": "60000000", "description": "Compras de materiales", "type": "PL", "open_items": false}
+{"account": "60700000", "description": "Trabajos realizados por otras empresas (subcontratas)", "type": "PL", "open_items": false}
+{"account": "62100000", "description": "Arrendamientos y cánones", "type": "PL", "open_items": false}
+{"account": "62110000", "description": "Alquiler de maquinaria", "type": "PL", "open_items": false}
+{"account": "62200000", "description": "Reparaciones y conservación", "type": "PL", "open_items": false}
+{"account": "62300000", "description": "Servicios de profesionales independientes", "type": "PL", "open_items": false}
+{"account": "62400000", "description": "Transportes", "type": "PL", "open_items": false}
+{"account": "62500000", "description": "Primas de seguros", "type": "PL", "open_items": false}
+{"account": "62600000", "description": "Servicios bancarios y similares", "type": "PL", "open_items": false}
+{"account": "62700000", "description": "Publicidad, propaganda y relaciones públicas", "type": "PL", "open_items": false}
+{"account": "62800000", "description": "Suministros", "type": "PL", "open_items": false}
+{"account": "62810000", "description": "Combustibles", "type": "PL", "open_items": false}
+{"account": "62900000", "description": "Otros servicios", "type": "PL", "open_items": false}
+{"account": "62910000", "description": "Viajes y desplazamientos", "type": "PL", "open_items": false}
+{"account": "62920000", "description": "Servicios informáticos y licencias", "type": "PL", "open_items": false}
+{"account": "62930000", "description": "Gestión de residuos", "type": "PL", "open_items": false}
+{"account": "62940000", "description": "Servicios intragrupo recibidos", "type": "PL", "open_items": false}
+{"account": "63100000", "description": "Otros tributos", "type": "PL", "open_items": false}
+{"account": "63110000", "description": "Impuesto sobre el valor de la producción de energía eléctrica (IVPEE)", "type": "PL", "open_items": false}
+{"account": "63400000", "description": "Ajustes negativos en la imposición indirecta (IVA no deducible)", "type": "PL", "open_items": false}
+{"account": "64000000", "description": "Sueldos y salarios", "type": "PL", "open_items": false}
+{"account": "64200000", "description": "Seguridad Social a cargo de la empresa", "type": "PL", "open_items": false}
+{"account": "66200000", "description": "Intereses de deudas", "type": "PL", "open_items": false}
+{"account": "66210000", "description": "Intereses de deudas con empresas del grupo", "type": "PL", "open_items": false}
+{"account": "66500000", "description": "Gastos financieros por factoring y descuento", "type": "PL", "open_items": false}
+{"account": "66800000", "description": "Diferencias negativas de cambio", "type": "PL", "open_items": false}
+{"account": "66900000", "description": "Otros gastos financieros (comisiones de avales)", "type": "PL", "open_items": false}
+{"account": "69400000", "description": "Pérdidas por deterioro de créditos comerciales", "type": "PL", "open_items": false}
+{"account": "70000000", "description": "Ventas", "type": "PL", "open_items": false}
+{"account": "70500000", "description": "Prestaciones de servicios", "type": "PL", "open_items": false}
+{"account": "70510000", "description": "Obra certificada", "type": "PL", "open_items": false}
+{"account": "70520000", "description": "Ingresos por revisión de precios", "type": "PL", "open_items": false}
+{"account": "70530000", "description": "Venta de energía", "type": "PL", "open_items": false}
+{"account": "70540000", "description": "Servicios intragrupo prestados", "type": "PL", "open_items": false}
+{"account": "70590000", "description": "Penalizaciones contractuales (menor ingreso)", "type": "PL", "open_items": false}
+{"account": "71300000", "description": "Variación de obra ejecutada pendiente de certificar", "type": "PL", "open_items": false}
+{"account": "75900000", "description": "Ingresos por servicios diversos", "type": "PL", "open_items": false}
+{"account": "76200000", "description": "Ingresos de créditos", "type": "PL", "open_items": false}
+{"account": "76210000", "description": "Ingresos de créditos con empresas del grupo", "type": "PL", "open_items": false}
+{"account": "76800000", "description": "Diferencias positivas de cambio", "type": "PL", "open_items": false}
+{"account": "79400000", "description": "Reversión del deterioro de créditos comerciales", "type": "PL", "open_items": false}

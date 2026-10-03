@@ -1,0 +1,14 @@
+{
+ "doc_id": "API004794",
+ "channel": "cfdi",
+ "received_at": "2026-09-04T13:52:00",
+ "mailbox": "facturas.proveedores@kalmora.example",
+ "attachments": [
+  "factura_0036071.pdf",
+  "9E1F6596-B502-4125-AC83-8DC345C315B0.xml"
+ ],
+ "from": "facturacion@mtcconstrucciones.mx",
+ "to": "facturas.proveedores@kalmora.example",
+ "subject": "Factura 0036071",
+ "body": ""
+}

@@ -1,0 +1,13 @@
+{
+ "doc_id": "API004704",
+ "channel": "email",
+ "received_at": "2026-09-07T16:01:00",
+ "mailbox": "facturas.proveedores@kalmora.example",
+ "attachments": [
+  "factura_0015351.pdf"
+ ],
+ "from": "facturacion@ferreteríaindustri.es",
+ "to": "facturas.proveedores@kalmora.example",
+ "subject": "Ferretería Industrial Calablanca – documentación de facturación",
+ "body": "Les enviamos la factura correspondiente al periodo. Quedamos a su disposición."
+}

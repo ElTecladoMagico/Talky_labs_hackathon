@@ -1,0 +1,11 @@
+{
+ "doc_id": "API004592",
+ "channel": "portal",
+ "received_at": "2026-09-07T10:39:00",
+ "mailbox": "facturas.proveedores@kalmora.example",
+ "attachments": [
+  "factura_2026-034243.pdf"
+ ],
+ "source": "Portal de proveedores (descarga)",
+ "uploaded_by": "facturacion@encofradosfuentes.es"
+}

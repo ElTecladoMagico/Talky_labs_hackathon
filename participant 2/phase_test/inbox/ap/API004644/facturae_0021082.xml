@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<fe:Facturae xmlns:fe="http://www.facturae.gob.es/formato/Versiones/Facturaev3_2_2.xml">
+ <FileHeader><SchemaVersion>3.2.2</SchemaVersion><Modality>I</Modality><InvoiceIssuerType>EM</InvoiceIssuerType>
+  <Batch><BatchIdentifier>A340490320021082</BatchIdentifier><InvoicesCount>1</InvoicesCount>
+   <TotalInvoicesAmount><TotalAmount>4623.92</TotalAmount></TotalInvoicesAmount><TotalOutstandingAmount><TotalAmount>4623.92</TotalAmount></TotalOutstandingAmount>
+   <TotalExecutableAmount><TotalAmount>4623.92</TotalAmount></TotalExecutableAmount><InvoiceCurrencyCode>EUR</InvoiceCurrencyCode></Batch></FileHeader>
+ <Parties>
+  <SellerParty><TaxIdentification><PersonTypeCode>J</PersonTypeCode><ResidenceTypeCode>R</ResidenceTypeCode><TaxIdentificationNumber>A34049032</TaxIdentificationNumber></TaxIdentification>
+   <LegalEntity><CorporateName>Hormigones y Morteros Sur, S.A.</CorporateName><AddressInSpain><Address>Calle de los Herreros 127</Address><PostCode>11026</PostCode><Town>Villafranca de Orbe</Town><Province>Bizkaia</Province><CountryCode>ESP</CountryCode></AddressInSpain></LegalEntity></SellerParty>
+  <BuyerParty><TaxIdentification><PersonTypeCode>J</PersonTypeCode><ResidenceTypeCode>R</ResidenceTypeCode><TaxIdentificationNumber>A12359962</TaxIdentificationNumber></TaxIdentification>
+   <LegalEntity><CorporateName>Kalmora Construcción, S.A.U.</CorporateName></LegalEntity></BuyerParty>
+ </Parties>
+ <Invoices><Invoice>
+  <InvoiceHeader><InvoiceNumber>0021082</InvoiceNumber><InvoiceDocumentType>FC</InvoiceDocumentType><InvoiceClass>OO</InvoiceClass>
+   </InvoiceHeader>
+  <InvoiceIssueData><IssueDate>2026-08-31</IssueDate><InvoicingPeriod><StartDate>2026-08-01</StartDate><EndDate>2026-08-31</EndDate></InvoicingPeriod><InvoiceCurrencyCode>EUR</InvoiceCurrencyCode><TaxCurrencyCode>EUR</TaxCurrencyCode><LanguageName>es</LanguageName></InvoiceIssueData>
+  <TaxesOutputs><Tax><TaxTypeCode>01</TaxTypeCode><TaxRate>21.00</TaxRate><TaxableBase><TotalAmount>3821.42</TotalAmount></TaxableBase><TaxAmount><TotalAmount>802.50</TotalAmount></TaxAmount></Tax></TaxesOutputs>
+  
+  <InvoiceTotals><TotalGrossAmount>3821.42</TotalGrossAmount><TotalGrossAmountBeforeTaxes>3821.42</TotalGrossAmountBeforeTaxes>
+   <TotalTaxOutputs>802.50</TotalTaxOutputs><TotalTaxesWithheld>0.00</TotalTaxesWithheld><InvoiceTotal>4623.92</InvoiceTotal>
+   
+   <TotalOutstandingAmount>4623.92</TotalOutstandingAmount><TotalExecutableAmount>4623.92</TotalExecutableAmount></InvoiceTotals>
+  <Items><InvoiceLine><ItemDescription>Hormigón HA-30/B/20/IIIa – AL-071238 (13/08)</ItemDescription><Quantity>9.500</Quantity><UnitPriceWithoutTax>88.990000</UnitPriceWithoutTax><TotalCost>845.41</TotalCost><GrossAmount>845.41</GrossAmount><IssuerTransactionReference>4500018981</IssuerTransactionReference><TaxesOutputs><Tax><TaxTypeCode>01</TaxTypeCode><TaxRate>21.00</TaxRate><TaxableBase><TotalAmount>845.41</TotalAmount></TaxableBase></Tax></TaxesOutputs></InvoiceLine><InvoiceLine><ItemDescription>Hormigón HA-25/B/20/IIa – AL-071233 (18/08)</ItemDescription><Quantity>11.000</Quantity><UnitPriceWithoutTax>80.850000</UnitPriceWithoutTax><TotalCost>889.35</TotalCost><GrossAmount>889.35</GrossAmount><IssuerTransactionReference>4500018981</IssuerTransactionReference><TaxesOutputs><Tax><TaxTypeCode>01</TaxTypeCode><TaxRate>21.00</TaxRate><TaxableBase><TotalAmount>889.35</TotalAmount></TaxableBase></Tax></TaxesOutputs></InvoiceLine><InvoiceLine><ItemDescription>Hormigón HA-30/B/20/IIIa – AL-071217 (19/08)</ItemDescription><Quantity>6.500</Quantity><UnitPriceWithoutTax>88.990000</UnitPriceWithoutTax><TotalCost>578.44</TotalCost><GrossAmount>578.44</GrossAmount><IssuerTransactionReference>4500018981</IssuerTransactionReference><TaxesOutputs><Tax><TaxTypeCode>01</TaxTypeCode><TaxRate>21.00</TaxRate><TaxableBase><TotalAmount>578.44</TotalAmount></TaxableBase></Tax></TaxesOutputs></InvoiceLine><InvoiceLine><ItemDescription>Hormigón HA-25/B/20/IIa – AL-071222 (19/08)</ItemDescription><Quantity>11.500</Quantity><UnitPriceWithoutTax>80.850000</UnitPriceWithoutTax><TotalCost>929.78</TotalCost><GrossAmount>929.78</GrossAmount><IssuerTransactionReference>4500018981</IssuerTransactionReference><TaxesOutputs><Tax><TaxTypeCode>01</TaxTypeCode><TaxRate>21.00</TaxRate><TaxableBase><TotalAmount>929.78</TotalAmount></TaxableBase></Tax></TaxesOutputs></InvoiceLine><InvoiceLine><ItemDescription>Hormigón HA-30/B/20/IIIa – AL-071224 (21/08)</ItemDescription><Quantity>6.500</Quantity><UnitPriceWithoutTax>88.990000</UnitPriceWithoutTax><TotalCost>578.44</TotalCost><GrossAmount>578.44</GrossAmount><IssuerTransactionReference>4500018981</IssuerTransactionReference><TaxesOutputs><Tax><TaxTypeCode>01</TaxTypeCode><TaxRate>21.00</TaxRate><TaxableBase><TotalAmount>578.44</TotalAmount></TaxableBase></Tax></TaxesOutputs></InvoiceLine></Items>
+  <AdditionalData><InvoiceAdditionalInformation> </InvoiceAdditionalInformation></AdditionalData>
+ </Invoice></Invoices>
+</fe:Facturae>

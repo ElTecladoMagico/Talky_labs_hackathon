@@ -1,0 +1,13 @@
+{
+ "doc_id": "API004747",
+ "channel": "email",
+ "received_at": "2026-09-14T19:05:00",
+ "mailbox": "facturas.proveedores@kalmora.example",
+ "attachments": [
+  "factura_2026-033953.pdf"
+ ],
+ "from": "facturacion@vehículosindustria.es",
+ "to": "facturas.proveedores@kalmora.example",
+ "subject": "Envío de factura nº 2026-033953",
+ "body": "Saludos cordiales,\nDpto. Administración"
+}

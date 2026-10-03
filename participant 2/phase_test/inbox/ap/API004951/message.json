@@ -1,0 +1,13 @@
+{
+ "doc_id": "API004951",
+ "channel": "email",
+ "received_at": "2026-09-18T11:26:00",
+ "mailbox": "facturas.proveedores@kalmora.example",
+ "attachments": [
+  "factura_F2605381.pdf"
+ ],
+ "from": "facturacion@patrimonialfernánd.es",
+ "to": "facturas.proveedores@kalmora.example",
+ "subject": "Patrimonial Fernández 1987 – documentación de facturación",
+ "body": ""
+}

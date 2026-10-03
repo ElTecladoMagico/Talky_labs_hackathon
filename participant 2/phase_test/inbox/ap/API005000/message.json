@@ -1,0 +1,13 @@
+{
+ "doc_id": "API005000",
+ "channel": "email",
+ "received_at": "2026-09-30T13:32:00",
+ "mailbox": "facturas.proveedores@kalmora.example",
+ "attachments": [
+  "invoice_2026-032021.pdf"
+ ],
+ "from": "facturacion@velascoygallardoma.pt",
+ "to": "facturas.proveedores@kalmora.example",
+ "subject": "Envío de factura nº 2026-032021",
+ "body": ""
+}

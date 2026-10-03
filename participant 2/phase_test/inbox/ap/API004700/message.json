@@ -1,0 +1,13 @@
+{
+ "doc_id": "API004700",
+ "channel": "email",
+ "received_at": "2026-09-07T13:35:00",
+ "mailbox": "facturas.proveedores@kalmora.example",
+ "attachments": [
+  "factura_FV-2026-34130.pdf"
+ ],
+ "from": "facturacion@ffiinstalacionesel.es",
+ "to": "facturas.proveedores@kalmora.example",
+ "subject": "FRA FV-2026-34130 UTE LINEA 9",
+ "body": "Les enviamos la factura correspondiente al periodo. Quedamos a su disposición."
+}

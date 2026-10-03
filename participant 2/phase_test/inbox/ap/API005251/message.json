@@ -1,0 +1,13 @@
+{
+ "doc_id": "API005251",
+ "channel": "email",
+ "received_at": "2026-09-30T09:32:00",
+ "mailbox": "facturas.proveedores@kalmora.example",
+ "attachments": [
+  "factura_G202621072.pdf"
+ ],
+ "from": "facturacion@fernándezyrocatopo.es",
+ "to": "facturas.proveedores@kalmora.example",
+ "subject": "Envío de factura nº G202621072",
+ "body": "Les enviamos la factura correspondiente al periodo. Quedamos a su disposición."
+}

@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<fe:Facturae xmlns:fe="http://www.facturae.gob.es/formato/Versiones/Facturaev3_2_2.xml">
+ <FileHeader><SchemaVersion>3.2.2</SchemaVersion><Modality>I</Modality><InvoiceIssuerType>EM</InvoiceIssuerType>
+  <Batch><BatchIdentifier>A458790262026-007073</BatchIdentifier><InvoicesCount>1</InvoicesCount>
+   <TotalInvoicesAmount><TotalAmount>11429.74</TotalAmount></TotalInvoicesAmount><TotalOutstandingAmount><TotalAmount>11429.74</TotalAmount></TotalOutstandingAmount>
+   <TotalExecutableAmount><TotalAmount>11429.74</TotalAmount></TotalExecutableAmount><InvoiceCurrencyCode>EUR</InvoiceCurrencyCode></Batch></FileHeader>
+ <Parties>
+  <SellerParty><TaxIdentification><PersonTypeCode>J</PersonTypeCode><ResidenceTypeCode>R</ResidenceTypeCode><TaxIdentificationNumber>A45879026</TaxIdentificationNumber></TaxIdentification>
+   <LegalEntity><CorporateName>Viajes Corporativos Meridiano, S.A.</CorporateName><AddressInSpain><Address>Calle de la Ciencia 172</Address><PostCode>08164</PostCode><Town>Alcanzar</Town><Province>Valencia</Province><CountryCode>ESP</CountryCode></AddressInSpain></LegalEntity></SellerParty>
+  <BuyerParty><TaxIdentification><PersonTypeCode>J</PersonTypeCode><ResidenceTypeCode>R</ResidenceTypeCode><TaxIdentificationNumber>A12359962</TaxIdentificationNumber></TaxIdentification>
+   <LegalEntity><CorporateName>Kalmora Construcción, S.A.U.</CorporateName></LegalEntity></BuyerParty>
+ </Parties>
+ <Invoices><Invoice>
+  <InvoiceHeader><InvoiceNumber>2026-007073</InvoiceNumber><InvoiceDocumentType>FC</InvoiceDocumentType><InvoiceClass>OO</InvoiceClass>
+   </InvoiceHeader>
+  <InvoiceIssueData><IssueDate>2026-09-02</IssueDate><InvoicingPeriod><StartDate>2026-08-01</StartDate><EndDate>2026-08-31</EndDate></InvoicingPeriod><InvoiceCurrencyCode>EUR</InvoiceCurrencyCode><TaxCurrencyCode>EUR</TaxCurrencyCode><LanguageName>es</LanguageName></InvoiceIssueData>
+  <TaxesOutputs><Tax><TaxTypeCode>01</TaxTypeCode><TaxRate>0.00</TaxRate><TaxableBase><TotalAmount>11429.74</TotalAmount></TaxableBase><TaxAmount><TotalAmount>0.00</TotalAmount></TaxAmount></Tax></TaxesOutputs>
+  
+  <InvoiceTotals><TotalGrossAmount>11429.74</TotalGrossAmount><TotalGrossAmountBeforeTaxes>11429.74</TotalGrossAmountBeforeTaxes>
+   <TotalTaxOutputs>0.00</TotalTaxOutputs><TotalTaxesWithheld>0.00</TotalTaxesWithheld><InvoiceTotal>11429.74</InvoiceTotal>
+   
+   <TotalOutstandingAmount>11429.74</TotalOutstandingAmount><TotalExecutableAmount>11429.74</TotalExecutableAmount></InvoiceTotals>
+  <Items><InvoiceLine><ItemDescription>Extracto de servicios de viaje 08/2026 (billetes, hoteles y alquiler de vehículos)</ItemDescription><Quantity>1.000</Quantity><UnitPriceWithoutTax>11429.740000</UnitPriceWithoutTax><TotalCost>11429.74</TotalCost><GrossAmount>11429.74</GrossAmount><TaxesOutputs><Tax><TaxTypeCode>01</TaxTypeCode><TaxRate>0.00</TaxRate><TaxableBase><TotalAmount>11429.74</TotalAmount></TaxableBase></Tax></TaxesOutputs></InvoiceLine></Items>
+  <AdditionalData><InvoiceAdditionalInformation> Régimen especial de las agencias de viajes (art. 141 y ss. LIVA). Cuota no repercutida.</InvoiceAdditionalInformation></AdditionalData>
+ </Invoice></Invoices>
+</fe:Facturae>

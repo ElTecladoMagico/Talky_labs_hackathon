@@ -1,0 +1,13 @@
+{
+ "doc_id": "API005620",
+ "channel": "email",
+ "received_at": "2026-09-15T19:34:00",
+ "mailbox": "facturas.proveedores@kalmora.example",
+ "attachments": [
+  "statement_API005620.pdf"
+ ],
+ "from": "facturacion@grúasalonso1987.es",
+ "to": "facturas.proveedores@kalmora.example",
+ "subject": "Recordatorio de pago – extracto de cuenta",
+ "body": "Buenos días, adjuntamos factura. Un saludo."
+}

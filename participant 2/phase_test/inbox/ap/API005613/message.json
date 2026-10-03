@@ -1,0 +1,13 @@
+{
+ "doc_id": "API005613",
+ "channel": "email",
+ "received_at": "2026-09-15T17:36:00",
+ "mailbox": "facturas.proveedores@kalmora.example",
+ "attachments": [
+  "factura_R-KEK202618784.pdf"
+ ],
+ "from": "facturacion@ferrallasyestructu.es",
+ "to": "facturas.proveedores@kalmora.example",
+ "subject": "Factura rectificativa R-KEK202618784",
+ "body": "Buenos días, adjuntamos factura. Un saludo."
+}

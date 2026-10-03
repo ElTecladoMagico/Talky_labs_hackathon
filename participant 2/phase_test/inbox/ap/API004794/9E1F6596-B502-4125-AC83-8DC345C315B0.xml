@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<cfdi:Comprobante xmlns:cfdi="http://www.sat.gob.mx/cfd/4" Version="4.0" Serie="003" Folio="0036071" Fecha="2026-09-02T10:00:00"
+ SubTotal="6988670.94" Moneda="MXN" Total="8106858.29" TipoDeComprobante="I" Exportacion="01" MetodoPago="PPD" FormaPago="99" LugarExpedicion="54952">
+ <cfdi:Emisor Rfc="MTC9402216ZY" Nombre="MTC-CONSTRUCCIONES, S. DE R.L. DE C.V." RegimenFiscal="601"/>
+ <cfdi:Receptor Rfc="KMI91110719K" Nombre="KALMORA MEXICO INFRAESTRUCTURA" DomicilioFiscalReceptor="11950" RegimenFiscalReceptor="601" UsoCFDI="G03"/>
+ <cfdi:Conceptos><cfdi:Concepto ClaveProdServ="72141000" Cantidad="4093.000" ClaveUnidad="E48" Descripcion="Encofrado y desencofrado de muros" ValorUnitario="420.59" Importe="1721474.87" ObjetoImp="02"/><cfdi:Concepto ClaveProdServ="72141000" Cantidad="307760.000" ClaveUnidad="E48" Descripcion="Colocación de ferralla" ValorUnitario="6.08" Importe="1871180.80" ObjetoImp="02"/><cfdi:Concepto ClaveProdServ="72141000" Cantidad="7295.500" ClaveUnidad="E48" Descripcion="Vertido y vibrado de hormigón" ValorUnitario="259.51" Importe="1893255.21" ObjetoImp="02"/><cfdi:Concepto ClaveProdServ="72141000" Cantidad="2038.000" ClaveUnidad="E48" Descripcion="Forjado reticular ejecutado" ValorUnitario="737.37" Importe="1502760.06" ObjetoImp="02"/></cfdi:Conceptos>
+ <cfdi:Impuestos TotalImpuestosTrasladados="1118187.35">
+  <cfdi:Traslados><cfdi:Traslado Base="6988670.94" Impuesto="002" TipoFactor="Tasa" TasaOCuota="0.160000" Importe="1118187.35"/></cfdi:Traslados>
+ </cfdi:Impuestos>
+ <cfdi:Complemento><tfd:TimbreFiscalDigital xmlns:tfd="http://www.sat.gob.mx/TimbreFiscalDigital" Version="1.1" UUID="9E1F6596-B502-4125-AC83-8DC345C315B0" FechaTimbrado="2026-09-02T10:05:12" RfcProvCertif="SAT970701NN3" NoCertificadoSAT="00001000000509846663"/></cfdi:Complemento>
+</cfdi:Comprobante>

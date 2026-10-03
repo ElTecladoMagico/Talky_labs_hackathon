@@ -1,0 +1,13 @@
+{
+ "doc_id": "API004645",
+ "channel": "email",
+ "received_at": "2026-09-03T13:16:00",
+ "mailbox": "facturas.proveedores@kalmora.example",
+ "attachments": [
+  "factura_G-004776.pdf"
+ ],
+ "from": "facturacion@canterasyáridospar.es",
+ "to": "facturas.proveedores@kalmora.example",
+ "subject": "FRA G-004776 KALMORA CONSTRUCCION",
+ "body": "Buenos días, adjuntamos factura. Un saludo."
+}
