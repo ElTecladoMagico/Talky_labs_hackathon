@@ -27,7 +27,7 @@ function mount(doc, win, now = Date.now) {
   function toggleNotes() {
     el('notes').hidden = !el('notes').hidden;
     el('notes-toggle').setAttribute('aria-expanded', !el('notes').hidden);
-    el('notes-toggle').textContent = el('notes').hidden ? 'Mostrar guion' : 'Ocultar guion';
+    el('notes-toggle').textContent = el('notes').hidden ? 'Show notes' : 'Hide notes';
   }
   function stopTimer() {
     elapsed += Math.max(0, now() - started);
@@ -40,7 +40,7 @@ function mount(doc, win, now = Date.now) {
     const remaining = Math.max(0, 300 - Math.floor(used / 1000));
     el('timer').textContent = formatTime(remaining);
     if (remaining === 0 && started !== null) stopTimer();
-    el('timer-toggle').textContent = remaining === 0 ? 'Reiniciar' : started === null ? 'Iniciar' : 'Pausar';
+    el('timer-toggle').textContent = remaining === 0 ? 'Restart' : started === null ? 'Start' : 'Pause';
   }
   function resetTimer() {
     if (started !== null) stopTimer();
@@ -61,7 +61,7 @@ function mount(doc, win, now = Date.now) {
     try {
       if (doc.fullscreenElement) await doc.exitFullscreen();
       else await doc.documentElement.requestFullscreen();
-    } catch { el('status').textContent = 'No se pudo activar la pantalla completa. Puedes usar la opción del navegador.'; }
+    } catch { el('status').textContent = 'Full screen is not available. Use the browser menu instead.'; }
   };
   doc.addEventListener('keydown', event => {
     if (event.altKey || event.ctrlKey || event.metaKey || event.target.isContentEditable || /INPUT|TEXTAREA|SELECT/.test(event.target.tagName)) return;

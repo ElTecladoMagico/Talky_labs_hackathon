@@ -68,7 +68,7 @@ test('timer starts on request, pauses without drift, resets and stops at five mi
   f.ids['timer-toggle'].onclick(); f.advance(61000); assert.equal(f.ids.timer.textContent, '03:59');
   f.ids['timer-toggle'].onclick(); f.advance(10000); assert.equal(f.ids.timer.textContent, '03:59');
   f.ids['timer-toggle'].onclick(); f.advance(239000); assert.equal(f.ids.timer.textContent, '00:00');
-  assert.equal(f.ids['timer-toggle'].textContent, 'Reiniciar');
+  assert.equal(f.ids['timer-toggle'].textContent, 'Restart');
   f.ids['timer-toggle'].onclick(); assert.equal(f.ids.timer.textContent, '05:00');
   f.ids['timer-reset'].onclick(); assert.equal(f.ids.timer.textContent, '05:00');
 });
@@ -76,17 +76,29 @@ test('fullscreen enters, exits and reports unsupported or rejected requests', as
   const f = fixture(); await f.ids.fullscreen.onclick(); assert.ok(f.doc.fullscreenElement);
   await f.ids.fullscreen.onclick(); assert.equal(f.doc.fullscreenElement, null);
   f.doc.documentElement.requestFullscreen = undefined;
-  await f.ids.fullscreen.onclick(); assert.match(f.ids.status.textContent, /pantalla completa/i);
+  await f.ids.fullscreen.onclick(); assert.match(f.ids.status.textContent, /full screen/i);
   f.doc.documentElement.requestFullscreen = async () => { throw Error('denied'); };
-  await f.ids.fullscreen.onclick(); assert.match(f.ids.status.textContent, /pantalla completa/i);
+  await f.ids.fullscreen.onclick(); assert.match(f.ids.status.textContent, /full screen/i);
 });
-test('content is offline, seven slides total exactly five minutes, and P2/P3 and limitations are documented', () => {
+test('content is offline, six slides total exactly five minutes, in English, with the pipeline steps and current figures', () => {
   const html = fs.readFileSync(path.join(__dirname, '../dist/index.html'), 'utf8');
   const times = [...html.matchAll(/data-seconds="(\d+)"/g)].map(m => Number(m[1]));
-  assert.equal(times.length, 7); assert.equal(times.reduce((a, b) => a + b, 0), 300);
-  assert.match(html, /P2/); assert.match(html, /P3/); assert.match(html, /96,47/);
-  assert.match(html, /sin golden/i); assert.match(html, /seis diferencias/i);
-  assert.match(html, /438\.854,31/); assert.match(html, /430\.565,81/); assert.match(html, /8\.288,50/);
+  assert.equal(times.length, 6); assert.equal(times.reduce((a, b) => a + b, 0), 300);
+  assert.match(html, /<html lang="en">/);
+  for (const step of ['Extract', 'SQLite', 'Clean', 'Decide']) assert.match(html, new RegExp(step));
+  assert.match(html, /97\.62/); assert.match(html, /no answer key/);
+  assert.match(html, /438,854\.31/); assert.match(html, /430,565\.81/); assert.match(html, /8,288\.50/);
+  assert.equal([...html.matchAll(/class="speaker-note"/g)].length, 6);
   assert.doesNotMatch(html, /(?:src|href)="https?:\/\//);
   for (const asset of ['deck.js', 'style.css']) assert.ok(fs.existsSync(path.join(__dirname, '../dist', asset)));
+});
+test('results animation counts up smoothly and shows the dev scores', () => {
+  const { smooth, valueAt } = require('../dist/results.js');
+  assert.equal(smooth(0), 0); assert.equal(smooth(1), 1); assert.equal(smooth(0.5), 0.5);
+  const el = { dataset: { to: '97.62', dec: '2', d: '0.3', dur: '1.8' } };
+  assert.equal(valueAt(el, 0), '0.00'); assert.equal(valueAt(el, 5), '97.62');
+  const html = fs.readFileSync(path.join(__dirname, '../dist/index.html'), 'utf8');
+  const to = [...html.matchAll(/data-to="([\d.]+)"/g)].map(m => m[1]);
+  assert.deepEqual(to, ['97.62', '0.9688', '1.0', '1.0', '1.0', '1.0', '0.8562', '0.9994', '1.0', '1.0', '0.99', '0.929', '0.878']);
+  assert.match(html, /id="play"/); assert.match(html, /src="results.js"/);
 });

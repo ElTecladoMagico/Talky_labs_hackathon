@@ -1,87 +1,192 @@
 <!doctype html>
-<html lang="es">
+<html lang="en">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
-  <meta name="description" content="Cinco minutos para explicar cómo P1, P2 y P3 conectan documentos, bancos y cierre contable de Grupo Kalmora.">
-  <meta name="theme-color" content="#102433">
-  <title>Kalmora · El cierre, conectado</title>
-  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%23102433'/%3E%3Cpath d='M9 7v18M23 7L10 16l13 9' fill='none' stroke='%23a4efce' stroke-width='4'/%3E%3C/svg%3E">
+  <meta name="description" content="How our pipeline closes a month of books for Grupo Kalmora: extract, load into SQLite, clean, decide.">
+  <meta name="theme-color" content="#000000">
+  <title>Kalmora · The close pipeline</title>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%23000'/%3E%3Cpath d='M10 8v16M22 8l-11 8 11 8' fill='none' stroke='%23fff' stroke-width='3.2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
   <link rel="stylesheet" href="style.css">
   <script defer src="deck.js"></script>
-  <noscript><style>[data-slide][hidden]{display:block}.controls,.slide-nav{display:none}.stage{overflow:auto}</style></noscript>
+  <script defer src="results.js"></script>
+  <noscript><style>[data-slide][hidden]{display:flex!important}.dock,.presenter{display:none}</style></noscript>
 </head>
 <body>
-  <a class="skip" href="#main">Saltar al contenido</a>
-  <div class="shell">
-    <aside class="sidebar">
-      <a class="brand" href="#1" aria-label="Kalmora, inicio"><span class="mark">K</span><span>KALMORA<small>CONTABILIDAD CONECTADA</small></span></a>
-      <div class="sidebar-caption">LA HISTORIA EN 5 MINUTOS</div>
-      <nav class="slide-nav" aria-label="Diapositivas">
-        <a href="#1" data-nav><span>01</span>El reto<small>35 s</small></a>
-        <a href="#2" data-nav><span>02</span>Un solo sistema<small>40 s</small></a>
-        <a href="#3" data-nav><span>03</span>P1 · Documentos<small>45 s</small></a>
-        <a href="#4" data-nav><span>04</span>P2 · Conciliaciones<small>50 s</small></a>
-        <a href="#5" data-nav><span>05</span>P3 · Facturas y cierre<small>55 s</small></a>
-        <a href="#6" data-nav><span>06</span>El caso conectado<small>40 s</small></a>
-        <a href="#7" data-nav><span>07</span>Resultado y límites<small>35 s</small></a>
-      </nav>
-      <div class="sidebar-bottom"><span class="mini-label">HACKATHON · EQUIPO P1 / P2 / P3</span><p>Automatizar lo comprobable.<br>Revisar lo dudoso.</p><span class="synthetic">Datos del reto: sintéticos</span></div>
-    </aside>
-    <div class="workspace">
-      <header class="topbar"><span>DEL DOCUMENTO AL BALANCE</span><div><span class="snapshot">VALIDACIÓN DEV · 03 OCT 2026</span><button id="fullscreen" type="button" title="Pantalla completa">Pantalla completa</button></div></header>
-      <main id="main" class="stage" tabindex="-1">
-        <section id="1" data-slide data-title="El reto" data-time="35 segundos · 00:00–00:35" data-seconds="35" aria-labelledby="title-1">
-          <div class="eyebrow"><span class="line"></span>01 / EL RETO</div>
-          <div class="hero-grid">
-            <div><h1 id="title-1">Del documento<br>al cierre.<em>Sin perder<br>el rastro.</em></h1><p class="lead">Cerrar un mes de siete sociedades,<br>con documentos, cobros y bancos<br>que no siempre cuentan lo mismo.</p><div class="hero-tags"><span>3 equipos</span><span>6 tareas conectadas</span><span>1 libro común</span></div></div>
-            <div class="hero-diagram"><div class="diagram-heading">LA INFORMACIÓN ESTÁ DISPERSA</div><div class="source-pills"><span>Facturas y escaneos</span><span>Pedidos y albaranes</span><span>Extractos bancarios</span><span>Histórico contable</span></div><div class="connector">CONTRASTAR · DECIDIR · JUSTIFICAR</div><div class="ledger-card"><span class="ledger-symbol">≡</span><div><strong>Un libro contable común</strong><p>Lo registrado + lo que proponemos</p></div></div><div class="endpoints"><span>Banco explicado</span><span>Cobros aplicados</span><span>Cierre trazable</span></div><div class="diagram-bottom"><strong>El objetivo</strong><p>Que cada movimiento tenga una explicación.<br>Y que cada asiento tenga evidencia.</p></div></div>
-          </div>
-          <aside class="speaker-note" hidden>Tenemos que cerrar un mes de un grupo de siete sociedades. La información llega en facturas, escaneos, pedidos, extractos y registros anteriores. El reto no es copiar datos: es decidir qué operación es válida, a qué empresa corresponde y cómo contabilizarla. Nuestra solución conecta esos datos en un libro común. Automatizamos lo que podemos justificar y dejamos visible lo que necesita revisión. En cinco minutos vamos a recorrer el trabajo de los tres equipos y un caso que demuestra por qué tienen que estar conectados.</aside>
-        </section>
-        <section id="2" data-slide data-title="Un solo sistema" data-time="40 segundos · 00:35–01:15" data-seconds="40" aria-labelledby="title-2" hidden>
-          <div class="eyebrow"><span class="line"></span>02 / LA SOLUCIÓN</div><h2 id="title-2">Tres equipos.<br><em>Una misma versión de los hechos.</em></h2><p class="intro">Cada parte publica lo que ha resuelto. La siguiente lo utiliza sin volver a inventarlo.</p>
-          <div class="pipeline" aria-label="Orden de ejecución: AP, facturación, banco, intragrupo, cobros, cierre"><div><span class="owner p1">P1</span><b>01</b><strong>Proveedores</strong><small>Facturas válidas</small></div><div><span class="owner p3">P3</span><b>02</b><strong>Facturación</strong><small>Ingresos del mes</small></div><div><span class="owner p2">P2</span><b>03</b><strong>Banco</strong><small>Movimientos explicados</small></div><div><span class="owner p2">P2</span><b>04</b><strong>Intragrupo</strong><small>Diferencias justificadas</small></div><div><span class="owner p3">P3</span><b>05</b><strong>Cobros</strong><small>Deuda de clientes</small></div><div><span class="owner p3">P3</span><b>06</b><strong>Cierre</strong><small>Ajustes del mes</small></div></div>
-          <div class="common-book"><span>LIBRO COMPARTIDO</span><strong>Contabilidad existente + asientos propuestos</strong><small>Un identificador por evento evita asientos duplicados.</small></div>
-          <div class="three-tiles"><article><span class="owner p1">P1</span><h3>¿Debemos contabilizar<br>esta factura?</h3><p>Lee, verifica y publica una decisión por documento.</p></article><article><span class="owner p2">P2</span><h3>¿El banco y las empresas<br>del grupo encajan?</h3><p>Concilia, clasifica diferencias y propone correcciones.</p></article><article><span class="owner p3">P3</span><h3>¿Qué queda por facturar,<br>cobrar y ajustar?</h3><p>Completa ingresos, aplica cobros y cierra el mes.</p></article></div>
-          <aside class="speaker-note" hidden>No son tres soluciones independientes. P1 verifica las facturas de proveedores. P2 concilia bancos y operaciones entre empresas del grupo. P3 genera la facturación, aplica los cobros y realiza el cierre. El orden respeta las dependencias: primero las facturas; después el banco y el intragrupo; finalmente los cobros y el cierre. Todos leen un mismo libro, que une lo ya registrado con los asientos que proponemos. Cada evento tiene un identificador único, para no contabilizarlo dos veces. La entrega final sale de esas mismas decisiones.</aside>
-        </section>
-        <section id="3" data-slide data-title="P1 · Documentos" data-time="45 segundos · 01:15–02:00" data-seconds="45" aria-labelledby="title-3" hidden>
-          <div class="eyebrow"><span class="owner p1">P1</span>03 / CUENTAS A PAGAR</div><h2 id="title-3">Leer una factura no basta.<br><em>Hay que poder justificarla.</em></h2>
-          <div class="split-layout"><div class="numbered-list"><article><span>1</span><div><h3>Extraer</h3><p>PDF, XML y escaneos: proveedor, empresa, número, fecha e importes.</p></div></article><article><span>2</span><div><h3>Contrastar</h3><p>Duplicados, destinatario, impuestos, sumas, pedido y recepción.</p></div></article><article><span>3</span><div><h3>Decidir y dejar evidencia</h3><p>Contabilizar, bloquear el pago, revisar o rechazar. Una fila por documento, incluso si no se contabiliza.</p></div></article></div><div class="invoice"><div class="invoice-top"><span>DOCUMENTO API004299</span><span class="approved">POST · CONTABILIZAR</span></div><h3>Honorarios del representante</h3><div class="invoice-number">26012023</div><dl><div><dt>Proveedor</dt><dd>V100173</dd></div><div><dt>Sociedad</dt><dd>1300 · Energía</dd></div><div><dt>Importe a pagar</dt><dd>8.288,50 €</dd></div><div><dt>Referencia del asiento</dt><dd>26012023</dd></div></dl><div class="invoice-note"><strong>Si vuelve a llegar…</strong><p>API005210 es un duplicado.<br>No crea un segundo asiento.</p></div><div class="handoff">P2 y P3 reciben proveedor, factura, importe y decisión.</div></div></div>
-          <aside class="speaker-note" hidden>En P1 extraemos los datos de PDF y XML y usamos reconocimiento de texto local para los escaneos. Después contrastamos esos datos con los maestros, los pedidos, las entradas y el histórico. Detectamos duplicados aunque cambie el formato del número. También comprobamos destinatario e importes. Cuando una factura cita un pedido antiguo, buscamos una entrada real que permita recuperar el correcto, sin saltarnos las comprobaciones. Publicamos una decisión para todos los documentos. En este ejemplo contabilizamos el honorario 26012023, pero su reenvío no genera otro asiento. Esa referencia será clave para P3.</aside>
-        </section>
-        <section id="4" data-slide data-title="P2 · Conciliaciones" data-time="50 segundos · 02:00–02:50" data-seconds="50" aria-labelledby="title-4" hidden>
-          <div class="eyebrow"><span class="owner p2">P2</span>04 / BANCO E INTRAGRUPO</div><h2 id="title-4">El dinero se mueve.<br><em>P2 explica dónde y por qué.</em></h2>
-          <div class="two-panels"><article class="panel"><div class="panel-header"><span class="symbol">≈</span><div><span class="mini-label">CONCILIACIÓN BANCARIA</span><h3>Extracto frente a contabilidad</h3></div></div><p>Relaciona movimientos por referencias, importes y fechas. Lo que no encaja no desaparece: se clasifica.</p><ul class="status-list"><li><span class="status-code matched">CASADO</span><span>Banco y libro coinciden</span></li><li><span class="status-code adjust">AJUSTAR</span><span>Comisiones, intereses y otros cargos no registrados</span></li><li><span class="status-code review">REVISAR</span><span>Errores bancarios o partidas en tránsito</span></li></ul><div class="panel-rule">Cada línea bancaria se explica una sola vez.</div></article><article class="panel"><div class="panel-header"><span class="symbol">⇄</span><div><span class="mini-label">CONCILIACIÓN INTRAGRUPO</span><h3>Una operación, dos empresas</h3></div></div><p>Comprueba que las operaciones internas tengan una explicación coherente en ambos lados.</p><div class="ic-cases"><div><strong>Factura en tránsito</strong><span>Emitida, pero todavía no recibida</span></div><div><strong>Intereses y socio incorrecto</strong><span>Cálculo de días o empresa contraparte</span></div><div><strong>Duplicados y cash pooling</strong><span>Registro repetido o traspaso interno ausente</span></div></div><div class="panel-rule">Propone el ajuste sin duplicar lo que ya corrigió el banco.</div></article></div>
-          <div class="bridge"><span class="owner p2">P2</span><p>Si aparece un cobro sin registrar, lo lleva a <strong>pendiente de aplicar</strong> y avisa a P3.</p><span class="owner p3">P3</span></div>
-          <aside class="speaker-note" hidden>P2 compara los extractos bancarios con la contabilidad. Relaciona movimientos por referencia, importe y fecha, y explica cada línea una sola vez. Si falta una comisión o un interés, propone el asiento. Si encuentra una partida en tránsito o un error del banco, la clasifica para no inventar una corrección. Para los recibos de proveedores utiliza las decisiones publicadas por P1. Además revisa las operaciones entre empresas del grupo: facturas en tránsito, duplicados, intereses y socios incorrectos. Un traspaso de tesorería se corrige una vez, no otra vez en intragrupo. Si encuentra un cobro sin registrar, lo deja pendiente de aplicar para que P3 identifique qué factura cancela.</aside>
-        </section>
-        <section id="5" data-slide data-title="P3 · Facturas y cierre" data-time="55 segundos · 02:50–03:45" data-seconds="55" aria-labelledby="title-5" hidden>
-          <div class="eyebrow"><span class="owner p3">P3</span>05 / FACTURACIÓN, COBROS Y CIERRE</div><h2 id="title-5">No basta con que entre dinero.<br><em>Hay que cerrar el mes correcto.</em></h2>
-          <div class="p3-columns"><article><span class="step-number">01</span><h3>Facturar lo aprobado</h3><p>Certificaciones de obra, servicios mensuales y venta de energía.</p><div class="callout">Si falta aprobación, no emite la factura.</div><span class="output">ar_billing.jsonl</span></article><article><span class="step-number">02</span><h3>Aplicar los cobros</h3><p>Relaciona cada ingreso con facturas o pagarés y actualiza el saldo pendiente.</p><div class="callout">Distingue pagos parciales, duplicados, penalidades y compensaciones.</div><span class="output">ar_cash.jsonl</span></article><article><span class="step-number">03</span><h3>Ajustar el cierre</h3><p>Reconoce lo que corresponde al mes, aunque todavía no se haya facturado o pagado.</p><div class="callout">Gastos pendientes y anticipados, obra sin certificar, divisas y riesgo de impago.</div><span class="output">close.jsonl</span></article></div>
-          <div class="closing-strip"><strong>Se apoya en el libro común.</strong><span>Facturas de P1 + movimientos explicados por P2 + histórico contable.</span></div>
-          <aside class="speaker-note" hidden>P3 tiene tres funciones. Primero factura los trabajos aprobados: certificaciones de obra, servicios y producción de energía. Si una certificación no está aprobada, no se factura. Segundo aplica cada cobro a las facturas o pagarés correspondientes. Puede reconocer un pago parcial, una penalidad, un pago repetido o una compensación con una factura de proveedor. Tercero realiza el cierre: estima gastos del mes todavía no facturados, distribuye gastos anticipados, reconoce obra pendiente de certificar, actualiza partidas en divisa y trata saldos de clientes con riesgo de impago. Lo hace sobre el libro actualizado, no sobre una foto anterior al trabajo de P1 y P2.</aside>
-        </section>
-        <section id="6" data-slide data-title="El caso conectado" data-time="40 segundos · 03:45–04:25" data-seconds="40" aria-labelledby="title-6" hidden>
-          <div class="eyebrow"><span class="line"></span>06 / UN CASO REAL DEL DESARROLLO</div><h2 id="title-6">Un cobro menor.<br><em>Una explicación completa.</em></h2><p class="intro">El representante de energía descuenta sus honorarios antes de transferir el dinero.</p>
-          <div class="equation"><article><span>FACTURA AL CLIENTE</span><strong>438.854,31<small>€</small></strong><p>EN26-00014</p></article><span class="operator">−</span><article class="fee"><span>HONORARIOS A COMPENSAR</span><strong>8.288,50<small>€</small></strong><p>Factura proveedor 26012023</p></article><span class="operator">=</span><article><span>DINERO RECIBIDO</span><strong>430.565,81<small>€</small></strong><p>Movimiento BL0000567</p></article></div>
-          <div class="case-path"><article><span class="owner p1">P1</span><h3>Reconoce el honorario</h3><p>Publica la factura de proveedor y su asiento, con el número correcto.</p></article><article><span class="owner p2">P2</span><h3>Explica el banco</h3><p>Concilia el movimiento y registra el cobro pendiente cuando procede.</p></article><article><span class="owner p3">P3</span><h3>Resuelve la diferencia</h3><p>Aplica el dinero y compensa el honorario. No confunde el descuento con un impago.</p></article></div>
-          <div class="takeaway">La integración convierte una diferencia aparente en una operación justificada.</div>
-          <aside class="speaker-note" hidden>Este caso resume el valor de la integración. La factura al cliente es de 438.854,31 euros, pero el banco recibe 430.565,81. No falta dinero: el representante ha descontado 8.288,50 euros de honorarios. P1 reconoce esa factura de proveedor y conserva su número en el asiento. P2 explica el movimiento bancario. P3 encuentra la deuda del cliente y el honorario pendiente en el mismo libro; aplica el ingreso y compensa el resto. Si P1 no publicara ese asiento, P3 vería una diferencia sin resolver. Y si el reenvío generase otro asiento, duplicaríamos el gasto.</aside>
-        </section>
-        <section id="7" data-slide data-title="Resultado y límites" data-time="35 segundos · 04:25–05:00" data-seconds="35" aria-labelledby="title-7" hidden>
-          <div class="eyebrow"><span class="line"></span>07 / RESULTADO Y PRÓXIMO PASO</div><h2 id="title-7">Automatización comprobable.<br><em>Con los límites a la vista.</em></h2>
-          <div class="results-grid"><div class="score-panel"><span class="mini-label">PUNTUACIÓN TOTAL · DESARROLLO</span><div class="big-score">96,47<span>/ 100</span></div><p>Antes: 96,00 · mejora tras recuperar pedidos con evidencia.</p><div class="test-count"><strong>179</strong><span>pruebas automáticas superadas<br>en la última revisión del pipeline</span></div></div><div class="results-bars"><div><span>Facturación</span><strong>100 %</strong><i style="--value:100%"></i></div><div><span>Cobros</span><strong>100 %</strong><i style="--value:100%"></i></div><div><span>Banco e intragrupo</span><strong>100 %</strong><i style="--value:100%"></i></div><div><span>Proveedores · AP</span><strong>95,01 %</strong><i style="--value:95.01%"></i></div><div><span>Cierre</span><strong>80,62 %</strong><i style="--value:80.62%"></i></div><div><span>Balance</span><strong>99,00 %</strong><i style="--value:99%"></i></div><small>Puntuaciones del evaluador, no porcentaje de casos correctos.</small></div></div>
-          <div class="limits"><div><strong>Lo pendiente</strong><p>Seis diferencias de decisión AP en dev y una diferencia FX de 4 céntimos, entre otros límites.</p></div><div><strong>Lo que no afirmamos</strong><p>Test se entrega sin golden: no conocemos su puntuación final. Esta web muestra una validación, no ejecuta el ERP.</p></div></div>
-          <details class="sources"><summary>Fuentes y alcance de las cifras</summary><p>Snapshot documentado en README.md y docs/p1-ap.tdd.md de la rama codex/p1-ap-po-fix, revisión 8efa1d4 (03/10/2026). P2: tasks/bank_rec.py y tasks/ic.py. P3: tasks/ar_billing.py, tasks/ar_cash.py y tasks/close.py. Caso: ar_cash.jsonl del golden dev. El golden solo se usa para validación; no es una entrada del motor. Entrega: ap.jsonl, ar_billing.jsonl, ar_cash.jsonl, bank_rec.jsonl, ic.jsonl y close.jsonl. Datos sintéticos del hackathon.</p></details>
-          <aside class="speaker-note" hidden>En desarrollo la última validación alcanzó 96,47 sobre 100, con 179 pruebas superadas. Facturación, cobros, banco e intragrupo dieron la puntuación máxima. La mejora de P1 también hizo que el cierre recogiera una partida en divisa que antes faltaba. No significa que todo esté terminado: quedan seis diferencias de decisión AP y una pequeña diferencia de valoración FX, entre otros límites documentados. En test no tenemos golden, así que no afirmamos una puntuación final. Nuestra aportación es automatizar con evidencia, conectar los equipos y hacer visibles las excepciones.</aside>
-        </section>
-      </main>
-      <aside id="notes" class="notes" aria-labelledby="notes-heading" hidden><div><h3 id="notes-heading">Guion del presentador</h3><span id="slide-time"></span></div><p id="notes-text"></p></aside>
-      <footer class="controls"><div class="slide-controls"><button id="prev" type="button" aria-label="Diapositiva anterior">Anterior</button><span id="counter" aria-live="polite">01 / 07</span><button id="next" type="button" aria-label="Diapositiva siguiente">Siguiente</button></div><div class="presenter-controls"><span class="keyboard-tip">← → avanzar · N guion</span><button id="notes-toggle" type="button" aria-expanded="false" aria-controls="notes">Mostrar guion</button><div class="timer-group"><span id="timer" role="timer" aria-label="Tiempo restante">05:00</span><button id="timer-toggle" type="button">Iniciar</button><button id="timer-reset" class="reset" type="button" aria-label="Reiniciar temporizador" title="Reiniciar temporizador">↺</button></div></div></footer>
-      <div class="progress-track"><div id="progress"></div></div><p id="status" class="sr-only" role="status"></p>
-    </div>
+  <a class="skip" href="#main">Skip to content</a>
+  <main id="main" tabindex="-1">
+
+    <section id="1" class="slide dark" data-slide data-title="The input" data-time="30 s · 00:00–00:30" data-seconds="30" aria-labelledby="t1">
+      <p class="eyebrow r" style="--i:0">Grupo Kalmora · July 2026 close</p>
+      <h1 id="t1" class="r" style="--i:1">Close one month of books<br>for seven companies.</h1>
+      <p class="sub r" style="--i:2">We get raw files. We hand in six files that are graded line by line.</p>
+      <div class="inputs r" style="--i:3">
+        <div><strong class="grad-blue">305</strong><span>supplier documents<br>PDF, XML, scans</span></div>
+        <div><strong class="grad-blue">48</strong><span>bank statements<br>N43, camt.053, CSV</span></div>
+        <div><strong class="grad-blue">109,537</strong><span>journal lines<br>from 24 ERP exports</span></div>
+      </div>
+      <div class="arrow-down r" style="--i:4" aria-hidden="true"></div>
+      <ul class="outputs r" style="--i:5" aria-label="Files we hand in">
+        <li>ap</li><li>ar_billing</li><li>bank_rec</li><li>ic</li><li>ar_cash</li><li>close</li>
+      </ul>
+      <aside class="speaker-note" hidden>Our job was to close July for Kalmora, a group of seven companies. We get raw material: 305 supplier documents, 48 bank statements in three formats, and an ERP export with over a hundred thousand journal lines. We have to hand in six files, and a grader checks them line by line. So this is really a data pipeline. I'll walk you through it in four steps.</aside>
+    </section>
+
+    <section id="2" class="slide light" data-slide data-title="Extract" data-time="50 s · 00:30–01:20" data-seconds="50" aria-labelledby="t2" hidden>
+      <p class="eyebrow r" style="--i:0">Step 1 · Extract</p>
+      <h2 id="t2" class="r" style="--i:1">Read every file first.</h2>
+      <div class="cards four">
+        <article class="card r" style="--i:2"><span class="tag">PDF</span><strong class="num">247</strong><h3>Text layer</h3><p>Read with pypdf. Supplier, company, number, date, amounts.</p></article>
+        <article class="card r" style="--i:3"><span class="tag">XML</span><strong class="num">58</strong><h3>Facturae and CFDI</h3><p>Parsed as data. If the PDF disagrees on number or amounts, we flag it.</p></article>
+        <article class="card r" style="--i:4"><span class="tag">Scan</span><strong class="num">OCR</strong><h3>No text at all</h3><p>Apple Vision OCR, run locally. Nothing leaves the machine.</p></article>
+        <article class="card r" style="--i:5"><span class="tag">Bank</span><strong class="num">48</strong><h3>Original statements</h3><p>N43, camt.053 and CSV carry the mandate and invoice references the ERP export drops.</p></article>
+      </div>
+      <p class="footnote r" style="--i:6">Cached by file hash and parser version. A re-run reads nothing twice.</p>
+      <aside class="speaker-note" hidden>Step one is reading the files. PDFs with a text layer go through pypdf. XML invoices, Spanish Facturae and Mexican CFDI, we parse as structured data. When a PDF comes with them we compare the two, and if the number or the amounts differ, we flag it. Scanned PDFs have no text, so we run Apple's Vision OCR on the Mac. Nothing leaves the machine. Bank statements come as N43, camt.053 and CSV. We parse the originals because they carry references the ERP export drops, like the mandate or the invoice number. Everything is cached by file hash and parser version, so a re-run doesn't read anything twice.</aside>
+    </section>
+
+    <section id="3" class="slide dark" data-slide data-title="SQLite" data-time="50 s · 01:20–02:10" data-seconds="50" aria-labelledby="t3" hidden>
+      <p class="eyebrow r" style="--i:0">Step 2 · Load</p>
+      <h2 id="t3" class="r" style="--i:1">Everything goes into<br>one SQLite file.</h2>
+      <ol class="track r" style="--i:2" aria-label="Task order">
+        <li>ap</li><li>ar_billing</li><li>bank_rec</li><li>ic</li><li>ar_cash</li><li>close</li>
+      </ol>
+      <div class="rw r" style="--i:3" aria-hidden="true"><span>reads ↑</span><span>↓ writes</span></div>
+      <div class="ledger r" style="--i:4">
+        <div class="ledger-name"><span class="mono">ledger</span><small>one view, every task reads it</small></div>
+        <div class="ledger-parts">
+          <div><strong>109,537</strong><span>posted lines</span></div>
+          <div class="plus">+</div>
+          <div><strong class="grad-green">420</strong><span>proposed entries</span></div>
+        </div>
+      </div>
+      <p class="rule r" style="--i:5"><span class="mono">event_key</span> is unique. The same event can't be booked twice.</p>
+      <aside class="speaker-note" hidden>Step two: everything goes into one SQLite file. Each ERP export becomes a table. The journal alone is about 110 thousand lines, and the extracted documents and bank lines sit next to it. Then six tasks run in a fixed order: payables, billing, bank, intercompany, cash and close. Each one reads a view called ledger, which is what's already posted plus what earlier tasks have proposed, and writes its own entries back. Every entry has an event key, and that key is unique. If two tasks try to book the same event, the database refuses. That's how we avoid double posting without coordinating by hand.</aside>
+    </section>
+
+    <section id="4" class="slide light" data-slide data-title="Clean" data-time="70 s · 02:10–03:20" data-seconds="70" aria-labelledby="t4" hidden>
+      <p class="eyebrow r" style="--i:0">Step 3 · Clean</p>
+      <h2 id="t4" class="r" style="--i:1">Four rules out of many.</h2>
+      <div class="cards two">
+        <article class="card rule-card r" style="--i:2"><h3>Same invoice, sent twice</h3>
+          <p class="flow mono"><span>F-26012023</span><i>→</i><span>26012023</span></p>
+          <p>Numbers are normalized the way the grader does it. The resend is marked duplicate and never booked.</p><span class="impact">API005210 · DUPLICATE</span></article>
+        <article class="card rule-card r" style="--i:3"><h3>Billed to the wrong company</h3>
+          <p class="flow mono"><span>Invoice: 1910</span><i>≠</i><span>Debit: 1100</span></p>
+          <p>The direct debit mandate is checked against the bank account master.</p><span class="impact">API005227 · REJECT</span></article>
+        <article class="card rule-card r" style="--i:4"><h3>XML and PDF each hold half</h3>
+          <p class="flow mono"><span>CFDI</span><i>+</i><span>PDF retention</span></p>
+          <p>The Mexican XML has no guarantee retention. The PDF does. The merge keeps both.</p><span class="impact">5 entries fixed</span></article>
+        <article class="card rule-card r" style="--i:5"><h3>No purchase order</h3>
+          <p class="flow mono"><span>vendor + concept</span><i>→</i><span>63100000</span></p>
+          <p>The account comes from the vendor's history. Journal text is truncated, so we match the first 12 characters.</p><span class="impact">12 entries fixed</span></article>
+      </div>
+      <aside class="speaker-note" hidden>Step three is cleaning. There are a lot of rules; here are four. One: the same invoice arrives twice, once as F-dash-26012023 and once as 26012023. We normalize the number the way the grader does, so the second one is marked duplicate and never booked. Two: an invoice addressed to company 1910, but the direct debit came out of company 1100's account. We check the mandate against the bank master and reject it as wrong addressee. Three: Mexican invoices come as XML and PDF. The XML has no guarantee retention, the PDF does. Our merge used to drop it. Now it keeps it, and five entries got fixed. Four: invoices without a purchase order. Which expense account? We look at what the same vendor was booked to for the same concept before. The journal text is cut short, so we match on the first twelve characters. Twelve entries improved.</aside>
+    </section>
+
+    <section id="5" class="slide dark" data-slide data-title="Decide" data-time="60 s · 03:20–04:20" data-seconds="60" aria-labelledby="t5" hidden>
+      <p class="eyebrow r" style="--i:0">Step 4 · Decide</p>
+      <h2 id="t5" class="r" style="--i:1">Post what we can prove.<br><span class="dim">Flag the rest.</span></h2>
+      <ol class="funnel">
+        <li class="r" style="--i:2"><span class="step">1</span><h3>Rules</h3><p>Decide almost everything.</p></li>
+        <li class="r" style="--i:3"><span class="step">2</span><h3>Claude</h3><p>Only if the answer is an allowed option and confidence ≥ 0.8. Cached, so runs repeat.</p></li>
+        <li class="r" style="--i:4"><span class="step">3</span><h3>Doubt</h3><p>Safe option, no entry. Goes to <span class="mono">doubts.jsonl</span> for a person.</p></li>
+      </ol>
+      <p class="rule r" style="--i:5">Every entry is checked: whole cents, debit or credit, balanced per company.</p>
+      <div class="equation r" style="--i:6">
+        <div><strong>438,854.31</strong><span>customer invoice</span></div><i>−</i>
+        <div><strong class="grad-orange">8,288.50</strong><span>agent's fee</span></div><i>=</i>
+        <div><strong>430,565.81</strong><span>money received</span></div>
+      </div>
+      <aside class="speaker-note" hidden>Step four: decide. Rules come first and they decide almost everything. When no rule can, we send the evidence to Claude with the accounting policies and a closed list of options. We only accept the answer if it's one of those options and the confidence is at least 0.8, and we cache it so runs repeat exactly. Otherwise we take the safe option, which is not posting, and write the case to a doubts file for a person. Every entry also goes through a validator: whole cents, debit or credit, and it has to balance per company. And here's why the shared ledger matters. A customer owes 438 thousand. The bank receives 430. The gap is the agent's fee. Payables books the fee, the bank task explains the deposit, and cash application nets the two. Nothing is left open.</aside>
+    </section>
+
+    <section id="6" class="slide light" data-slide data-title="Results" data-time="40 s · 04:20–05:00" data-seconds="40" aria-labelledby="t6" hidden>
+      <h2 id="t6" class="eyebrow r" style="--i:0">Results · dev set</h2>
+      <div class="manim r" id="manim" style="--i:1">
+        <svg viewBox="0 0 1280 720" role="img" aria-labelledby="t6 manim-desc">
+          <desc id="manim-desc">Dev score 97.62 of 100. Per task: ap 0.969, billing 1.000, cash 1.000, bank 1.000, ic 1.000, close 0.856, balance 0.999. AP F1 by decision: NOT_INVOICE 1.000, REJECT 1.000, POST 0.990, DUPLICATE 0.929, HOLD 0.878.</desc>
+          <g class="total">
+            <text class="small write" x="80" y="96" style="--d:0s">TOTAL · DEV SET</text>
+            <text class="big fade" x="80" y="190" style="--d:.2s"><tspan data-to="97.62" data-dec="2" data-d="0.3" data-dur="1.8">97.62</tspan><tspan class="of"> / 100</tspan></text>
+          </g>
+          <path class="axis draw" pathLength="1" d="M80,620 V296" style="--d:3s"/>
+          <path class="axis draw" pathLength="1" d="M80,620 H770" style="--d:3s"/>
+          <line class="one fade" x1="80" y1="320" x2="770" y2="320" style="--d:3.4s"/>
+          <text class="tick fade" x="68" y="625" style="--d:3.3s">0</text>
+          <text class="tick fade" x="68" y="475" style="--d:3.3s">0.5</text>
+          <text class="tick fade" x="68" y="325" style="--d:3.3s">1.0</text>
+          <g class="indicate" style="--d:7s"><rect class="bar grow-y" x="100" y="329.4" width="60" height="290.6" rx="3" style="--d:3.60s"/><rect class="flash" x="100" y="329.4" width="60" height="290.6" rx="3" style="--d:7s"/></g>
+          <text class="val fade" x="130" y="317.4" style="--d:3.70s"><tspan data-to="0.9688" data-dec="3" data-d="3.70" data-dur="0.8">0.969</tspan></text>
+          <text class="name write" x="130" y="650" style="--d:3.80s">ap</text>
+          <text class="detail fade" x="130" y="676" style="--d:5.60s">305 / 305 docs</text>
+          <g><rect class="bar grow-y" x="196" y="320.0" width="60" height="300.0" rx="3" style="--d:3.82s"/></g>
+          <text class="val fade" x="226" y="308.0" style="--d:3.92s"><tspan data-to="1.0" data-dec="3" data-d="3.92" data-dur="0.8">1.000</tspan></text>
+          <text class="name write" x="226" y="650" style="--d:4.02s">billing</text>
+          <text class="detail fade" x="226" y="676" style="--d:5.72s">26 / 26</text>
+          <g><rect class="bar grow-y" x="292" y="320.0" width="60" height="300.0" rx="3" style="--d:4.04s"/></g>
+          <text class="val fade" x="322" y="308.0" style="--d:4.14s"><tspan data-to="1.0" data-dec="3" data-d="4.14" data-dur="0.8">1.000</tspan></text>
+          <text class="name write" x="322" y="650" style="--d:4.24s">cash</text>
+          <text class="detail fade" x="322" y="676" style="--d:5.84s">32 / 32</text>
+          <g><rect class="bar grow-y" x="388" y="320.0" width="60" height="300.0" rx="3" style="--d:4.26s"/></g>
+          <text class="val fade" x="418" y="308.0" style="--d:4.36s"><tspan data-to="1.0" data-dec="3" data-d="4.36" data-dur="0.8">1.000</tspan></text>
+          <text class="name write" x="418" y="650" style="--d:4.46s">bank</text>
+          <text class="detail fade" x="418" y="676" style="--d:5.96s">12 / 12 accts</text>
+          <g><rect class="bar grow-y" x="484" y="320.0" width="60" height="300.0" rx="3" style="--d:4.48s"/></g>
+          <text class="val fade" x="514" y="308.0" style="--d:4.58s"><tspan data-to="1.0" data-dec="3" data-d="4.58" data-dur="0.8">1.000</tspan></text>
+          <text class="name write" x="514" y="650" style="--d:4.68s">ic</text>
+          <text class="detail fade" x="514" y="676" style="--d:6.08s">5 / 5</text>
+          <g class="indicate" style="--d:7s"><rect class="bar grow-y" x="580" y="363.1" width="60" height="256.9" rx="3" style="--d:4.70s"/><rect class="flash" x="580" y="363.1" width="60" height="256.9" rx="3" style="--d:7s"/></g>
+          <text class="val fade" x="610" y="351.1" style="--d:4.80s"><tspan data-to="0.8562" data-dec="3" data-d="4.80" data-dur="0.8">0.856</tspan></text>
+          <text class="name write" x="610" y="650" style="--d:4.90s">close</text>
+          <text class="detail fade" x="610" y="676" style="--d:6.20s">P = R = .856</text>
+          <g><rect class="bar grow-y" x="676" y="320.2" width="60" height="299.8" rx="3" style="--d:4.92s"/></g>
+          <text class="val fade" x="706" y="308.2" style="--d:5.02s"><tspan data-to="0.9994" data-dec="3" data-d="5.02" data-dur="0.8">0.999</tspan></text>
+          <text class="name write" x="706" y="650" style="--d:5.12s">balance</text>
+          <text class="detail fade" x="706" y="676" style="--d:6.32s">Δ 0.06 %</text>
+          <path class="arrow draw" pathLength="1" d="M130,300 C 230,190 700,200 826,282" style="--d:7.6s"/>
+          <path class="arrow-head fade" d="M826,282 l-16,-2 m16,2 l-6,-15" style="--d:8.5s"/>
+          <text class="ptitle write" x="840" y="310" style="--d:8.6s">AP · F1 by decision</text>
+          <text class="dname write" x="840" y="366" style="--d:9.00s">NOT_INVOICE</text>
+          <rect class="dbar grow-x" x="995" y="349" width="170.0" height="22" rx="3" style="--d:9.00s"/>
+          <text class="dval fade" x="1177" y="366" style="--d:9.00s"><tspan data-to="1.0" data-dec="3" data-d="9.00" data-dur="0.8">1.000</tspan></text>
+          <text class="dname write" x="840" y="422" style="--d:9.25s">REJECT</text>
+          <rect class="dbar grow-x" x="995" y="405" width="170.0" height="22" rx="3" style="--d:9.25s"/>
+          <text class="dval fade" x="1177" y="422" style="--d:9.25s"><tspan data-to="1.0" data-dec="3" data-d="9.25" data-dur="0.8">1.000</tspan></text>
+          <text class="dname write" x="840" y="478" style="--d:9.50s">POST</text>
+          <rect class="dbar grow-x" x="995" y="461" width="168.3" height="22" rx="3" style="--d:9.50s"/>
+          <text class="dval fade" x="1177" y="478" style="--d:9.50s"><tspan data-to="0.99" data-dec="3" data-d="9.50" data-dur="0.8">0.990</tspan></text>
+          <text class="dname write" x="840" y="534" style="--d:9.75s">DUPLICATE</text>
+          <rect class="dbar grow-x" x="995" y="517" width="157.9" height="22" rx="3" style="--d:9.75s"/>
+          <text class="dval fade" x="1177" y="534" style="--d:9.75s"><tspan data-to="0.929" data-dec="3" data-d="9.75" data-dur="0.8">0.929</tspan></text>
+          <text class="dname write" x="840" y="590" style="--d:10.00s">HOLD</text>
+          <rect class="dbar grow-x hold" x="995" y="573" width="149.3" height="22" rx="3" style="--d:10.00s"/>
+          <text class="dval fade" x="1177" y="590" style="--d:10.00s"><tspan data-to="0.878" data-dec="3" data-d="10.00" data-dur="0.8">0.878</tspan></text>
+          <text class="caption write" x="840" y="660" style="--d:10.6s">HOLD is where AP loses points.</text>
+        </svg>
+        <button class="play" id="play" type="button" aria-label="Play results animation"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5.5v13l11-6.5z"/></svg></button>
+        <button class="replay" id="replay" type="button" hidden>↺ Replay</button>
+      </div>
+      <p class="footnote r" style="--i:2">182 automated tests. Next: accruals in close. The test set has no answer key, so its score is unknown.</p>
+      <aside class="speaker-note" hidden>Here are the dev results. [Press play.] Total: 97.62 out of 100. Billing, cash, bank and intercompany are at 1.0: every item, every receipt, all twelve bank accounts, all five intercompany differences. The trial balance is off by 0.06 percent. Two bars are lower. Payables at 0.969, and if we break it down by decision, HOLD is where we lose: invoices we stopped that the answer key posts, or the other way round. And close at 0.856, which is accruals. That's where the next day would go. The test set has no answer key, so we don't know that score yet. Thanks.</aside>
+    </section>
+  </main>
+
+  <nav class="dock" aria-label="Slides">
+    <button id="prev" type="button" aria-label="Previous slide">‹</button>
+    <a href="#1" data-nav aria-label="1 · The input"></a><a href="#2" data-nav aria-label="2 · Extract"></a><a href="#3" data-nav aria-label="3 · SQLite"></a><a href="#4" data-nav aria-label="4 · Clean"></a><a href="#5" data-nav aria-label="5 · Decide"></a><a href="#6" data-nav aria-label="6 · Results"></a>
+    <button id="next" type="button" aria-label="Next slide">›</button>
+    <span id="counter" class="sr-only" aria-live="polite">01 / 06</span>
+  </nav>
+  <div class="presenter">
+    <span id="timer" role="timer" aria-label="Time left">05:00</span>
+    <button id="timer-toggle" type="button">Start</button>
+    <button id="timer-reset" type="button" aria-label="Reset timer" title="Reset timer">↺</button>
+    <button id="notes-toggle" type="button" aria-expanded="false" aria-controls="notes">Show notes</button>
+    <button id="fullscreen" type="button" aria-label="Full screen" title="Full screen">⤢</button>
   </div>
+  <aside id="notes" class="notes" aria-labelledby="notes-heading" hidden><div><h3 id="notes-heading">Speaker notes</h3><span id="slide-time"></span></div><p id="notes-text"></p></aside>
+  <div class="progress-track"><div id="progress"></div></div>
+  <p id="status" class="sr-only" role="status"></p>
 </body>
 </html>
