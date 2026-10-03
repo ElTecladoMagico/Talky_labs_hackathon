@@ -80,14 +80,14 @@ def run(conn):
         key = _key(d['vendor_id'], d['invoice_number'], d['currency'], d['gross'])
         duplicate = seen.get(key) if d['invoice_number'] and d['gross'] is not None else None
         seen.setdefault(key, d['doc_id'])
-        je = None if duplicate else _fee_je(conn, d, vendor, companies.get(d['company'], {}))
-        if not duplicate and je is None:
-            continue
         event = 'ap:' + d['doc_id']
         existing = conn.execute('SELECT owner, task, company, lines FROM proposed_je WHERE event_key=?', (event,)).fetchone()
+        je = None if duplicate else _fee_je(conn, d, vendor, companies.get(d['company'], {}))
         if existing and (je is None or existing[:3] != ('P1', 'ap', je['company'])
                          or json.loads(existing[3]) != je['lines']):
             raise ValueError('AP journal conflict: ' + event)
+        if not duplicate and je is None:
+            continue
         if je and not existing:
             propose(conn, event, 'P1', 'ap', je)
         row = dict(d, decision='DUPLICATE' if duplicate else 'POST',
