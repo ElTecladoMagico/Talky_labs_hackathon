@@ -17,7 +17,9 @@ def pdf_lines(path):
     out = []
     for m in re.finditer(rb"stream\r?\n(.*?)endstream", open(path, "rb").read(), re.S):
         s = m.group(1).strip()
-        s = zlib.decompress(base64.a85decode(s[:-2]) if s.endswith(b"~>") else s).decode("latin1")
+        if not s.endswith(b"~>"):  # solo los streams de contenido (ASCII85); fuentes e imágenes son binarios
+            continue
+        s = zlib.decompress(base64.a85decode(s[:-2])).decode("latin1")
         for a, b in re.findall(r"\[(.*?)\]\s*TJ|\((.*?)(?<!\\)\)\s*Tj", s):
             t = "".join(re.findall(r"\((.*?)(?<!\\)\)", a)) if a else b
             out.append(re.sub(r"\\(\d{3}|.)", lambda m: chr(int(m.group(1), 8)) if len(m.group(1)) == 3 else m.group(1), t))
@@ -89,7 +91,7 @@ def invoice(conn, ctx, item, day, parts):
     lines = [dict(account="43000000", debit=payable, partner=p, assignment=num), dict(account="43000900", debit=ret, partner=p, assignment=num)]
     lines += [dict(account=d["account"], debit=d["amount"], partner=p if d["account"] == "43800000" else None) for d in ded]
     lines.append(dict(account="47700000", credit=tax, tax_code=code))
-    lines += [dict(account=acc, credit=amt, tax_code=code, text=desc, **dim) for desc, amt, acc, dim in parts]
+    lines += [dict(account=acc, credit=max(amt, 0), debit=max(-amt, 0), tax_code=code, text=desc, **dim) for desc, amt, acc, dim in parts]  # importe negativo (desvíos) = al debe
     inv = dict(date=day.isoformat(), due_date=(day + timedelta(days=c["terms_days"])).isoformat(), tax_code=code, net=net, tax=tax,
                gross=net + tax, retention=ret, deductions=ded, payable=payable, currency=cust["currency"],
                lines=[dict(description=d, amount=a, account=acc, cost_center=dim.get("cost_center"), wbs=dim.get("wbs")) for d, a, acc, dim in parts])
@@ -142,7 +144,42 @@ def revision(conn, ctx, item):
                    [(f"Revisión de precios – {c['name']} – diferencia {mo}", new - old, "70520000", {"cost_center": c["cc"]}) for mo in months])
 
 
-HANDLERS = {"OBRA_CERTIFICATION": obra, "SERVICE_MONTHLY": service, "PRICE_REVISION": revision}
+def billing_day(month, day):
+    """El día `day` del mes, pasado al siguiente día laborable. ponytail: solo fines de semana; si hace falta, sumar festivos (el histórico salta el Viernes Santo)."""
+    d = date(*map(int, month.split("-")), day)
+    return d + timedelta(days=max(0, 7 - d.weekday()) if d.weekday() > 4 else 0)
+
+
+def signed(s):
+    return -cents(s) if s.startswith("-") else cents(s)
+
+
+def ppa(conn, ctx, item):
+    """MWh medidos × % del PPA (truncado a milésimas) × precio fijo (truncado al céntimo), en la primera planta del contrato."""
+    c = ctx["contracts"][item["contract"]]
+    t = pdf_lines(ctx["root"] / "inbox/ar/billing" / item["billing_item"] / item["documents"][0])
+    period = re.search(r"Periodo: (\d{4})-(\d\d)", " ".join(t)).groups()
+    milli = sum(cents(x) for x in t if re.fullmatch(r"\d{1,3}(?:\.\d{3})*,\d{3}", x)) * c["share_bp"] // 10000
+    net = milli * c["price_mwh"] // 1000
+    desc = f"Energía suministrada PPA {period[1]}/{period[0]}: {milli / 1000:.3f} MWh × {c['price_mwh'] / 100:.2f} €/MWh"
+    return invoice(conn, ctx, item, billing_day(item["month"], 3), [(desc, net, "70530000", {"cost_center": json.loads(c["plants"])[0]})])
+
+
+def market(conn, ctx, item):
+    """Liquidación del representante por planta menos desvíos (cc de administración)."""
+    c = ctx["contracts"][item["contract"]]
+    t = pdf_lines(ctx["root"] / "inbox/ar/billing" / item["billing_item"] / item["documents"][0])
+    period = re.search(r"Periodo (\d{4})-(\d\d)", " ".join(t)).groups()
+    rows = [(t[i - 2], cents(x)) for i, x in enumerate(t) if re.fullmatch(r"[\d.]+,\d\d EUR", x)]
+    parts = [(f"Venta de energía en mercado {period[1]}/{period[0]} – {name}", amt, "70530000", {"cost_center": cc})
+             for (name, amt), cc in zip(rows, json.loads(c["plants"]))]
+    dev = signed(re.search(r"desv.os imputado: (-?[\d.]+,\d\d)", " ".join(t)).group(1))
+    if dev:
+        parts.append((f"Coste de desvíos {period[1]}/{period[0]}", dev, "70530000", {"cost_center": f"CC-{item['company']}-ADM"}))
+    return invoice(conn, ctx, item, billing_day(item["month"], 6), parts)
+
+
+HANDLERS = {"OBRA_CERTIFICATION": obra, "SERVICE_MONTHLY": service, "PRICE_REVISION": revision, "PPA": ppa, "MARKET_SETTLEMENT": market}
 
 
 def billing_rows(conn):
