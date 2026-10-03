@@ -105,3 +105,41 @@ def test_shared_extraction_is_pending_and_never_proposes_journal(tmp_path):
     conn.execute("UPDATE ap_result SET decision='REJECT' WHERE doc_id='API004203'")
     extract_phase(conn, ROOT / "participant/phase_dev")
     assert conn.execute("SELECT decision FROM ap_result WHERE doc_id='API004203'").fetchone()[0] == 'REJECT'
+
+
+@pytest.mark.parametrize("doc,currency,tax_id,total", [
+    ("API004482", "USD", "95-1294112", 240000),
+    ("API004559", "USD", "39-6184738", 1450000),
+])
+def test_english_currency_tax_ids_and_us_dates(doc, currency, tax_id, total):
+    from tasks.ap_extract import extract_document
+    d = extract_document(DEV / doc)
+    assert (d["currency"], d["seller_tax_id"], d["gross"]) == (currency, tax_id, total)
+    assert d["invoice_date"] == "2026-07-01"
+    assert not d["issues"]
+
+
+def test_cfdi_crosschecks_pdf_without_losing_po():
+    from tasks.ap_extract import extract_document
+    d = extract_document(DEV / "API004315")
+    assert d["seller_tax_id"] == "MAT990318UMX"
+    assert (d["gross"], d["tax"]) == (107988196, 14894924)
+    assert d["po_refs"] == ["4500020412"]
+    assert d["items"][0]["receipt_ref"] == "REM-006926"
+    assert d["issues"] == []
+
+
+def test_real_xml_pdf_mismatch_remains_reviewable():
+    from tasks.ap_extract import extract_document
+    d = extract_document(DEV / "API005228")
+    assert "XML_PDF_MISMATCH" in d["issues"]
+
+
+def test_scanned_pdf_uses_native_ocr_instead_of_inventing_values():
+    from tasks.ap_extract import extract_document
+    d = extract_document(DEV / "API005209")
+    assert d["invoice_number"] == "IC1000-26-0018"
+    assert d["seller_tax_id"] == "A04071952"
+    assert d["net"] is not None
+    assert "ocr" in d["extraction_methods"]
+    assert "NO_READABLE_DOCUMENT" not in d["issues"]
