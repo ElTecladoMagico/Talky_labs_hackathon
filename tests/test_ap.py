@@ -380,3 +380,15 @@ def test_non_po_line_account_follows_history_for_the_same_concept(full_conn, doc
     row, = run(full_conn)
     gold = next(json.loads(l) for l in (db.PHASES['dev'] / 'golden/ap.jsonl').read_text().splitlines() if json.loads(l)['doc_id'] == doc_id)
     assert score.je_match(gold['journal_entry'], row['journal_entry']) == 1.0  # misma comparación que el evaluador
+
+
+@pytest.mark.parametrize('doc_id', ['API004311', 'API004313'])
+def test_cfdi_does_not_erase_the_pdf_guarantee_retention(full_conn, doc_id):
+    """3100: el CFDI no lleva la retención de garantía (5 %) y al combinarse la ponía a 0; el PDF sí la trae (golden: 40000900)."""
+    from tasks.ap import run
+    from participant import score
+    full_conn.execute("DELETE FROM task_ap_documents WHERE id != ?", (doc_id,))
+    row, = run(full_conn)
+    gold = next(json.loads(l) for l in (db.PHASES['dev'] / 'golden/ap.jsonl').read_text().splitlines() if json.loads(l)['doc_id'] == doc_id)
+    assert (row['retention'], row['payable']) == (gold['retention'], gold['payable'])
+    assert score.je_match(gold['journal_entry'], row['journal_entry']) == 1.0
