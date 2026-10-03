@@ -50,3 +50,45 @@ def test_close_fx_missing_statement_skips_only_that_item(tmp_path):
     c.execute("DELETE FROM bank_statement WHERE account = 'BANH-3100-USD'")
     items = [r["item"] for r in close.fx(c, "2026-07")]
     assert "BANK:BANH-3100-USD" not in items and any(i.startswith("GL:") for i in items)
+
+
+# ---------------------------------------------------------------- periodificaciones: qué del histórico cuenta (fix/score-gaps)
+def _accrual_db(rows, posted=()):
+    """rows: (mes, referencia, periodo 'dd/mm–dd/mm/aaaa', importe) de periodificaciones históricas de V1 en 1100."""
+    import sqlite3
+    c = sqlite3.connect(":memory:")
+    c.executescript(db.SHARED + "CREATE TABLE je_line(entry_id, company, posting_date, reference, header_text, source, account, debit, credit, partner, cost_center, wbs);")
+    for i, (m, ref, period, amt) in enumerate(rows):
+        e, day = f"E{i}", f"{m}-28"
+        c.executemany("INSERT INTO je_line VALUES (?, '1100', ?, ?, ?, 'CLOSE_ACCRUAL', ?, ?, ?, ?, ?, NULL)",
+                      [(e, day, ref, f"Periodificación gasto X {period}", "62800000", amt, 0, None, "CC-1"),
+                       (e, day, ref, f"Periodificación gasto X {period}", "40090000", 0, amt, "V1", None)])
+    c.executemany("INSERT INTO ap_result(doc_id, decision) VALUES (?, 'POST')", [(d,) for d in posted])
+    return c
+
+
+MONTHS = ["2026-02", "2026-03", "2026-04", "2026-05", "2026-06"]
+
+
+def _partials(amount=1000):
+    return [(m, f"ACCR-P{m}", f"16/{m[5:]}–{'28' if m == '2026-02' else '30' if m in ('2026-04', '2026-06') else '31'}/{m[5:]}/2026", amount)
+            for m in MONTHS]
+
+
+def test_accrual_estimate_ignores_late_cycle_entries():
+    """Energía (dev V100029/1100): ciclos atrasados en 3 de 5 meses (14/02–15/03, 16/04–15/05, 17/05–15/06) no son consumo
+    recurrente; mezclados con los tramos hasta fin de mes inflaban la mediana (+66 % frente al golden)."""
+    late = [("2026-03", "ACCR-L1", "14/02–15/03/2026", 4000), ("2026-05", "ACCR-L2", "16/04–15/05/2026", 4000),
+            ("2026-06", "ACCR-L3", "17/05–15/06/2026", 4000)]
+    c = _accrual_db(_partials() + late, posted=[f"P{m}" for m in MONTHS] + ["L1", "L2", "L3"])
+    (row,) = close.accruals(c, "2026-07")
+    assert row["amount"] == 1000
+
+
+
+def test_one_off_service_is_not_carried_over():
+    """Golden V100210: un servicio puntual (27/06–27/06) periodificado en junio no se vuelve a periodificar en julio."""
+    c = _accrual_db([("2026-02", "ACCR-A", "23/02–23/02/2026", 5000), ("2026-06", "ACCR-B", "27/06–27/06/2026", 4300)])
+    assert close.accruals(c, "2026-07") == []
+
+
