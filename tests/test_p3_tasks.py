@@ -32,3 +32,21 @@ def test_ar_cash_reaches_target(conn):
 
 def test_close_reaches_target(conn):
     assert _score(score.score_close, "close", close.run(conn)) >= TARGET["close"]
+
+
+def test_close_fx_bank_uses_statement_closing_from_db(tmp_path):
+    """El saldo final del extracto se lee de bank_statement (ya parseado al cargar), no reparseando los ficheros."""
+    c = db.build_db(db.PHASES["dev"], tmp_path / "dev.db")
+    base = next(r for r in close.fx(c, "2026-07") if r["item"] == "BANK:BANH-3100-USD")
+    c.execute("UPDATE bank_statement SET closing = closing + 100000 WHERE account = 'BANH-3100-USD' AND month = '2026-07'")
+    db.reset_run(c)  # el mismo hecho no se puede proponer dos veces
+    moved = next(r for r in close.fx(c, "2026-07") if r["item"] == "BANK:BANH-3100-USD")
+    assert moved["amount"] != base["amount"]
+
+
+def test_close_fx_missing_statement_skips_only_that_item(tmp_path):
+    """Sin extracto de la cuenta en divisa no se puede valorar: se omite esa partida, no se cae todo el cierre."""
+    c = db.build_db(db.PHASES["dev"], tmp_path / "dev.db")
+    c.execute("DELETE FROM bank_statement WHERE account = 'BANH-3100-USD'")
+    items = [r["item"] for r in close.fx(c, "2026-07")]
+    assert "BANK:BANH-3100-USD" not in items and any(i.startswith("GL:") for i in items)
