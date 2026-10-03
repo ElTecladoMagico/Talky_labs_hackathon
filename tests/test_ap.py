@@ -344,3 +344,26 @@ def test_bank_mandates_come_from_every_statement_format(full_conn):
     n43 = found[('V100028', norm_num('2026-037570'), 'EUR', 215748)]
     assert n43 == [dict(company='1100', account='CMA-1100', mandate='MANDATO V100028-1100', source='bank/CMA-1100/2026-07.n43')]
     assert not any(k[3] <= 0 for k in found)  # solo cargos, importe en valor absoluto
+
+
+# ---------------------------------------------------------------- huecos frente al golden (fix/score-gaps)
+def test_reverse_charge_vat_is_one_pair_per_invoice_not_per_line():
+    """Golden: una sola pareja 472/477 con la suma de cuotas (redondeadas por línea); antes salía una pareja por línea (29 facturas en dev)."""
+    from decimal import Decimal
+    from tasks.ap import _journal
+    taxes = {'tax_codes': {'SISP': {'kind': 'reverse', 'rate': 2100}}}
+    coding = [dict(account='60700000', amount=1361073, cost_center=None, wbs='OB-1', tax_code='SISP'),
+              dict(account='60700000', amount=1413776, cost_center=None, wbs='OB-1', tax_code='SISP')]
+    d = dict(invoice_number='F1', tax=0, withholding=0, retention=0, company='1100')
+    je = _journal(d, {'id': 'V1', 'reconciliation_account': '40000000'}, coding, taxes, Decimal(1))
+    vat = [(l['account'], l['debit'] - l['credit']) for l in je['lines'] if l['account'] in ('47210000', '47710000')]
+    assert vat == [('47210000', 285825 + 296893), ('47710000', -(285825 + 296893))]
+
+
+def test_reverse_charge_entry_matches_golden_for_a_four_line_subcontract(full_conn):
+    from tasks.ap import run
+    from common.je import je_lines
+    full_conn.execute("DELETE FROM task_ap_documents WHERE id != 'API004143'")
+    row, = run(full_conn)
+    gold = next(json.loads(l) for l in (db.PHASES['dev'] / 'golden/ap.jsonl').read_text().splitlines() if json.loads(l)['doc_id'] == 'API004143')
+    assert sorted(je_lines(row['journal_entry'])) == sorted(je_lines(gold['journal_entry']))
