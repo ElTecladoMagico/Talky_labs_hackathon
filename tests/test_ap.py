@@ -77,3 +77,13 @@ def test_pipeline_publishes_before_downstream_netting(conn, tmp_path, monkeypatc
     assert observed == [('V100173', '26012023', 828850)]
     rows = [json.loads(line) for line in (tmp_path / 'submission/ap.jsonl').read_text().splitlines()]
     assert len(rows) == 2
+
+def test_changed_unsafe_source_cannot_leave_a_stale_posting(conn, monkeypatch):
+    from tasks import ap
+    from tasks.ap_extract import extract_phase
+    ap.run(conn)
+    docs = extract_phase(conn, db.PHASES['dev'])
+    docs[0]['issues'] = ['XML_PDF_MISMATCH']
+    monkeypatch.setattr(ap, 'extract_phase', lambda *_: docs)
+    with pytest.raises(ValueError, match='conflict'):
+        ap.run(conn)
