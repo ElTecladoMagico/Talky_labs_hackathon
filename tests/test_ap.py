@@ -266,3 +266,15 @@ def test_bank_mandate_requires_account_company_agreement(full_conn):
     row, = run(full_conn)
     assert row['company'] == '1910'
     assert not row.get('bank_evidence')
+
+
+def test_bank_mandates_come_from_every_statement_format(full_conn):
+    """El mandato se lee de bank_line (N43, camt y CSV ya parseados en common.statements), no solo de los .n43."""
+    from tasks.ap import _bank_recipients
+    from common.je import norm_num
+    found = _bank_recipients(full_conn)
+    camt = found[('V100195', norm_num('L202614952'), 'EUR', 258808)]
+    assert camt == [dict(company='2100', account='BLC-2100', mandate='MANDATO V100195-2100', source='bank/BLC-2100/2026-07.camt053.xml')]
+    n43 = found[('V100028', norm_num('2026-037570'), 'EUR', 215748)]
+    assert n43 == [dict(company='1100', account='CMA-1100', mandate='MANDATO V100028-1100', source='bank/CMA-1100/2026-07.n43')]
+    assert not any(k[3] <= 0 for k in found)  # solo cargos, importe en valor absoluto
