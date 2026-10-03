@@ -18,7 +18,7 @@ from pathlib import Path
 from common import db
 from common.je import norm_num
 
-VERSION = 4
+VERSION = 5
 AMOUNT = r"-?\d[\d.,]*[.,]\d{2}"
 INVOICE_KINDS = {"INVOICE", "CREDIT_NOTE", "DOWN_PAYMENT_REQUEST"}
 
@@ -68,6 +68,7 @@ def _amount(pattern, text):
 def _kind(text):
     t = fold(text)
     for marker, kind in [
+        ("deposit request", "DOWN_PAYMENT_REQUEST"),
         ("proforma", "PROFORMA"), ("extracto de cuenta", "VENDOR_STATEMENT"),
         ("recordatorio de pago", "VENDOR_STATEMENT"), ("cesion de creditos", "FACTORING_NOTICE"),
         ("diligencia de embargo", "TAX_GARNISHMENT_ORDER"),
@@ -140,7 +141,7 @@ def parse_pdf_text(text):
     if d["currency"] is None:
         d["currency"] = "USD" if re.search(r"^TOTAL\s*\n\$", text, re.M) else ("GBP" if "£" in text else None)
     d["withholding"] = _amount(r"^(?:Retención (?:IRPF|ISR|IVA)[^\n]*|Retenção IRS[^\n]*)\n", text) or 0
-    d["retention"] = _amount(r"^(?:Retención (?:de garantía|5[^\n]*)|Retenção 5[^\n]*)\n", text) or 0
+    d["retention"] = _amount(r"^(?:Retención (?:de )?garantía[^\n]*|Retención 5[^\n]*|Retenção 5[^\n]*)\n", text) or 0
     if d["net"] is not None:
         sign = -1 if d["net"] < 0 else 1
         d["withholding"] = sign * abs(d["withholding"])
@@ -185,7 +186,7 @@ def parse_xml(path):
     if root.tag != "Facturae":
         raise ValueError("unsupported XML schema")
     items = [_receipt({"description": e.findtext("ItemDescription", ""), "quantity_milli": int(Decimal(e.findtext("Quantity")) * 1000), "unit_price": money(e.findtext("UnitPriceWithoutTax")), "amount": money(e.findtext("GrossAmount")), "po": e.findtext("IssuerTransactionReference")}) for e in root.findall(".//InvoiceLine")]
-    return {"document_type": "CREDIT_NOTE" if txt("InvoiceClass") in {"OR", "CR"} else "INVOICE", "invoice_number": txt("InvoiceNumber"), "invoice_date": date_iso(txt("IssueDate")), "currency": txt("InvoiceCurrencyCode"), "seller_tax_id": txt("SellerParty/TaxIdentification/TaxIdentificationNumber"), "buyer_tax_id": txt("BuyerParty/TaxIdentification/TaxIdentificationNumber"), "net": cents("InvoiceTotals/TotalGrossAmountBeforeTaxes"), "tax": cents("InvoiceTotals/TotalTaxOutputs"), "gross": cents("InvoiceTotals/InvoiceTotal"), "withholding": cents("InvoiceTotals/TotalTaxesWithheld") or 0, "retention": cents("InvoiceTotals/AmountsWithheld/WithholdingAmount") or 0, "payable": cents("InvoiceTotals/TotalOutstandingAmount"), "items": items, "po_refs": list(dict.fromkeys(e["po"] for e in items if e["po"])), "text": txt("InvoiceAdditionalInformation") or ""}
+    return {"document_type": "CREDIT_NOTE" if txt("InvoiceClass") in {"OR", "CR"} else "INVOICE", "credit_reference": txt("Corrective/InvoiceNumber"), "invoice_number": txt("InvoiceNumber"), "invoice_date": date_iso(txt("IssueDate")), "currency": txt("InvoiceCurrencyCode"), "seller_tax_id": txt("SellerParty/TaxIdentification/TaxIdentificationNumber"), "buyer_tax_id": txt("BuyerParty/TaxIdentification/TaxIdentificationNumber"), "net": cents("InvoiceTotals/TotalGrossAmountBeforeTaxes"), "tax": cents("InvoiceTotals/TotalTaxOutputs"), "gross": cents("InvoiceTotals/InvoiceTotal"), "withholding": cents("InvoiceTotals/TotalTaxesWithheld") or 0, "retention": cents("InvoiceTotals/AmountsWithheld/WithholdingAmount") or 0, "payable": cents("InvoiceTotals/TotalOutstandingAmount"), "items": items, "po_refs": list(dict.fromkeys(e["po"] for e in items if e["po"])), "text": txt("InvoiceAdditionalInformation") or ""}
 
 
 def extract_document(folder, cached=None):
