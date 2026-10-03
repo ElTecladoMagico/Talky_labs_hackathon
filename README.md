@@ -93,7 +93,6 @@ docs = [json.loads(data) for (data,) in conn.execute("""
 
 El ejemplo requiere `import json` y una conexión ya cargada. No crea otra caché ni vuelve a interpretar PDF/XML. Para fuentes nuevas o modificadas, usar primero `extract_phase(conn, phase_dir)`, que valida hash y versión; esa función no hace commit.
 `run.py` vacía `ap_result` al comenzar: `tasks/ap.py` revalida fuentes/caché y vuelve a publicar las decisiones soportadas. No depender de que las filas provisionales del CLI sobrevivan al pipeline.
-=======
 ## P2 · banco e intragrupo (`tasks/bank_rec.py`, `tasks/ic.py`)
 
 - **El extracto manda.** Control en cada ejecución: saldo final del extracto = 572 al cierre + ajustes − libro abierto + cargos sin ajuste (0 céntimos en las 11 cuentas en moneda local, dev y test). Si no cuadra, `run` avisa.
@@ -114,4 +113,3 @@ El ejemplo requiere `import json` y una conexión ya cargada. No crea otra cach�
 **Auditoría final (`python3 run.py <fase> --audit`)**: `claude -p` (solo lectura, tope 3 $) recibe la lista de errores típicos inyectados
 (§4 y §6, `review.CHECKLIST`), el resumen de lo detectado y las rutas a los datos, y escribe `submission/<fase>/audit.jsonl` con lo que crea
 que se nos escapa. Es un informe para la revisión cruzada: **no cambia la entrega**. P1/P3: añadid vuestra lista en `CHECKLIST`.
->>>>>>> origin/p2-bank-ic
