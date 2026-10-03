@@ -447,6 +447,12 @@ def run(conn):
         d.update(source_invoice_number=d['invoice_number'], source_currency=d['currency'], source_company=d['company'],
                  source_amounts={k: d.get(k) for k in AMOUNTS}, journal_entry=None,
                  duplicate_of=None, payee=None, payment_block=None, action=None, lines=[])
+        pdf = (d.get('representations') or {}).get('pdf') or []
+        if not d['retention'] and pdf and pdf[0].get('retention') and pdf[0].get('gross') == d['gross']:
+            # ponytail: el CFDI no lleva la retención de garantía y al combinar PDF+XML el extractor la dejaba a 0;
+            # moverlo a ap_extract en su próximo VERSION (reextraer exige el OCR local de P1).
+            d['retention'] = pdf[0]['retention']
+            d['payable'] = d['gross'] - d['withholding'] - d['retention']
         if 'deposit request' in fold(d['text']):
             d['document_type'] = 'DOWN_PAYMENT_REQUEST'
             d['issues'] = [i for i in d['issues'] if i != 'ITEM_SUM_MISMATCH']
