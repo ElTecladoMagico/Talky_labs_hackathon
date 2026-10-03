@@ -195,9 +195,7 @@ def baddebt(conn, month):
 
 def fx_rate(conn, cur, local, day):
     """Unidades de moneda local por unidad de `cur`, vía EUR (SYN-BCE del último día publicado), con el 1/tipo redondeado a 6 decimales como el histórico."""
-    def r(c):
-        return 1.0 if c == "EUR" else q(conn, "SELECT rate FROM fx_rates WHERE base = 'EUR' AND currency = ? AND date <= ? ORDER BY date DESC LIMIT 1", c, day)[0]["rate"]
-    return round(1 / r(cur), 6) * r(local)
+    return round(1 / db.fx_rate(conn, cur, day), 6) * db.fx_rate(conn, local, day)
 
 
 def fx_entry(conn, month, company, item, account, partner, assignment, foreign, book, cur, local, day):

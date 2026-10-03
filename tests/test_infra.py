@@ -176,3 +176,25 @@ def test_consistency_flags_entries_written_but_not_proposed(conn):
     assert run.inconsistencies(conn, rows) == {("1000", "62600000"): 9, ("1000", "57200001"): -9}
     propose(conn, "bank:BL1", "P2", "bank_rec", je)
     assert run.inconsistencies(conn, rows) == {}
+
+
+# ---------------------------------------------------------------- tipo de cambio SYN-BCE (una sola búsqueda para AP, banco y cierre)
+def _rates():
+    c = sqlite3.connect(":memory:")
+    c.execute("CREATE TABLE fx_rates(date, base, currency, rate, source)")
+    c.executemany("INSERT INTO fx_rates VALUES (?, ?, ?, ?, 'SYN-BCE')", [("2026-07-09", "EUR", "USD", 1.23), ("2026-07-10", "EUR", "USD", 1.2344),
+                                                                         ("2026-07-10", "USD", "USD", 9.99)])
+    return c
+
+
+def test_fx_rate_is_the_day_or_last_published_eur_based():
+    c = _rates()
+    assert db.fx_rate(c, "EUR", "2026-07-10") == 1.0
+    assert db.fx_rate(c, "USD", "2026-07-10") == 1.2344             # base EUR; la fila base USD no cuenta
+    assert db.fx_rate(c, "USD", "2026-07-12") == 1.2344             # fin de semana: último publicado
+    assert db.fx_rate(c, "USD", "2026-07-09T23:00:00") == 1.23      # acepta fecha con hora
+
+
+def test_fx_rate_missing_is_an_explicit_error_code():
+    with pytest.raises(ValueError, match="^FX_RATE_MISSING$"):     # AP lo usa como motivo HOLD
+        db.fx_rate(_rates(), "USD", "2026-07-08")

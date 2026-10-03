@@ -89,6 +89,8 @@ def build_db(phase_dir, db_path):
     conn.execute("CREATE TABLE bank_statement(account TEXT, month TEXT, opening INTEGER, closing INTEGER, PRIMARY KEY(account, month))")
     conn.executemany("INSERT INTO bank_statement VALUES (:account, :month, :opening, :closing)", stmts)
     conn.executescript(LEDGER + "CREATE INDEX ix_je_acc ON je_line(company, account); CREATE INDEX ix_bank ON bank_line(account, month);")
+    if conn.execute("SELECT 1 FROM sqlite_master WHERE name = 'fx_rates'").fetchone():
+        conn.execute("CREATE INDEX ix_fx ON fx_rates(currency, date)")
     cache = CACHE / phase_dir.name / "doc_extract.jsonl"
     if cache.exists():
         conn.executemany("INSERT OR REPLACE INTO doc_extract VALUES (:doc_id, :source, :confidence, :data)", _read_jsonl(cache))
@@ -118,6 +120,18 @@ def get_json(conn, name):
 
 def phase_dir(conn):
     return Path(get_json(conn, "phase/dir"))
+
+
+def fx_rate(conn, currency, day):
+    """SYN-BCE: unidades de `currency` por 1 EUR del día o del último publicado antes. Sin tipo → ValueError('FX_RATE_MISSING').
+    Solo la búsqueda es común: cada tarea conserva su fórmula de conversión (AP en Decimal, cierre con 1/tipo a 6 decimales como el histórico)."""
+    if currency == "EUR":
+        return 1.0
+    row = conn.execute("SELECT rate FROM fx_rates WHERE base = 'EUR' AND currency = ? AND date <= ? ORDER BY date DESC LIMIT 1",
+                       (currency, str(day)[:10])).fetchone()
+    if not row:
+        raise ValueError("FX_RATE_MISSING")
+    return row[0]
 
 
 def reset_run(conn):

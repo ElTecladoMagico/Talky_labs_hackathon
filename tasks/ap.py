@@ -59,13 +59,7 @@ def _json(value, default):
 
 
 def _fx(conn, currency, local, day):
-    def rate(code):
-        if code == 'EUR':
-            return Decimal(1)
-        found = conn.execute("SELECT rate FROM fx_rates WHERE base='EUR' AND currency=? AND date<=? ORDER BY date DESC LIMIT 1", (code, day)).fetchone()
-        if not found:
-            raise ValueError('FX_RATE_MISSING')
-        return Decimal(str(found[0]))
+    rate = lambda code: Decimal(str(db.fx_rate(conn, code, day)))  # ValueError('FX_RATE_MISSING') → HOLD
     return rate(local) / rate(currency) if currency != local else Decimal(1)
 
 
