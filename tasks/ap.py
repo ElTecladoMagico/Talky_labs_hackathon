@@ -69,8 +69,65 @@ def _fx(conn, currency, local, day):
     return rate(local) / rate(currency) if currency != local else Decimal(1)
 
 
-def _historic_cost(conn, d, vendor):
-    rows = conn.execute("""SELECT h.issue_date, h.number, l.account, l.cost_center, l.wbs, l.tax_code
+def _recurring_cost(conn, d, vendor, docs, rows):
+    if d['document_type'] != 'INVOICE' or not re.search(r'\bCUPS\s*:', d['text'], re.I):
+        return None
+    month = d['invoice_date'][:7]
+    numbers = {norm_num(o['invoice_number']) for o in docs
+               if o['vendor_id'] == vendor['id'] and o['company'] == d['company']
+               and o['document_type'] == 'INVOICE' and (o['invoice_date'] or '')[:7] == month}
+    numbers.update(norm_num(r[0]) for r in conn.execute(
+        "SELECT number FROM ap_invoices WHERE vendor=? AND company=? AND kind='invoice' AND issue_date LIKE ?",
+        (vendor['id'], d['company'], month + '%')))
+    if len(numbers) < 2:
+        return None
+    cycles = defaultdict(lambda: defaultdict(set))
+    for day, number, account, cc, wbs, tax, kind in rows:
+        if kind == 'invoice':
+            cycles[day[:7]][norm_num(number)].add((account, cc, wbs, tax))
+    complete = [(m, tuple(next(iter(cycle[n])) for n in sorted(cycle)))
+                for m, cycle in sorted(cycles.items()) if m < month and len(cycle) == len(numbers)
+                and all(len(objects) == 1 for objects in cycle.values())]
+    if len(complete) < 2 or complete[-1][1] != complete[-2][1]:
+        return None
+    pattern = complete[-1][1]
+    if len(set(pattern)) != len(pattern):
+        return None
+    mapping = dict(zip(sorted(numbers), pattern))
+    if any(objects != {mapping[number]} for number, objects in cycles.get(month, {}).items()):
+        return None
+    # ponytail: infer only repeated complete monthly cycles; replace with a
+    # CUPS-to-cost-object master when supplied, especially if site ordering changes.
+    d['cost_evidence'] = dict(method='RECURRING_SEQUENCE', history_months=[m for m, _ in complete[-2:]],
+                              position=sorted(numbers).index(norm_num(d['invoice_number'])) + 1)
+    return mapping[norm_num(d['invoice_number'])]
+
+
+def _bank_recipients(conn, phase):
+    accounts = {a['id']: a for a in _rows(conn, 'bank_accounts')}
+    month = db.get_json(conn, 'tasks/close')['month']
+    found = defaultdict(list)
+    for path in sorted((phase / 'bank').glob('*/*.n43')):
+        account = accounts.get(path.parent.name)
+        if not account or path.stem > month:
+            continue
+        for record in re.split(r'(?m)(?=^22)', path.read_text(encoding='latin1')):
+            header = record.splitlines()[0]
+            mandate = re.search(r'\bMANDATO\s+([A-Z0-9-]+)-(\d{4})\b', record)
+            invoice = re.search(r'(?m)^2302FRA\s+(\S+)', record)
+            if not header.startswith('22') or len(header) < 42 or header[27] != '1' or not mandate or not invoice:
+                continue
+            vendor, company = mandate.groups()
+            if company != account['company'] or not header[28:42].isdigit():
+                continue
+            key = (vendor, norm_num(_number(invoice[1])), account['currency'], int(header[28:42]))
+            found[key].append(dict(company=company, account=account['id'], mandate=mandate[0],
+                                   source=str(path.relative_to(phase))))
+    return found
+
+
+def _historic_cost(conn, d, vendor, docs=()):
+    rows = conn.execute("""SELECT h.issue_date, h.number, l.account, l.cost_center, l.wbs, l.tax_code, h.kind
         FROM ap_invoices h JOIN je_line l ON l.entry_id=h.journal_entry AND l.company=h.company
         WHERE h.vendor=? AND h.company=? AND h.issue_date<=?
         AND h.decision IN ('POST','POST_PAYMENT_BLOCK')
@@ -81,7 +138,8 @@ def _historic_cost(conn, d, vendor):
     rows = matched or rows
     if not rows:
         raise ValueError('ACCOUNTING_EVIDENCE_MISSING')
-    objects = {(acc, cc, wbs, tc) for date, number, acc, cc, wbs, tc in rows
+    inferred = _recurring_cost(conn, d, vendor, docs, rows)
+    objects = {inferred} if inferred else {(acc, cc, wbs, tc) for date, number, acc, cc, wbs, tc, kind in rows
                if date == rows[0][0] and acc == vendor['default_gl_account']}
     if len(objects) != 1:
         raise ValueError('ACCOUNTING_EVIDENCE_AMBIGUOUS')
@@ -106,7 +164,7 @@ def _coding(conn, d, vendor, pos, receipts, docs=()):
                      and norm_num(o['invoice_number']) == norm_num(d['credit_reference'])
                      and o['document_type'] == 'INVOICE']
         if len(originals) == 1:
-            original = _coding(conn, originals[0], vendor, pos, receipts)
+            original = _coding(conn, originals[0], vendor, pos, receipts, docs)
             objects = {(l['account'], l['cost_center'], l['wbs'], l['tax_code']) for l in original}
             if len(objects) == 1:
                 account, cc, wbs, tax = objects.pop()
@@ -175,7 +233,7 @@ def _coding(conn, d, vendor, pos, receipts, docs=()):
         elif vendor['po_required'] and not credit:
             raise ValueError('ACCOUNTING_EVIDENCE_MISSING')
         else:
-            line = _historic_cost(conn, d, vendor)
+            line = _historic_cost(conn, d, vendor, docs)
             line.update(amount=item['amount'], po=None, po_item=None)
             line['tax_code'] = _item_tax(item, line['tax_code'])
             out.append(line)
@@ -232,6 +290,8 @@ def _decide(conn, d, vendor, company, pos, receipts, notices, taxes):
     if not d['buyer_tax_id']:
         return 'REJECT', ['MANDATORY_FIELD_MISSING'], [], None, None
     if not company:
+        return 'REJECT', ['WRONG_ADDRESSEE'], [], None, None
+    if d['source_company'] != d['company']:
         return 'REJECT', ['WRONG_ADDRESSEE'], [], None, None
     if not vendor:
         return 'HOLD', ['VENDOR_NOT_IN_MASTER'], [], None, None
@@ -323,7 +383,9 @@ def _journal(d, vendor, coding, taxes, fx):
 
 def run(conn):
     conn.execute('CREATE INDEX IF NOT EXISTS ix_ap_history_lines ON je_line(entry_id, company, account)')
-    docs = extract_phase(conn, _phase(conn))
+    phase = _phase(conn)
+    docs = extract_phase(conn, phase)
+    recipients = _bank_recipients(conn, phase)
     vendors = {v['id']: v for v in _rows(conn, 'vendors')}
     companies = {c['code']: c for c in _rows(conn, 'companies')}
     pos = {p['id']: p for p in _rows(conn, 'purchase_orders')}
@@ -344,7 +406,7 @@ def run(conn):
     results = []
     for source in sorted(docs, key=lambda d: (d['metadata']['received_at'], d['doc_id'])):
         d = deepcopy(source)
-        d.update(source_invoice_number=d['invoice_number'], source_currency=d['currency'],
+        d.update(source_invoice_number=d['invoice_number'], source_currency=d['currency'], source_company=d['company'],
                  source_amounts={k: d.get(k) for k in AMOUNTS}, journal_entry=None,
                  duplicate_of=None, payee=None, payment_block=None, action=None, lines=[])
         if 'deposit request' in fold(d['text']):
@@ -356,9 +418,15 @@ def run(conn):
                     d[k] = -abs(d[k])
             for item in d['items']:
                 item['amount'] = -abs(item['amount'])
+        evidence = recipients.get((d['vendor_id'], norm_num(_number(d['invoice_number'])), d['currency'], d['payable']), [])
+        recipient_companies = {e['company'] for e in evidence}
+        if len(recipient_companies) == 1:
+            d.update(company=next(iter(recipient_companies)), bank_evidence=evidence)
         vendor, company = vendors.get(d['vendor_id']), companies.get(d['company'])
         key = _key(d['vendor_id'], d['invoice_number'], d['currency'], source['gross'], d['company'])
         first = seen.get(key) or originals.get((key, _fingerprint(source))) if d['vendor_id'] and d['invoice_number'] and d['gross'] is not None and d['company'] else None
+        if d['source_company'] != d['company']:
+            first = None
         if first and vendor and d['document_type'] not in ACTIONS and _payment_checks(d, vendor, docs)[1]:
             first = None
         if first and first[0] != d['doc_id']:
@@ -372,7 +440,8 @@ def run(conn):
             if decision == 'NOT_INVOICE':
                 d['action'] = ACTIONS[d['document_type']]
         if d['decision'] == 'REJECT' and 'ARITHMETIC_ERROR' in d['reasons']:
-            d['payable'] = d['net'] + d['tax'] - d['withholding'] - d['retention']
+            d['gross'] = d['net'] + d['tax']
+            d['payable'] = d['gross'] - d['withholding'] - d['retention']
         fx = Decimal(1)
         if company and d['currency'] and d['invoice_date']:
             try:
