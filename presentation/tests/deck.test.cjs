@@ -41,7 +41,7 @@ test('navigation renders exactly one slide, bounds buttons, and exposes current 
   const f = fixture();
   assert.equal(f.slides.filter(s => !s.hidden).length, 1);
   assert.equal(f.ids.prev.disabled, true);
-  f.ids.next.onclick(); assert.equal(f.win.location.hash, '2');
+  f.ids.next.onclick(); assert.equal(f.win.location.hash, '#2');
   f.events.hashchange(); assert.equal(f.ids.counter.textContent, '02 / 07');
   assert.equal(f.links[1].attrs['aria-current'], 'step');
   assert.equal(f.ids['notes-text'].textContent, 'Nota 1');
@@ -51,7 +51,9 @@ test('navigation renders exactly one slide, bounds buttons, and exposes current 
   f.key('ArrowLeft'); f.events.hashchange();
   f.key('PageDown'); f.events.hashchange(); f.key('PageUp'); f.events.hashchange();
   f.key(' '); f.events.hashchange();
-  assert.equal(f.key('ArrowRight', 'BUTTON'), false);
+  assert.equal(f.key('ArrowRight', 'BUTTON'), true);
+  assert.equal(f.key(' ', 'BUTTON'), false);
+  assert.equal(f.key(' ', 'A'), false);
   assert.equal(f.key('ArrowRight', 'INPUT'), false);
   assert.equal(f.key('Escape'), false);
 });

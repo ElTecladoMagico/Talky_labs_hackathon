@@ -2,6 +2,10 @@
 
 Material de desarrollo para el desafío de cierre contable con IA de Grupo Kalmora.
 
+## Presentación del equipo · 5 minutos
+
+Abrir [presentation/dist/index.html](presentation/dist/index.html) en el navegador: siete diapositivas de P1, P2 y P3, caso conectado, resultados dev y límites. Sin instalación ni conexión al ERP. Incluye guion, temporizador y pantalla completa. [Uso, tiempos y fuentes](presentation/README.md).
+
 El ejercicio incluye cuentas a pagar, facturación, aplicación de cobros, conciliación bancaria, conciliación intragrupo y ajustes de cierre. Los datos son sintéticos.
 
 ## Documentación
