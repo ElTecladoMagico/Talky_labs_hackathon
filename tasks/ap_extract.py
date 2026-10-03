@@ -18,7 +18,7 @@ from pathlib import Path
 from common import db
 from common.je import norm_num
 
-VERSION = 5
+VERSION = 6
 AMOUNT = r"-?\d[\d.,]*[.,]\d{2}"
 INVOICE_KINDS = {"INVOICE", "CREDIT_NOTE", "DOWN_PAYMENT_REQUEST"}
 
@@ -130,6 +130,8 @@ def parse_pdf_text(text):
         month, day, year = map(int, raw_date.split("/"))
         raw_date = date(year, month, day).isoformat()
     d["invoice_date"] = date_iso(raw_date) if raw_date else None
+    period = re.search(r"^(?:Periodo|Período|Service period)\s*:\s*(\d{1,2}[/-]\d{1,2}[/-]\d{4})\s*[–—-]\s*(\d{1,2}[/-]\d{1,2}[/-]\d{4})", text, re.M | re.I)
+    d.update(period_start=date_iso(period[1]) if period else None, period_end=date_iso(period[2]) if period else None)
     nifs = re.findall(r"\b(?:NIF|RFC|Tax ID)\s*:?\s*([A-Z0-9-]+)", text)
     d["seller_tax_id"] = nifs[0] if nifs else None
     recipient = re.split(r"FACTURAR A|FATURAR A|BILL TO", text, maxsplit=1)
@@ -149,7 +151,8 @@ def parse_pdf_text(text):
     d["payable"] = _amount(r"^(?:Total a pagar|TOTAL A PAGAR|Importe a pagar|Amount due)", text)
     if d["payable"] is None and d["gross"] is not None:
         d["payable"] = d["gross"] - d["withholding"] - d["retention"]
-    d["iban"] = _match(r"\b((?:ES|PT|DE|FR|GB|NL|IT|IE)\d{2}[A-Z0-9]{10,30})\b", text)
+    # CUPS electricity supply codes also start ES: they are not bank accounts.
+    d["iban"] = _match(r"\b((?:ES\d{22}|PT\d{23}|DE\d{20}|(?:FR|GB|NL|IT|IE)\d{2}[A-Z0-9]{10,30}))\b", text)
     d["po_refs"] = list(dict.fromkeys(re.findall(r"\b450\d{7}\b", text)))
     d["items"] = _pdf_items(text)
     if len(d["po_refs"]) == 1:
@@ -186,7 +189,7 @@ def parse_xml(path):
     if root.tag != "Facturae":
         raise ValueError("unsupported XML schema")
     items = [_receipt({"description": e.findtext("ItemDescription", ""), "quantity_milli": int(Decimal(e.findtext("Quantity")) * 1000), "unit_price": money(e.findtext("UnitPriceWithoutTax")), "amount": money(e.findtext("GrossAmount")), "po": e.findtext("IssuerTransactionReference")}) for e in root.findall(".//InvoiceLine")]
-    return {"document_type": "CREDIT_NOTE" if txt("InvoiceClass") in {"OR", "CR"} else "INVOICE", "credit_reference": txt("Corrective/InvoiceNumber"), "invoice_number": txt("InvoiceNumber"), "invoice_date": date_iso(txt("IssueDate")), "currency": txt("InvoiceCurrencyCode"), "seller_tax_id": txt("SellerParty/TaxIdentification/TaxIdentificationNumber"), "buyer_tax_id": txt("BuyerParty/TaxIdentification/TaxIdentificationNumber"), "net": cents("InvoiceTotals/TotalGrossAmountBeforeTaxes"), "tax": cents("InvoiceTotals/TotalTaxOutputs"), "gross": cents("InvoiceTotals/InvoiceTotal"), "withholding": cents("InvoiceTotals/TotalTaxesWithheld") or 0, "retention": cents("InvoiceTotals/AmountsWithheld/WithholdingAmount") or 0, "payable": cents("InvoiceTotals/TotalOutstandingAmount"), "items": items, "po_refs": list(dict.fromkeys(e["po"] for e in items if e["po"])), "text": txt("InvoiceAdditionalInformation") or ""}
+    return {"document_type": "CREDIT_NOTE" if txt("InvoiceClass") in {"OR", "CR"} else "INVOICE", "credit_reference": txt("Corrective/InvoiceNumber"), "period_start": txt("InvoicingPeriod/StartDate"), "period_end": txt("InvoicingPeriod/EndDate"), "invoice_number": txt("InvoiceNumber"), "invoice_date": date_iso(txt("IssueDate")), "currency": txt("InvoiceCurrencyCode"), "seller_tax_id": txt("SellerParty/TaxIdentification/TaxIdentificationNumber"), "buyer_tax_id": txt("BuyerParty/TaxIdentification/TaxIdentificationNumber"), "net": cents("InvoiceTotals/TotalGrossAmountBeforeTaxes"), "tax": cents("InvoiceTotals/TotalTaxOutputs"), "gross": cents("InvoiceTotals/InvoiceTotal"), "withholding": cents("InvoiceTotals/TotalTaxesWithheld") or 0, "retention": cents("InvoiceTotals/AmountsWithheld/WithholdingAmount") or 0, "payable": cents("InvoiceTotals/TotalOutstandingAmount"), "items": items, "po_refs": list(dict.fromkeys(e["po"] for e in items if e["po"])), "text": txt("InvoiceAdditionalInformation") or ""}
 
 
 def extract_document(folder, cached=None):
