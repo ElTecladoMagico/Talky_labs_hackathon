@@ -74,7 +74,8 @@ def test_make_je_balances_per_company_on_intercompany_lines():
 
 
 def test_norm_num_is_the_scorer_normalization():
-    assert norm_num("F-0026/030808") == norm_num("26030808") == "26030808"
+    assert norm_num("2026/322") == norm_num("2026-322") == "2026322"
+    assert norm_num("0007350") == "7350"
 
 
 # ---------------------------------------------------------------- database
