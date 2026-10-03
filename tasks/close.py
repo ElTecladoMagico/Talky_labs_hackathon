@@ -43,15 +43,29 @@ def accrual_estimate(series, month):
 
 
 def accruals(conn, month):
-    series, tmpl = defaultdict(dict), {}
-    for r in q(conn, """SELECT company, partner, substr(posting_date, 1, 7) m, SUM(credit - debit) amt FROM je_line
-                        WHERE account = '40090000' AND source = 'CLOSE_ACCRUAL' AND partner LIKE 'V%' GROUP BY 1, 2, 3"""):
-        series[(r["company"], r["partner"])][r["m"]] = r["amt"]
+    """Por proveedor: mediana del consumo recurrente (tramos periodificados hasta fin de mes) + lo periodificado hasta el cierre
+    anterior cuya factura no ha llegado contabilizada este mes. Los ciclos atrasados y servicios puntuales (tramo que no llega
+    a fin de mes) no son consumo recurrente: no entran en la mediana ni se arrastran (golden dev)."""
+    series, pending = defaultdict(dict), defaultdict(int)
+    ok = q(conn, "SELECT doc_id, company, vendor_id, json_extract(data, '$.period_end') pe FROM ap_result WHERE decision IN ('POST', 'POST_PAYMENT_BLOCK')")
+    posted = {r["doc_id"] for r in ok}
+    billed_to = defaultdict(str)  # (sociedad, proveedor) → hasta qué día hay factura contabilizada este mes
+    for r in ok:
+        billed_to[(r["company"], r["vendor_id"])] = max(billed_to[(r["company"], r["vendor_id"])], r["pe"] or "")
+    for r in q(conn, """SELECT company, partner, reference, substr(posting_date, 1, 7) m, MAX(header_text) hdr, SUM(credit - debit) amt FROM je_line
+                        WHERE account = '40090000' AND source = 'CLOSE_ACCRUAL' AND partner LIKE 'V%' GROUP BY 1, 2, 3, 4"""):
+        end = re.search(r"–(\d\d)/(\d\d)/(\d{4})", r["hdr"] or "")
+        if end and f"{end[3]}-{end[2]}-{end[1]}" != month_end(r["m"]).isoformat():
+            continue  # ciclo atrasado o servicio puntual
+        key = (r["company"], r["partner"])
+        series[key][r["m"]] = series[key].get(r["m"], 0) + r["amt"]
+        covered = (r["reference"] or "")[5:] in posted or (end and billed_to[key] >= f"{end[3]}-{end[2]}-{end[1]}")
+        if posted and r["m"] == shift(month, 1) and not covered:  # sin ap_result no se sabe: no se arrastra
+            pending[key] += r["amt"]  # consumo hasta el cierre anterior aún sin factura válida (p. ej. rechazada)
     rows = []
     for (company, vendor), s in sorted(series.items()):
-        if not any(s.get(shift(month, k)) for k in (1, 2)):
-            continue  # ya no se periodifica a este proveedor
-        amt = accrual_estimate(s, month)
+        regular = accrual_estimate(s, month) if any(s.get(shift(month, k)) for k in (1, 2)) else 0  # si no, ya no se periodifica
+        amt = (regular or 0) + pending[(company, vendor)]
         if not amt:
             continue
         last = max(m for m in s if s[m])
