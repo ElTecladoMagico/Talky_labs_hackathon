@@ -10,6 +10,25 @@ ROOT = Path(__file__).resolve().parents[1]
 DEV = ROOT / "participant/phase_dev/inbox/ap"
 
 
+def test_guarantee_without_de_is_not_missed():
+    from tasks.ap_extract import extract_document
+    d = extract_document(DEV / 'API004090')
+    assert d['retention'] == 1533300
+    assert d['payable'] == d['gross'] - d['retention']
+
+
+def test_xml_credit_keeps_corrective_reference():
+    from tasks.ap_extract import extract_document
+    d = extract_document(DEV / 'API005583')
+    assert d['credit_reference'] == 'F2636258'
+
+
+def test_deposit_request_has_priority_over_proforma():
+    from tasks.ap_extract import extract_document
+    d = extract_document(DEV / 'API004469')
+    assert d['document_type'] == 'DOWN_PAYMENT_REQUEST'
+
+
 @pytest.mark.parametrize("raw,expected", [
     ("1.234,56", 123456), ("-825,96", -82596),
     ("1,234.56", 123456), ("1234.56", 123456), ("0,00", 0),
