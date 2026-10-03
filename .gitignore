@@ -7,6 +7,5 @@ __pycache__/
 .env.*
 !.env.example
 db/
-submission/
 *.zip
 .toml

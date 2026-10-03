@@ -1,0 +1,65 @@
+{
+ "ap": {
+  "score": 0.9688,
+  "decision_macro_f1": 0.9592450397328447,
+  "header": 0.9785123966942145,
+  "coding": 0.9678992047315911,
+  "po_match": 0.9769230769230769,
+  "journal_entry": 0.9714876033057852,
+  "reasons": 0.9411764705882353,
+  "payee_and_block": 1.0,
+  "per_decision_f1": {
+   "DUPLICATE": 0.929,
+   "HOLD": 0.878,
+   "NOT_INVOICE": 1.0,
+   "POST": 0.99,
+   "REJECT": 1.0
+  },
+  "documents": 305,
+  "answered": 305
+ },
+ "ar_billing": {
+  "score": 1.0,
+  "items": 26,
+  "answered": 26
+ },
+ "ar_cash": {
+  "score": 1.0,
+  "receipts": 32,
+  "fully_correct": 32
+ },
+ "bank_rec": {
+  "score": 1.0,
+  "per_account": {
+   "BIN-1000": 1.0,
+   "CMA-1000": 1.0,
+   "BIN-1100": 1.0,
+   "BAE-1100": 1.0,
+   "CMA-1100": 1.0,
+   "BIN-1200": 1.0,
+   "CMA-1200": 1.0,
+   "BAE-1300": 1.0,
+   "CMA-1910": 1.0,
+   "BLC-2100": 1.0,
+   "BANH-3100-MXN": 1.0,
+   "BANH-3100-USD": 1.0
+  }
+ },
+ "ic": {
+  "score": 1.0,
+  "differences": 5,
+  "detected": 5
+ },
+ "close": {
+  "score": 0.8719,
+  "items": 64,
+  "recall": 0.872,
+  "precision": 0.872
+ },
+ "trial_balance": {
+  "score": 0.9994,
+  "abs_difference_eur": 178945.56,
+  "recorded_vs_truth_eur": 303662230.6
+ },
+ "total": 97.78
+}
