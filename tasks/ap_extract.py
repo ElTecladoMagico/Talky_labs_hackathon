@@ -262,7 +262,7 @@ def extract_document(folder, cached=None):
 
 
 def _tax_id(value):
-    return re.sub(r"^(?:ES|PT)", "", value or "").upper()
+    return re.sub(r"^(?:ES|PT)", "", (value or "").strip().upper())
 
 
 def _rows(conn, table):
@@ -282,14 +282,23 @@ def extract_phase(conn, phase_dir):
             vendor = next((v for v in vendors if fold(v["name"]) in fold(d["text"])), None)
         company = next((c for c in companies if _tax_id(c["tax_id"]) == _tax_id(d["buyer_tax_id"]) and d["buyer_tax_id"]), None)
         d.update(vendor_id=vendor["id"] if vendor else None, company=company["code"] if company else None, status="EXTRACTED_PENDING_DECISION")
-        payload = json.dumps(d, ensure_ascii=False)
-        conn.execute("INSERT OR REPLACE INTO doc_extract VALUES (?,?,?,?)", (doc_id, "xml" if any(p.endswith(".xml") for p in d["source_files"]) else "pdf", 0.5 if d["issues"] else 1.0, payload))
+        params = dict(d, data=json.dumps(d, ensure_ascii=False), decision=None,
+                      invoice_norm=norm_num(d["invoice_number"]) if d["invoice_number"] else None,
+                      source="xml" if any(p.endswith(".xml") for p in d["source_files"]) else "pdf",
+                      confidence=0.5 if d["issues"] else 1.0)
+        conn.execute("""INSERT INTO doc_extract(doc_id, source, confidence, data)
+                        VALUES (:doc_id, :source, :confidence, :data) ON CONFLICT(doc_id) DO UPDATE SET
+                        source=excluded.source, confidence=excluded.confidence, data=excluded.data""", params)
         # Refresh pending identities; preserve final decisions on extraction-only reruns.
-        conn.execute("""INSERT INTO ap_result VALUES (?,?,?,?,?,?,?,?,?,?) ON CONFLICT(doc_id) DO UPDATE SET
+        conn.execute("""INSERT INTO ap_result(doc_id, company, vendor_id, invoice_number, invoice_norm,
+                                             invoice_date, payable, currency, decision, data)
+                        VALUES (:doc_id, :company, :vendor_id, :invoice_number, :invoice_norm,
+                                :invoice_date, :payable, :currency, :decision, :data)
+                        ON CONFLICT(doc_id) DO UPDATE SET
                         company=excluded.company, vendor_id=excluded.vendor_id, invoice_number=excluded.invoice_number,
                         invoice_norm=excluded.invoice_norm, invoice_date=excluded.invoice_date, payable=excluded.payable,
                         currency=excluded.currency, data=excluded.data WHERE ap_result.decision IS NULL""",
-                     (doc_id, d["company"], d["vendor_id"], d["invoice_number"], norm_num(d["invoice_number"]) if d["invoice_number"] else None, d["invoice_date"], d["payable"], d["currency"], None, payload))
+                     params)
         docs.append(d)
     return docs
 
