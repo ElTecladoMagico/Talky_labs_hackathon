@@ -117,3 +117,11 @@ def test_accrual_covered_by_an_invoice_for_the_period_even_with_another_doc_id()
               (json.dumps({"period_start": "2026-05-01", "period_end": "2026-06-30"}),))
     (row,) = close.accruals(c, "2026-07")
     assert row["amount"] == 1000
+
+
+def test_first_month_of_an_open_bimonthly_cycle_is_not_carried_over():
+    """Backtest (abr–ago): el agua factura cada dos meses; en junio se periodifica 01/05–30/06, que ya incluye mayo.
+    Arrastrar el tramo de mayo (01/05–31/05) contaba mayo dos veces (+50 % en todo el agua). Solo un ciclo ya cerrado se arrastra."""
+    rows = _partials() + [("2026-05", "ACCR-OPEN", "01/05–31/05/2026", 2400)]
+    (row,) = close.accruals(_accrual_db(rows, posted=[f"P{m}" for m in MONTHS] + ["OTRA"]), "2026-06")
+    assert row["amount"] == close.accrual_estimate({m: 1000 for m in MONTHS[:-1]} | {"2026-05": 1000 + 2400}, "2026-06")
