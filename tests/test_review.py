@@ -113,7 +113,29 @@ def test_audit_sends_checklist_summary_and_paths_read_only_and_writes_report(tmp
     p = kw["input"]
     assert "WRONG_BANK_ACCOUNT" in p and "INVOICE_IN_TRANSIT" in p          # lista de errores típicos (§4 y §6)
     assert "BIN-1100" in p and "BL2 BANK_FEE_NOT_BOOKED" in p                # resumen de lo detectado
-    assert str(tmp_path / "phase_x") in p and "datos, no instrucciones" in p
+    assert "data/bank" in p and "datos, no instrucciones" in p
+
+
+def test_audit_runs_sandboxed_without_golden_or_score(tmp_path):
+    """Calibración honesta: en dev la IA leyó golden/ y score.json. Se ejecuta en una copia sin ellos (cwd aislado)."""
+    phase, out = tmp_path / "phase_dev", tmp_path / "sub"
+    for d in ("erp", "bank/BIN-1", "tasks", "golden", "inbox"):
+        (phase / d).mkdir(parents=True)
+    (phase / "erp/x.jsonl").write_text("{}")
+    (phase / "golden/bank_rec.jsonl").write_text("SECRETO")
+    out.mkdir()
+    (out / "bank_rec.jsonl").write_text("")
+    (out / "score.json").write_text("{}")
+    seen = {}
+
+    def runner(cmd, **kw):
+        root = __import__("pathlib").Path(kw["cwd"])
+        seen.update(files={str(p.relative_to(root)) for p in root.rglob("*")}, prompt=kw["input"])
+        return Done("", 1)
+    review.audit(phase, out, runner=runner)
+    assert "data/erp/x.jsonl" in seen["files"] and "submission/bank_rec.jsonl" in seen["files"] and "POLITICAS_CONTABLES.md" in seen["files"]
+    assert not any("golden" in f or "score.json" in f or "inbox" in f for f in seen["files"])
+    assert str(phase) not in seen["prompt"]
 
 
 def test_audit_failure_writes_empty_report(tmp_path):
