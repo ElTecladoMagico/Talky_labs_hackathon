@@ -58,4 +58,4 @@ CC o PEP (no ambos) y cuadre por sociedad. `propose(conn, "bank:BL0000123", "P2"
 - **El extracto manda.** Control en cada ejecución: saldo final del extracto = 572 al cierre + ajustes − libro abierto + cargos sin ajuste (0 céntimos en las 11 cuentas en moneda local, dev y test). Si no cuadra, `run` avisa.
 - **Recibo domiciliado:** se asienta (Dr proveedor / Cr 572) **solo si la factura está en `POST`**; la rechazada o no recibida se clasifica sin asiento (así lo hace el golden de dev).
 - **Factura intragrupo en tránsito:** solo se marca la mayor sin recibir (golden dev); las demás salen como `AVISO` para la revisión cruzada. Sin `ap_result` no se marca ninguna.
-- Dev con el AP del golden como `ap_result`: bank_rec 1.0, ic 1.0 (sin P1: 0.97 / 0.6).
+- Dev con el AP del golden como `ap_result`: bank_rec 1.0, ic 1.0 (sin P1: 0.97 / 0.85).
