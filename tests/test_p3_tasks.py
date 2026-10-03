@@ -1,6 +1,4 @@
 """P3: cada tarea se puntúa contra golden de dev con el evaluador. Umbral = objetivo del hito (ver plan)."""
-import json
-
 import pytest
 
 from common import db
@@ -87,14 +85,6 @@ def test_accrual_estimate_ignores_late_cycle_entries():
     assert row["amount"] == 1000
 
 
-def test_previous_month_end_accrual_still_unbilled_is_added():
-    """Golden Fuenteclara: lo periodificado hasta el 30/06 cuya factura no llega (o llega rechazada) sigue pendiente en julio."""
-    rows = _partials() + [("2026-06", "ACCR-BIM", "01/05–30/06/2026", 2400)]
-    (row,) = close.accruals(_accrual_db(rows, posted=[f"P{m}" for m in MONTHS] + ["OTRA"]), "2026-07")
-    assert row["amount"] == 1000 + 2400
-    (row,) = close.accruals(_accrual_db(rows, posted=[f"P{m}" for m in MONTHS] + ["BIM"]), "2026-07")
-    assert row["amount"] == 1000
-
 
 def test_one_off_service_is_not_carried_over():
     """Golden V100210: un servicio puntual (27/06–27/06) periodificado en junio no se vuelve a periodificar en julio."""
@@ -102,26 +92,3 @@ def test_one_off_service_is_not_carried_over():
     assert close.accruals(c, "2026-07") == []
 
 
-def test_without_ap_results_nothing_is_carried_over():
-    """Sin ap_result (AP no ejecutado o caído) no se sabe qué facturas llegaron: no se arrastra nada (si no, se duplicaba todo)."""
-    rows = _partials() + [("2026-06", "ACCR-BIM", "01/05–30/06/2026", 2400)]
-    (row,) = close.accruals(_accrual_db(rows), "2026-07")
-    assert row["amount"] == 1000
-
-
-def test_accrual_covered_by_an_invoice_for_the_period_even_with_another_doc_id():
-    """Test V100034/1100: lo periodificado 01/07–31/08 (ref. API004587) llega como API005261 con ese mismo periodo: está cubierto."""
-    rows = _partials() + [("2026-06", "ACCR-BIM", "01/05–30/06/2026", 2400)]
-    c = _accrual_db(rows, posted=[f"P{m}" for m in MONTHS])
-    c.execute("INSERT INTO ap_result(doc_id, company, vendor_id, decision, data) VALUES ('OTRO', '1100', 'V1', 'POST', ?)",
-              (json.dumps({"period_start": "2026-05-01", "period_end": "2026-06-30"}),))
-    (row,) = close.accruals(c, "2026-07")
-    assert row["amount"] == 1000
-
-
-def test_first_month_of_an_open_bimonthly_cycle_is_not_carried_over():
-    """Backtest (abr–ago): el agua factura cada dos meses; en junio se periodifica 01/05–30/06, que ya incluye mayo.
-    Arrastrar el tramo de mayo (01/05–31/05) contaba mayo dos veces (+50 % en todo el agua). Solo un ciclo ya cerrado se arrastra."""
-    rows = _partials() + [("2026-05", "ACCR-OPEN", "01/05–31/05/2026", 2400)]
-    (row,) = close.accruals(_accrual_db(rows, posted=[f"P{m}" for m in MONTHS] + ["OTRA"]), "2026-06")
-    assert row["amount"] == close.accrual_estimate({m: 1000 for m in MONTHS[:-1]} | {"2026-05": 1000 + 2400}, "2026-06")

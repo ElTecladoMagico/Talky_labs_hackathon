@@ -51,15 +51,15 @@
   "detected": 5
  },
  "close": {
-  "score": 0.8719,
+  "score": 0.8562,
   "items": 64,
-  "recall": 0.872,
-  "precision": 0.872
+  "recall": 0.856,
+  "precision": 0.856
  },
  "trial_balance": {
   "score": 0.9994,
-  "abs_difference_eur": 178945.56,
+  "abs_difference_eur": 183754.58,
   "recorded_vs_truth_eur": 303662230.6
  },
- "total": 97.78
+ "total": 97.62
 }
