@@ -7,9 +7,12 @@ import importlib
 import json
 import subprocess
 import sys
+import traceback
+from collections import defaultdict
 from pathlib import Path
 
 from common import db
+from common.je import je_lines  # extracción de líneas del evaluador
 
 ROOT = Path(__file__).resolve().parent
 TASKS = ["ap", "ar_billing", "bank_rec", "ic", "ar_cash", "close"]
@@ -19,16 +22,51 @@ def load_task(name):
     return importlib.import_module(f"tasks.{name}").run if (ROOT / "tasks" / f"{name}.py").exists() else None
 
 
+def _entries(name, row):
+    """Asientos de una fila de entrega, igual que score_tb los suma al balance."""
+    if name in ("ap", "ar_billing", "close"):
+        return [row.get("journal_entry")]
+    if name in ("ar_cash", "ic"):
+        return [row.get("adjustment")]
+    return [a.get("lines", []) for a in row.get("adjustments", [])] if name == "bank_rec" else []
+
+
+def inconsistencies(conn, rows_by_task):
+    """(sociedad, cuenta) donde lo entregado ≠ lo registrado con propose(). Vacío = la vista ledger es fiable."""
+    diff = defaultdict(int)
+    for name, rows in rows_by_task.items():
+        for r in rows:
+            for je in _entries(name, r):
+                for c, acc, amt, *_ in je_lines(je, r.get("company")):
+                    diff[(c, acc)] += amt
+    for company, lines in conn.execute("SELECT company, lines FROM proposed_je"):
+        for c, acc, amt, *_ in je_lines(json.loads(lines), company):
+            diff[(c, acc)] -= amt
+    return {k: v for k, v in diff.items() if v}
+
+
 def run_tasks(conn, out_dir):
     out_dir = Path(out_dir)
     out_dir.mkdir(parents=True, exist_ok=True)
     db.reset_run(conn)
+    done = {}
     for name in TASKS:
-        fn = load_task(name)
-        rows = fn(conn) if fn else []
-        conn.commit()
+        fn, note = load_task(name), "  (sin módulo)"
+        rows = []
+        if fn:
+            try:
+                rows, note = fn(conn), ""
+                conn.commit()
+            except Exception:
+                conn.rollback()
+                traceback.print_exc()
+                note = "  ¡FALLÓ! se entrega vacío"
+        done[name] = rows
         (out_dir / f"{name}.jsonl").write_text("".join(json.dumps(r, ensure_ascii=False) + "\n" for r in rows), encoding="utf-8")
-        print(f"{name:11} {len(rows):4} filas" + ("" if fn else "  (sin módulo)"))
+        print(f"{name:11} {len(rows):4} filas{note}")
+    bad = inconsistencies(conn, done)
+    if bad:
+        print(f"AVISO: asientos entregados ≠ propose() en {len(bad)} cuentas: {dict(list(bad.items())[:5])}")
 
 
 def main(phase, rebuild=False):

@@ -5,7 +5,7 @@ from collections import defaultdict
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "participant"))
-from score import norm_num  # noqa: E402,F401  misma normalización de nº de factura que el evaluador
+from score import norm_num, je_lines  # noqa: E402,F401  mismas funciones que el evaluador
 
 
 def make_je(company, lines):

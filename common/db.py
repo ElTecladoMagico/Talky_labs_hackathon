@@ -5,6 +5,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
 PHASES = {"dev": ROOT / "participant/phase_dev", "test": ROOT / "participant/phase_test"}
+CACHE = ROOT / "cache"  # versionado en git: la extracción de documentos se comparte entre el equipo
 
 SHARED = """
 CREATE TABLE IF NOT EXISTS doc_extract(doc_id TEXT PRIMARY KEY, source TEXT, confidence REAL, data TEXT);
@@ -71,8 +72,20 @@ def build_db(phase_dir, db_path):
     _load(conn, "bank_line", [dict(r, account=f.parent.name, month=f.name[:7])
                               for f in sorted((phase_dir / "bank").glob("*/*.lines.jsonl")) for r in _read_jsonl(f)])
     conn.executescript(LEDGER + "CREATE INDEX ix_je_acc ON je_line(company, account); CREATE INDEX ix_bank ON bank_line(account, month);")
+    cache = CACHE / phase_dir.name / "doc_extract.jsonl"
+    if cache.exists():
+        conn.executemany("INSERT OR REPLACE INTO doc_extract VALUES (:doc_id, :source, :confidence, :data)", _read_jsonl(cache))
     conn.commit()
     return conn
+
+
+def dump_cache(conn, phase_dir):
+    """Vuelca doc_extract a cache/<fase>/doc_extract.jsonl para hacer commit y compartirlo."""
+    path = CACHE / Path(phase_dir).name / "doc_extract.jsonl"
+    path.parent.mkdir(parents=True, exist_ok=True)
+    rows = conn.execute("SELECT doc_id, source, confidence, data FROM doc_extract ORDER BY doc_id").fetchall()
+    path.write_text("".join(json.dumps(dict(zip(("doc_id", "source", "confidence", "data"), r)), ensure_ascii=False) + "\n" for r in rows),
+                    encoding="utf-8")
 
 
 def connect(phase, rebuild=False):
