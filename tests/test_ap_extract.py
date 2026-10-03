@@ -136,6 +136,8 @@ def test_real_xml_pdf_mismatch_remains_reviewable():
     from tasks.ap_extract import extract_document
     d = extract_document(DEV / "API005228")
     assert "XML_PDF_MISMATCH" in d["issues"]
+    assert d["representations"]["pdf"][0]["gross"] == 3169190
+    assert d["representations"]["xml"][0]["gross"] == 3254230
 
 
 def test_scanned_pdf_uses_native_ocr_instead_of_inventing_values():
@@ -195,3 +197,30 @@ def test_ocr_preserves_complete_delivery_tables(doc, number):
 def test_ocr_decimal_point_misread_as_group_separator():
     from tasks.ap_extract import money
     assert money("1.325.28") == 132528
+
+
+def test_cfdi_credit_normalizes_e_document_sign_not_false_mismatch():
+    from tasks.ap_extract import extract_document
+    d = extract_document(DEV / "API005591")
+    assert d["document_type"] == "CREDIT_NOTE"
+    assert (d["net"], d["tax"], d["gross"]) == (-41022632, -6563621, -47586253)
+    assert sum(i["amount"] for i in d["items"]) == d["net"]
+    assert "XML_PDF_MISMATCH" not in d["issues"]
+
+
+@pytest.mark.parametrize("phase,count", [("dev", 305), ("test", 297)])
+def test_complete_phase_produces_pending_identity_for_every_source(phase, count, tmp_path, monkeypatch):
+    from tasks.ap_extract import extract_phase
+    monkeypatch.setattr(db, "CACHE", tmp_path / "cache")
+    conn = db.build_db(db.PHASES[phase], tmp_path / "phase.db")
+    try:
+        docs = extract_phase(conn, db.PHASES[phase])
+        assert len(docs) == count
+        assert len({d["doc_id"] for d in docs}) == count
+        assert conn.execute("SELECT count(*) FROM ap_result").fetchone()[0] == count
+        assert conn.execute("SELECT count(*) FROM ap_result WHERE decision IS NOT NULL").fetchone()[0] == 0
+        assert conn.execute("SELECT count(*) FROM proposed_je").fetchone()[0] == 0
+        assert all(d["document_type"] and d["source_hash"] for d in docs)
+        assert not any("NO_READABLE_DOCUMENT" in d["issues"] for d in docs)
+    finally:
+        conn.close()
