@@ -41,15 +41,6 @@ def _fingerprint(d):
     return d['company'], d['invoice_date'], d['currency'], d['document_type'], d['iban'], amounts
 
 
-def _phase(conn):
-    month = db.get_json(conn, 'tasks/close')['month']
-    paths = [p for p in db.PHASES.values()
-             if json.loads((p / 'tasks/close.json').read_text())['month'] == month]
-    if len(paths) != 1:
-        raise ValueError('AP phase must be unambiguous')
-    return paths[0]
-
-
 def _round(value):
     return int(Decimal(value).quantize(Decimal(1), rounding=ROUND_HALF_UP))
 
@@ -372,7 +363,7 @@ def _journal(d, vendor, coding, taxes, fx):
 
 def run(conn):
     conn.execute('CREATE INDEX IF NOT EXISTS ix_ap_history_lines ON je_line(entry_id, company, account)')
-    phase = _phase(conn)
+    phase = db.phase_dir(conn)
     docs = extract_phase(conn, phase)
     recipients = _bank_recipients(conn)
     vendors = {v['id']: v for v in _rows(conn, 'vendors')}

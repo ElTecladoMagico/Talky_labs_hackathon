@@ -198,3 +198,18 @@ def test_fx_rate_is_the_day_or_last_published_eur_based():
 def test_fx_rate_missing_is_an_explicit_error_code():
     with pytest.raises(ValueError, match="^FX_RATE_MISSING$"):     # AP lo usa como motivo HOLD
         db.fx_rate(_rates(), "USD", "2026-07-08")
+
+
+# ---------------------------------------------------------------- ruta de la fase: guardada al construir, no adivinada por el mes
+def test_phase_dir_is_the_built_directory(conn, phase):
+    assert db.phase_dir(conn) == phase
+
+
+def test_connect_backfills_phase_dir_in_databases_built_before_it_existed(phase, tmp_path, monkeypatch):
+    monkeypatch.setattr(db, "ROOT", tmp_path)
+    monkeypatch.setitem(db.PHASES, "x", phase)
+    old = db.build_db(phase, tmp_path / "db" / "kalmora_x.db")
+    old.execute("DELETE FROM json_files WHERE name = 'phase/dir'")
+    old.commit()
+    old.close()
+    assert db.phase_dir(db.connect("x")) == phase

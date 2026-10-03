@@ -111,6 +111,7 @@ def connect(phase, rebuild=False):
     path = ROOT / "db" / f"kalmora_{phase}.db"
     conn = build_db(PHASES[phase], path) if rebuild or not path.exists() else sqlite3.connect(path)
     conn.executescript(SHARED)  # bases creadas antes de añadir tablas compartidas
+    conn.execute("INSERT OR IGNORE INTO json_files VALUES ('phase/dir', ?)", (json.dumps(str(PHASES[phase])),))  # ídem: ruta de la fase
     return conn
 
 
