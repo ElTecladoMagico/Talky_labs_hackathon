@@ -49,7 +49,9 @@ def test_conflicting_event_is_not_silently_reused(conn):
 def test_unsupported_or_unsafe_original_stays_pending(conn, monkeypatch, change):
     from tasks import ap
     from tasks.ap_extract import extract_phase
-    docs = extract_phase(conn, db.PHASES['dev'])
+    # Isolate the unsafe original: changing currency/amount makes a different
+    # duplicate key, so a separate valid submission need not be rejected.
+    docs = extract_phase(conn, db.PHASES['dev'])[:1]
     docs[0].update(change)
     monkeypatch.setattr(ap, 'extract_phase', lambda *_: docs)
     ap.run(conn)
