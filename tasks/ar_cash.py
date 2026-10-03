@@ -7,6 +7,7 @@ import csv
 import itertools
 import json
 import re
+import sys
 import unicodedata
 from collections import defaultdict
 from datetime import date
@@ -19,6 +20,10 @@ from tasks.ar_billing import cents, pdf_lines, q
 STOP = {"DE", "DEL", "LA", "EL", "LOS", "LAS", "TRANSFERENCIA"}
 NON_CUSTOMER = [(r"IVA|TRIBUTAR|HACIENDA|AEAT", "47000000"), (r"SEGUR|INDEMNIZ|MAPFRE", "75900000")]  # resto: devolución de fianza
 FIANZA = "56500000"
+
+
+def warn(b, msg):
+    print(f"AVISO ar_cash {b['bank_line']}: regla de respaldo — {msg}", file=sys.stderr)
 
 
 def words(s):
@@ -110,6 +115,7 @@ class Cash:
         # 1b. mismo cliente y mismo importe que un cobro de la última semana: pagó dos veces
         for c, a, d, i in reversed(self.paid):
             if a == amt and 0 < (date.fromisoformat(b["booking_date"]) - date.fromisoformat(d)).days <= 7 and name_score(text, self.cust.get(c, "")) >= 0.5:
+                warn(b, "mismo cliente e importe que un cobro de la última semana → duplicado")
                 return c, [], [("OVERPAYMENT_DUPLICATE", i, amt)]
         # 2. factura cedida al factor, pagada por error al grupo
         for i, c in self.factored.items():
@@ -138,6 +144,7 @@ class Cash:
             # 5. duplicado: ya se pagó una factura de ese importe
             dup = [i for i, v in self.inv.items() if v["customer"] == c and v["company"] == company and v["charged"] == amt and v["bal"] <= 0]
             if dup:
+                warn(b, "importe de una factura ya cobrada → duplicado")
                 return c, [], [("OVERPAYMENT_DUPLICATE", max(dup, key=lambda i: self.inv[i]["due"]), amt)]
             # 6. compensación con una factura de honorarios del propio cliente (AP abierta del mismo nombre)
             v = self.twin.get(self.cust[c].lower())
@@ -151,6 +158,7 @@ class Cash:
             # 7. paga menos sin causa conocida: aplicación parcial a la factura que vence más cerca
             tgt = self.nearest(ops, b["booking_date"], amt + 1)
             if tgt:
+                warn(b, f"pago parcial sin causa conocida → {tgt}")
                 return c, [("invoice", tgt, amt)], []
             apps, left = [], amt
             for i in ops:
@@ -159,9 +167,13 @@ class Cash:
                 apps.append(("invoice", i, min(left, self.inv[i]["bal"])))
                 left -= apps[-1][2]
             if apps and left == 0:
+                warn(b, "pago parcial repartido FIFO")
                 return c, apps, []
         # 8. no es cliente
-        acc = next((a for rx, a in NON_CUSTOMER if re.search(rx, text.upper())), FIANZA)
+        acc = next((a for rx, a in NON_CUSTOMER if re.search(rx, text.upper())), None)
+        if acc is None:
+            warn(b, "no cliente sin pista en el texto → devolución de fianza")
+            acc = FIANZA
         return None, [], [("NON_CUSTOMER", None, amt, acc)]
 
     def row(self, b, company, customer, apps, res):
