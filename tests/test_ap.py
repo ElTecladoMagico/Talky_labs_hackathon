@@ -367,3 +367,15 @@ def test_reverse_charge_entry_matches_golden_for_a_four_line_subcontract(full_co
     row, = run(full_conn)
     gold = next(json.loads(l) for l in (db.PHASES['dev'] / 'golden/ap.jsonl').read_text().splitlines() if json.loads(l)['doc_id'] == 'API004143')
     assert sorted(je_lines(row['journal_entry'])) == sorted(je_lines(gold['journal_entry']))
+
+
+@pytest.mark.parametrize('doc_id', ['API004174', 'API004278', 'API004478'])
+def test_non_po_line_account_follows_history_for_the_same_concept(full_conn, doc_id):
+    """Golden: canon de saneamiento / canon de residuos / suplidos AJD van a 63100000 como en el histórico del proveedor,
+    no a la cuenta por defecto de la factura (12 facturas en dev)."""
+    from tasks.ap import run
+    from common.je import je_lines
+    full_conn.execute("DELETE FROM task_ap_documents WHERE id != ?", (doc_id,))
+    row, = run(full_conn)
+    gold = next(json.loads(l) for l in (db.PHASES['dev'] / 'golden/ap.jsonl').read_text().splitlines() if json.loads(l)['doc_id'] == doc_id)
+    assert sorted(je_lines(row['journal_entry'])) == sorted(je_lines(gold['journal_entry']))
