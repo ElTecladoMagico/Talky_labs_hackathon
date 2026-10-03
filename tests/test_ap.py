@@ -192,3 +192,37 @@ def test_document_evidence_controls_matching(full_conn, doc_id, expected, reason
     assert row['decision'] == expected
     if reason:
         assert reason in row['reasons']
+
+@pytest.mark.parametrize('doc_id', ['API004193', 'API004316'])
+def test_no_po_supplier_delivery_reference_does_not_require_a_gr(full_conn, doc_id):
+    from tasks.ap import run
+    full_conn.execute('DELETE FROM task_ap_documents WHERE id!=?', (doc_id,))
+    row, = run(full_conn)
+    assert row['decision'] == 'POST'
+    assert row['journal_entry'] is not None
+
+def test_factor_does_not_authorize_an_unrelated_bank_account(conn, monkeypatch):
+    from tasks import ap
+    from tasks.ap_extract import extract_phase
+    docs = extract_phase(conn, db.PHASES['dev'])[:1]
+    docs[0]['iban'] = 'UNAUTHORIZED'
+    conn.execute('UPDATE vendors SET alternative_payee=? WHERE id=?',
+                 (json.dumps({'from_date': '2026-01-01', 'iban': 'FACTOR_APPROVED'}), 'V100173'))
+    monkeypatch.setattr(ap, 'extract_phase', lambda *_: docs)
+    row, = ap.run(conn)
+    assert row['decision'] == 'HOLD'
+    assert row['reasons'] == ['BANK_DETAILS_CHANGED']
+    assert row['journal_entry'] is None
+
+def test_missing_date_with_active_factor_is_reviewed_without_aborting(conn, monkeypatch):
+    from tasks import ap
+    from tasks.ap_extract import extract_phase
+    docs = extract_phase(conn, db.PHASES['dev'])
+    docs[1]['invoice_date'] = None
+    conn.execute('UPDATE vendors SET alternative_payee=? WHERE id=?',
+                 (json.dumps({'from_date': '2026-01-01', 'iban': 'FACTOR_APPROVED'}), 'V100173'))
+    monkeypatch.setattr(ap, 'extract_phase', lambda *_: docs)
+    row = next(r for r in ap.run(conn) if r['doc_id'] == 'API005210')
+    assert row['decision'] == 'HOLD'
+    assert row['reasons'] == ['EXTRACTION_REVIEW_REQUIRED']
+    assert row['journal_entry'] is None
