@@ -21,11 +21,11 @@ def _n43(path):
             cur = {"amount": (-1 if r[27] == "1" else 1) * int(r[28:42]), "ref1": r[52:64].strip(), "ref2": r[64:80].strip(), "detail": []}
             st["lines"].append(cur)
         elif r.startswith("23") and cur:
-            cur["detail"].append(r[4:].rstrip())
+            cur["detail"] += [r[4:42].strip(), r[42:80].strip()]  # dos campos de concepto de 38
         elif r.startswith("33"):
             st["closing"] = (-1 if r[58] == "1" else 1) * int(r[59:73])
     for l in st["lines"]:
-        l["detail"] = " ".join(l["detail"])
+        l["detail"] = " ".join(filter(None, l["detail"]))
     return st
 
 

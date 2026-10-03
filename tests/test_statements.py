@@ -43,6 +43,13 @@ def test_parse_n43_balances_refs_and_detail(tmp_path):
     assert st["lines"][1]["ref1"] == "" and st["lines"][1]["detail"] == "COMISION MANTENIMIENTO CUENTA"
 
 
+def test_n43_concept_record_has_two_fields(tmp_path):
+    """Registro 23: dos campos de 38 posiciones; no se pegan («CLOUDVANCAMBIO»)."""
+    f = tmp_path / "2026-07.n43"
+    f.write_text(N43.replace("2301COMISION MANTENIMIENTO CUENTA       ", "2301TRANSF. EXTERIOR USD 2,400.00 CLOUDVANCAMBIO"), encoding="latin1")
+    assert parse(f)["lines"][1]["detail"].startswith("TRANSF. EXTERIOR USD 2,400.00 CLOUDVAN CAMBIO")
+
+
 def test_parse_camt_uses_entry_ref_as_bank_line(tmp_path):
     f = tmp_path / "2026-07.camt053.xml"
     f.write_text(CAMT)
