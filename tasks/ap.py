@@ -115,7 +115,7 @@ def _coding(conn, d, vendor, pos, receipts, docs=()):
     out = []
     for item in d['items'] or ([dict(description=d['text'], amount=d['net'], po=None, receipt_ref=None)] if deposit else []):
         grs = [g for g in receipts if g['vendor'] == vendor['id'] and g['reference'] == item.get('receipt_ref')] if item.get('receipt_ref') and not credit else []
-        if item.get('receipt_ref') and not grs and not credit:
+        if item.get('receipt_ref') and not grs and not credit and (vendor['po_required'] or item.get('po') or d['po_refs']):
             raise ValueError('QTY_NOT_RECEIVED')
         po_ids = [item['po']] if item.get('po') else d['po_refs']
         candidates = [(p, pi) for p in pos.values() for pi in _json(p['items'], [])
@@ -192,6 +192,8 @@ def _notice_date(text, pattern):
 
 
 def _payment_checks(d, vendor, notices):
+    if not d['invoice_date']:
+        return None, False  # _decide publishes an extraction-review HOLD.
     alt = _json(vendor.get('alternative_payee'), {})
     payee = {'type': 'FACTOR'} if alt and alt['from_date'] <= d['invoice_date'] else None
     if any(g['from_date'] < d['metadata']['received_at'][:10] for g in _json(vendor.get('garnishments'), [])) and not payee:
@@ -217,7 +219,7 @@ def _payment_checks(d, vendor, notices):
             if effective and effective <= d['invoice_date'] and 'firmado' in fold(n['text']) and 'certificado' in fold(n['text']) and sender == domain:
                 approved.add(n['iban'])
     sender = parseaddr(d['metadata'].get('from', ''))[1].casefold()
-    fraud = (d['iban'] and d['iban'] not in approved and not payee
+    fraud = (d['iban'] and d['iban'] not in approved
              or d['metadata'].get('channel') == 'email' and sender and sender.split('@')[-1] != domain)
     return payee, bool(fraud)
 
