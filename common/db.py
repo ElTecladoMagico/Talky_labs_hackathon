@@ -15,8 +15,10 @@ CREATE TABLE IF NOT EXISTS ap_result(doc_id TEXT PRIMARY KEY, company TEXT, vend
                                      invoice_date TEXT, payable INTEGER, currency TEXT, decision TEXT, data TEXT);
 CREATE TABLE IF NOT EXISTS bank_explained(bank_line TEXT PRIMARY KEY, account TEXT, kind TEXT, category TEXT, owner TEXT, ref TEXT);
 CREATE TABLE IF NOT EXISTS proposed_je(event_key TEXT PRIMARY KEY, owner TEXT, task TEXT, company TEXT, lines TEXT);
+CREATE TABLE IF NOT EXISTS review(key TEXT PRIMARY KEY, decision TEXT, confidence REAL, reason TEXT);
+CREATE TABLE IF NOT EXISTS doubt(key TEXT PRIMARY KEY, task TEXT, evidence TEXT, options TEXT, fallback TEXT);
 """
-RUN_TABLES = ("ap_result", "bank_explained", "proposed_je")  # doc_extract es caché: sobrevive a todo
+RUN_TABLES = ("ap_result", "bank_explained", "proposed_je", "doubt")  # doc_extract es caché: sobrevive a todo
 
 LEDGER = """
 CREATE VIEW ledger AS
@@ -104,9 +106,9 @@ def dump_cache(conn, phase_dir):
 
 def connect(phase, rebuild=False):
     path = ROOT / "db" / f"kalmora_{phase}.db"
-    if rebuild or not path.exists():
-        return build_db(PHASES[phase], path)
-    return sqlite3.connect(path)
+    conn = build_db(PHASES[phase], path) if rebuild or not path.exists() else sqlite3.connect(path)
+    conn.executescript(SHARED)  # bases creadas antes de añadir tablas compartidas
+    return conn
 
 
 def get_json(conn, name):

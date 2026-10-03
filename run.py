@@ -11,7 +11,7 @@ import traceback
 from collections import defaultdict
 from pathlib import Path
 
-from common import db
+from common import db, review
 from common.je import je_lines  # extracción de líneas del evaluador
 
 ROOT = Path(__file__).resolve().parent
@@ -72,7 +72,10 @@ def run_tasks(conn, out_dir):
 def main(phase, rebuild=False):
     conn = db.connect(phase, rebuild)
     out = ROOT / "submission" / phase
+    review.load(conn, db.CACHE / db.PHASES[phase].name / "review.jsonl")  # decisiones de la IA, versionadas
     run_tasks(conn, out)
+    n = review.dump_doubts(conn, out / "doubts.jsonl")
+    print(f"dudas: {n} → {out / 'doubts.jsonl'}" + ("  (pasar a la IA; sus decisiones van a cache/<fase>/review.jsonl)" if n else ""))
     if phase == "dev":
         res = out / "score.json"
         subprocess.run([sys.executable, str(ROOT / "participant/score.py"), str(db.PHASES["dev"]), str(db.PHASES["dev"]), str(out), "--json", str(res)],

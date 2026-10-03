@@ -23,7 +23,7 @@ def acc(bank=(), book=(), id="BIN-1100", company="1100", gl="57200001", currency
 
 
 def ctx(**kw):
-    base = dict(ap={}, vendor_acc={}, receipt_customer={}, factoring={}, rate=lambda cur, date: 1.0)
+    base = dict(ap={}, vendor_acc={}, receipt_customer={}, factoring={}, rate=lambda cur, date: 1.0, decide=lambda key, ev, opts, fb: fb)
     return SimpleNamespace(**(base | kw))
 
 
@@ -174,6 +174,29 @@ def test_duplicated_bank_charge_is_bank_error_and_not_booked_twice():
 def test_bank_reversing_its_own_duplicate_is_bank_error_not_a_receipt():
     """Test ago: «ANULACION CARGO DUPLICADO» devuelve el cargo duplicado de julio; no es un cobro de cliente."""
     r = one(reconcile([acc([B("b1", 526544, "ANULACION CARGO DUPLICADO 275173258792", "2026-08-06")])], ctx()))
+    assert cats(r) == {"b1": "BANK_ERROR"} and r["adjustments"] == []
+
+
+def test_unknown_text_asks_the_reviewer_and_applies_its_decision():
+    asked = {}
+
+    def decide(key, ev, opts, fb):
+        asked.update(key=key, ev=ev, opts=opts, fb=fb)
+        return "BANK_FEE_NOT_BOOKED"
+    r = one(reconcile([acc([B("b1", -1500, "CARGO SERVICIO BANCA ONLINE", detail="CARGO SERVICIO BANCA ONLINE TRIM")])], ctx(decide=decide)))
+    assert asked["key"] == "bank:b1" and asked["fb"] == "BANK_ERROR" and "BANK_FEE_NOT_BOOKED" in asked["opts"]
+    assert asked["ev"]["detail"] == "CARGO SERVICIO BANCA ONLINE TRIM" and asked["ev"]["account"] == "BIN-1100"
+    assert cats(r) == {"b1": "BANK_FEE_NOT_BOOKED"} and lines(r["adjustments"][0]) == [("57200001", -1500, None, None, None), ("62600000", 1500, None, None, None)]
+
+
+def test_unknown_text_without_decision_is_prudent_no_adjustment():
+    r = one(reconcile([acc([B("b1", -1500, "CARGO SERVICIO BANCA ONLINE")])], ctx()))
+    assert cats(r) == {"b1": "BANK_ERROR"} and r["adjustments"] == []
+
+
+def test_unknown_credit_is_a_doubt_not_an_automatic_receipt():
+    """Solo «TRANSFERENCIA DE…/COBRO…» es cobro no importado por regla; otro abono raro se pregunta (prudente: sin asiento)."""
+    r = one(reconcile([acc([B("b1", 900, "ABONO VARIOS 0001")]), ], ctx()))
     assert cats(r) == {"b1": "BANK_ERROR"} and r["adjustments"] == []
 
 

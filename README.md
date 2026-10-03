@@ -59,3 +59,11 @@ CC o PEP (no ambos) y cuadre por sociedad. `propose(conn, "bank:BL0000123", "P2"
 - **Recibo domiciliado:** se asienta (Dr proveedor / Cr 572) **solo si la factura está en `POST`**; la rechazada o no recibida se clasifica sin asiento (así lo hace el golden de dev).
 - **Factura intragrupo en tránsito:** solo se marca la mayor sin recibir (golden dev); las demás salen como `AVISO` para la revisión cruzada. Sin `ap_result` no se marca ninguna.
 - Dev con el AP del golden como `ap_result`: bank_rec 1.0, ic 1.0 (sin P1: 0.97 / 0.85).
+
+## Casos dudosos: reglas → IA → duda (`common/review.py`)
+
+1. Las reglas deciden lo que pueden. Lo que ninguna regla resuelve llama a `review.decide(conn, key, task, evidencia, opciones, prudente)`.
+2. Si `cache/<fase>/review.jsonl` tiene una decisión para esa `key` con `confidence ≥ 0.8` y dentro de las opciones → se usa.
+3. Si no → se aplica la opción **prudente** (la que no asienta) y el caso va a `submission/<fase>/doubts.jsonl` con toda la evidencia.
+4. La IA (sesión de Claude Code) lee `doubts.jsonl` y escribe en `review.jsonl` `{"key", "decision", "confidence", "reason"}`; si sigue sin estar segura, `"decision": "DUDA"`. Commit y se vuelve a ejecutar.
+5. Lo que siga en `doubts.jsonl` es la lista para la revisión cruzada humana. La IA nunca corre dentro de `run.py`: ejecuciones reproducibles y sin red.

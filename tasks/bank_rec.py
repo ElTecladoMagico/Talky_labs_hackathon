@@ -12,7 +12,7 @@ from collections import defaultdict
 from datetime import date
 from types import SimpleNamespace
 
-from common import db
+from common import db, review
 from common.je import make_je, norm_num, propose
 
 WINDOW = 3  # días de desfase banco/libro admitidos (en dev siempre 0)
@@ -30,10 +30,13 @@ RULES = [  # (regex sobre texto + concepto del extracto, clase); el orden import
     (r"LIQUIDACI[OÓ]N INTERESES|RETENCI[OÓ]N .*INTERES", "INT"),
     (r"COMISI[OÓ]N|GASTOS|MANTENIMIENTO", "FEE"),
     (r"^RECIBO|MANDATO", "DD"),
+    (r"^TRANSFERENCIA DE|^COBRO|^INGRESO|^ABONO TRANSFERENCIA", "RECEIPT"),  # abono de un tercero sin N43 importado
 ]
+SIGNED = {"LOAN": -1, "RECEIPT": 1}  # reglas que solo valen con ese signo
 CATEGORY = {"RETFEE": "RETURNED_DIRECT_DEBIT", "RET": "RETURNED_DIRECT_DEBIT", "POOL": "POOLING_NOT_BOOKED", "CARD": "CARD_SETTLEMENT_NOT_BOOKED",
             "LOAN": "LOAN_INTEREST_NOT_BOOKED", "INT": "INTEREST_NOT_BOOKED", "FEE": "BANK_FEE_NOT_BOOKED", "DD": "DIRECT_DEBIT_NOT_BOOKED",
-            "RECEIPT": "UNRECORDED_RECEIPT", "BANK_ERROR": "BANK_ERROR", None: "BANK_ERROR"}
+            "RECEIPT": "UNRECORDED_RECEIPT", "BANK_ERROR": "BANK_ERROR"}
+KIND = {"RETURNED_DIRECT_DEBIT": "RET", **{c: k for k, c in CATEGORY.items() if k not in ("RETFEE", "RET")}}  # categoría → clase
 
 
 def warn(msg):
@@ -201,7 +204,7 @@ def _to_lc(a, amount, day, ctx):
     return round(amount / ctx.rate(a["currency"], day) * ctx.rate(a["lc"], day))
 
 
-def _kind(a, b, bs, seen):
+def _kind(a, b, bs, seen, ctx):
     sig = (b["amount"], _n(b.get("ref1")), _n(b.get("ref2")), _n(b.get("detail")))
     dup = b["amount"] < 0 and (sig[1] or sig[2]) and seen.setdefault(sig, b) is not b
     if b not in bs:
@@ -209,9 +212,12 @@ def _kind(a, b, bs, seen):
     if dup:  # cargo repetido del banco: mismo importe y mismas referencias que uno anterior
         return "BANK_ERROR"
     t = _text(b)
-    k = next((k for rx, k in RULES if re.search(rx, t) and not (k == "LOAN" and b["amount"] > 0)), "RECEIPT" if b["amount"] > 0 else None)
-    if k is None:
-        warn(f"{a['id']} {b['bank_line']} {b['amount']} «{b['text']}» sin regla: BANK_ERROR sin ajuste, revisar")
+    k = next((k for rx, k in RULES if re.search(rx, t) and SIGNED.get(k, 0) * b["amount"] >= 0), None)
+    if k is None:  # sin regla: decide la IA con la evidencia; si no hay decisión segura, prudente (sin asiento) y queda como duda
+        ev = {"account": a["id"], "company": a["company"], **{f: b.get(f) for f in ("booking_date", "amount", "text", "detail", "ref1", "ref2")},
+              "prior_statement_same_amount": [{f: p.get(f) for f in ("booking_date", "amount", "text", "ref2")}
+                                              for p in a["prev_bank"] if abs(p["amount"]) == abs(b["amount"])]}
+        k = KIND[ctx.decide(f"bank:{b['bank_line']}", ev, sorted(KIND), "BANK_ERROR")]
     return k
 
 
@@ -219,7 +225,7 @@ def _classify_bank(a, bs, out, ctx):
     gl, co = a["gl"], a["company"]
     seen, kinds = {}, {}
     for b in a["bank"]:
-        kinds[b["bank_line"]] = _kind(a, b, bs, seen)
+        kinds[b["bank_line"]] = _kind(a, b, bs, seen, ctx)
     for b in bs:
         out["unmatched_bank"].append({"bank_line": b["bank_line"], "category": CATEGORY[kinds[b["bank_line"]]]})
         out["_explained"].append((b["bank_line"], "UNMATCHED", CATEGORY[kinds[b["bank_line"]]], None))
@@ -268,7 +274,7 @@ def _classify_bank(a, bs, out, ctx):
             post("DIRECT_DEBIT_NOT_BOOKED", [b], [_l(gl, lc(b)), _l(ctx.vendor_acc.get(v, "41000000"), -lc(b), partner=v, assignment=inv)])
 
 
-def _classify_book(a, ks, matched, out):
+def _classify_book(a, ks, matched, out, ctx):
     for k in ks:
         dup = any(o["id"] in matched and o["entry"] != k["entry"] and o["amount"] == k["amount"] and _n(o["reference"])
                   and _n(o["reference"]) == _n(k["reference"]) for o in a["book"])
@@ -285,9 +291,9 @@ def _classify_book(a, ks, matched, out):
             c = "TRANSFER_IN_TRANSIT"
         elif k["amount"] is not None and k["amount"] < 0:
             c = "OUTSTANDING_PAYMENT"
-        else:
-            c = "TRANSFER_IN_TRANSIT"
-            warn(f"{a['id']} {k['id']} {k['amount']} «{k['header']}» sin regla: TRANSFER_IN_TRANSIT, revisar")
+        else:  # abono en libros que el banco no refleja y sin regla: decide la IA; prudente: tránsito (sin ajuste)
+            c = ctx.decide(f"book:{k['id']}", {"account": a["id"], **{f: k[f] for f in ("date", "amount", "reference", "header", "source")}},
+                           ["OUTSTANDING_PAYMENT", "TRANSFER_IN_TRANSIT", "PRIOR_PERIOD_BANK_ITEM", "FX_REVALUATION"], "TRANSFER_IN_TRANSIT")
         out["unmatched_book"].append({"book_line": k["id"], "category": c})
 
 
@@ -321,7 +327,7 @@ def reconcile(accounts, ctx):
     _wrong_account(state)
     for a, out, bs, ks, used_k in state:
         _classify_bank(a, bs, out, ctx)
-        _classify_book(a, ks, used_k, out)
+        _classify_book(a, ks, used_k, out, ctx)
     return [s[1] for s in state]
 
 
@@ -378,7 +384,7 @@ def load(conn):
     ap |= {(r["vendor_id"], norm_num(r["invoice_number"])): r["invoice_number"]
            for r in q("SELECT vendor_id, invoice_number FROM ap_result WHERE decision = 'POST' AND invoice_number IS NOT NULL")}
     return accounts, SimpleNamespace(
-        ap=ap, rate=rate,
+        ap=ap, rate=rate, decide=lambda key, ev, opts, fb: review.decide(conn, key, "bank_rec", ev, opts, fb),
         vendor_acc={r["id"]: r["reconciliation_account"] for r in q("SELECT id, reconciliation_account FROM vendors")},
         receipt_customer={r["id"]: r["customer"] for r in q("SELECT id, customer FROM ar_invoices")},
         factoring=_group(q("SELECT * FROM factoring_assignments"), lambda f: f["remittance"]))
