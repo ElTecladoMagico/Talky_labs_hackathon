@@ -196,3 +196,17 @@ Salidas temporales: dev `/var/folders/gj/0k1mzmmx5blffmmsrg4j63rh0000gq/T/p1-mai
 ### Límites restantes
 
 Seis diferencias de decisión dev: API004095 y API004123 (hojas de servicio ambiguas), API004130 (PEP sin evidencia), API004204 (entrada 5000037485 citada por golden ausente del ERP), API005230 (fraude esperado sin evidencia bancaria en las fuentes) y API005205 (representación escaneada con importe distinto; aún POST, riesgo de doble contabilización pendiente). No se fuerza ninguno desde golden. Persisten los avisos de extracción, la aplicación de anticipos al cambio histórico y el conflicto de cronología documentados antes. La diferencia de cuatro céntimos de P3 debe resolverse antes de afirmar FX_REVAL exacto.
+
+### Última revisión para el PR a main
+
+Se integró `origin/main=7758693beba65782bbff661331c60dda83c5b4fe` (PR de utilidades compartidas) sin reescribir los checkpoints TDD. El único conflicto era aditivo en `tests/test_ap.py`: se conservaron las pruebas de ambas ramas. El diff final contra ese main queda limitado a README, esta evidencia, `tasks/ap.py` y `tests/test_ap.py`; las utilidades compartidas siguen siendo las de main.
+
+Se ejecutó el código AP del main actual en una base nueva con los tres documentos: **API004307, API004314 y API004559 siguen HOLD/QTY_NOT_RECEIVED en main**. Comando: `PYTHONDONTWRITEBYTECODE=1 .venv/bin/python /private/tmp/p1-pr-main-proof.py`.
+
+Regresión final: **179 PASS en 231,31 s**, sin pruebas omitidas, cobertura AP **91,82 %**:
+
+```sh
+PYTHONDONTWRITEBYTECODE=1 COVERAGE_FILE=/private/tmp/p1-pr-final.coverage .venv/bin/python -m pytest -q -p no:cacheprovider --cov=tasks.ap --cov-branch --cov-fail-under=80 --cov-report=term-missing --cov-report=json:/private/tmp/p1-pr-final-coverage.json
+```
+
+Los pipelines dev y test también se repitieron tras integrar main: AP **0,9501**, TOTAL **96,47**, banco/cobros/facturación/intragrupo **1,000** en dev; entrega y `propose()` siguen coincidiendo en ambas fases. Salidas aisladas: dev `/var/folders/gj/0k1mzmmx5blffmmsrg4j63rh0000gq/T/p1-main-dev-7onff73e/`; test `/var/folders/gj/0k1mzmmx5blffmmsrg4j63rh0000gq/T/p1-main-test-jrzd8a12/`. La revisión no añade excepciones por documento ni nuevas dependencias; no sustituye las bases compartidas. Los seis casos pendientes y los cuatro céntimos FX anteriores siguen fuera del arreglo.
