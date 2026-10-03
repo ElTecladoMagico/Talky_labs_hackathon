@@ -378,7 +378,7 @@ def _decide(conn, d, vendor, company, pos, receipts, notices, taxes):
 
 
 def _journal(d, vendor, coding, taxes, fx):
-    lines = []
+    lines, reverse = [], 0
     def line(account, amount, **extra):
         if amount:
             lines.append(dict(account=account, debit=max(amount, 0), credit=max(-amount, 0), **extra))
@@ -393,10 +393,10 @@ def _journal(d, vendor, coding, taxes, fx):
         else:
             line(l['account'], amount, cost_center=l['cost_center'], wbs=l['wbs'])
         tax = taxes['tax_codes'][l['tax_code']]
-        if tax['kind'] == 'reverse':
-            quota = _round(Decimal(l['amount']) * tax['rate'] / 10000 * fx)
-            line('47210000', quota)
-            line('47710000', -quota)
+        if tax['kind'] == 'reverse':  # cuota redondeada por línea; el asiento lleva una sola pareja 472/477 (golden)
+            reverse += _round(Decimal(l['amount']) * tax['rate'] / 10000 * fx)
+    line('47210000', reverse)
+    line('47710000', -reverse)
     line('47200000', d['tax'])
     line('47510000', -d['withholding'])
     line('40000900', -d['retention'], partner=vendor['id'])
