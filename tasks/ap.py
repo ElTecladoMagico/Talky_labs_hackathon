@@ -31,8 +31,14 @@ def _number(number):
     return re.sub(r'^F[-/\s]+', '', number or '', flags=re.I)
 
 
-def _key(vendor, number, currency, gross):
-    return vendor, norm_num(_number(number)), currency, gross
+def _key(vendor, number, currency, gross, company=None):
+    return vendor, norm_num(_number(number)), currency, gross, company
+
+
+def _fingerprint(d):
+    # A changed bank/addressee/tax/withholding is not a mere resend.
+    amounts = tuple(-abs(d[k]) if d['document_type'] == 'CREDIT_NOTE' and d[k] is not None else d[k] for k in AMOUNTS)
+    return d['company'], d['invoice_date'], d['currency'], d['document_type'], d['iban'], amounts
 
 
 def _phase(conn):
@@ -94,6 +100,7 @@ def _item_tax(item, code):
 def _coding(conn, d, vendor, pos, receipts, docs=()):
     deposit = d['document_type'] == 'DOWN_PAYMENT_REQUEST'
     credit = d['document_type'] == 'CREDIT_NOTE'
+    period = (d.get('period_end') or d['invoice_date'])[:7]
     if credit and d.get('credit_reference'):
         originals = [o for o in docs if o['vendor_id'] == d['vendor_id'] and o['company'] == d['company']
                      and norm_num(o['invoice_number']) == norm_num(d['credit_reference'])
@@ -108,11 +115,15 @@ def _coding(conn, d, vendor, pos, receipts, docs=()):
     out = []
     for item in d['items'] or ([dict(description=d['text'], amount=d['net'], po=None, receipt_ref=None)] if deposit else []):
         grs = [g for g in receipts if g['vendor'] == vendor['id'] and g['reference'] == item.get('receipt_ref')] if item.get('receipt_ref') and not credit else []
+        if item.get('receipt_ref') and not grs and not credit:
+            raise ValueError('QTY_NOT_RECEIVED')
         po_ids = [item['po']] if item.get('po') else d['po_refs']
         candidates = [(p, pi) for p in pos.values() for pi in _json(p['items'], [])
                       if p['vendor'] == vendor['id'] and p['created_on'] <= d['invoice_date']
                       and (p['id'] in po_ids if po_ids else
                            any(g['po'] == p['id'] and g['po_item'] == pi['item'] for g in grs))]
+        if grs:
+            candidates = [(p, pi) for p, pi in candidates if any(g['po'] == p['id'] and g['po_item'] == pi['item'] for g in grs)]
         if not candidates and not credit and not po_ids and not item.get('receipt_ref'):
             candidates = [(p, pi) for p in pos.values() for pi in _json(p['items'], [])
                           if p['vendor'] == vendor['id'] and p['company'] == d['company']
@@ -120,7 +131,7 @@ def _coding(conn, d, vendor, pos, receipts, docs=()):
                           and fold(pi['description']) in fold(item['description'])]
             with_receipt = [(p, pi) for p, pi in candidates if any(
                 g['po'] == p['id'] and g['po_item'] == pi['item']
-                and g['posting_date'][:7] == d['invoice_date'][:7] for g in receipts)]
+                and g['posting_date'][:7] == period for g in receipts)]
             if with_receipt:
                 candidates = with_receipt
             elif not vendor['po_required']:
@@ -147,16 +158,15 @@ def _coding(conn, d, vendor, pos, receipts, docs=()):
             if not deposit:
                 if not grs:
                     grs = [g for g in receipts if g['po'] == p['id'] and g['po_item'] == pi['item']
-                           and g['posting_date'][:7] == d['invoice_date'][:7]]
-                grs = [g for g in grs if g['po'] == p['id'] and g['po_item'] == pi['item']
-                       and g['posting_date'] <= d['invoice_date']]
+                           and g['posting_date'][:7] == period]
+                grs = [g for g in grs if g['po'] == p['id'] and g['po_item'] == pi['item']]
                 qty = item.get('quantity_milli')
                 received = sum(g['quantity_milli'] for g in grs)
                 if not grs or qty is None or received < qty:
                     raise ValueError('QTY_NOT_RECEIVED')
                 base = _round(Decimal(qty) * pi['unit_price'] / 1000)
                 variance = item['amount'] - base
-                if variance > 15000 or variance > abs(base) * Decimal('.02'):
+                if Decimal(variance) * _fx(conn, d['currency'], 'EUR', d['invoice_date']) > 15000 or variance > abs(base) * Decimal('.02'):
                     raise ValueError('PRICE_VARIANCE')
                 line['grir'] = base
             out.append(line)
@@ -315,16 +325,20 @@ def run(conn):
     vendors = {v['id']: v for v in _rows(conn, 'vendors')}
     companies = {c['code']: c for c in _rows(conn, 'companies')}
     pos = {p['id']: p for p in _rows(conn, 'purchase_orders')}
-    receipts = _rows(conn, 'goods_receipts')
+    month = db.get_json(conn, 'tasks/close')['month']
+    receipts = [g for g in _rows(conn, 'goods_receipts') if g['posting_date'][:7] <= month]
     taxes = db.get_json(conn, 'erp/tax_codes')
     seen = {}
     for h in sorted(_rows(conn, 'ap_invoices'), key=lambda h: (h['received_on'], h['doc_id'])):
         if h['decision'] in ('POST', 'POST_PAYMENT_BLOCK', 'HOLD'):
-            seen.setdefault(_key(h['vendor'], h['number'], h['currency'], h['gross']), (h['doc_id'], h['number']))
+            seen.setdefault(_key(h['vendor'], h['number'], h['currency'], h['gross'], h['company']), (h['doc_id'], h['number']))
     originals = {}
-    for d in sorted(docs, key=lambda d: (bool(re.match(r'^F[-/\s]', d['invoice_number'] or '', re.I)), d['metadata']['received_at'], d['doc_id'])):
+    # Exact copies have one stable economic representative. Synthetic resend
+    # timestamps may precede their originals; retain an explicit audit warning.
+    for d in sorted(docs, key=lambda d: (bool(re.match(r'^F[-/\s]', d['invoice_number'] or '', re.I)), d['doc_id'])):
         if d['vendor_id'] and d['invoice_number'] and d['gross'] is not None:
-            originals.setdefault(_key(d['vendor_id'], d['invoice_number'], d['currency'], d['gross']), (d['doc_id'], _number(d['invoice_number'])))
+            key = _key(d['vendor_id'], d['invoice_number'], d['currency'], d['gross'], d['company'])
+            originals.setdefault((key, _fingerprint(d)), (d['doc_id'], _number(d['invoice_number']), d['metadata']['received_at']))
     results = []
     for source in sorted(docs, key=lambda d: (d['metadata']['received_at'], d['doc_id'])):
         d = deepcopy(source)
@@ -341,10 +355,14 @@ def run(conn):
             for item in d['items']:
                 item['amount'] = -abs(item['amount'])
         vendor, company = vendors.get(d['vendor_id']), companies.get(d['company'])
-        key = _key(d['vendor_id'], d['invoice_number'], d['currency'], source['gross'])
-        first = seen.get(key) or originals.get(key) if d['vendor_id'] and d['invoice_number'] and d['gross'] is not None else None
+        key = _key(d['vendor_id'], d['invoice_number'], d['currency'], source['gross'], d['company'])
+        first = seen.get(key) or originals.get((key, _fingerprint(source))) if d['vendor_id'] and d['invoice_number'] and d['gross'] is not None and d['company'] else None
+        if first and vendor and d['document_type'] not in ACTIONS and _payment_checks(d, vendor, docs)[1]:
+            first = None
         if first and first[0] != d['doc_id']:
             d.update(decision='DUPLICATE', reasons=['DUPLICATE'], duplicate_of=first[0], invoice_number=first[1])
+            if len(first) > 2 and first[2] > d['metadata']['received_at']:
+                d['warnings'] = ['RECEIPT_ORDER_CONFLICT']
             coding = []
         else:
             decision, reasons, coding, payee, block = _decide(conn, d, vendor, company, pos, receipts, docs, taxes)
