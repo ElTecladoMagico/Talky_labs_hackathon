@@ -269,8 +269,8 @@ def _classify_bank(a, bs, out, ctx):
         t = _text(b)
         v = (re.search(r"MANDATO\s+(V\d+)", t) or [None, None])[1]
         fra = b.get("ref2") or (re.search(r"FRA\s+(\S+)", t) or [None, None])[1]
-        inv = v and fra and ctx.ap.get((v, norm_num(fra)))
-        if inv:  # solo con la factura contabilizada (POST); la rechazada o no recibida se clasifica sin asiento (golden dev)
+        inv = v and fra and ctx.ap.get((co, v, norm_num(fra)))
+        if inv:  # solo con la factura en POST y en esta sociedad; rechazada, no recibida o de otra sociedad: sin asiento (golden dev)
             post("DIRECT_DEBIT_NOT_BOOKED", [b], [_l(gl, lc(b)), _l(ctx.vendor_acc.get(v, "41000000"), -lc(b), partner=v, assignment=inv)])
 
 
@@ -380,9 +380,10 @@ def load(conn):
             raise ValueError(f"sin tipo SYN-BCE para {cur} a {day}")
         return prior[-1]
 
-    ap = {(r["vendor"], norm_num(r["number"])): r["number"] for r in q("SELECT vendor, number FROM ap_invoices WHERE decision = 'POST'")}
-    ap |= {(r["vendor_id"], norm_num(r["invoice_number"])): r["invoice_number"]
-           for r in q("SELECT vendor_id, invoice_number FROM ap_result WHERE decision = 'POST' AND invoice_number IS NOT NULL")}
+    ap = {(r["company"], r["vendor"], norm_num(r["number"])): r["number"]
+          for r in q("SELECT company, vendor, number FROM ap_invoices WHERE decision = 'POST'")}
+    ap |= {(r["company"], r["vendor_id"], norm_num(r["invoice_number"])): r["invoice_number"]
+           for r in q("SELECT company, vendor_id, invoice_number FROM ap_result WHERE decision = 'POST' AND invoice_number IS NOT NULL")}
     return accounts, SimpleNamespace(
         ap=ap, rate=rate, decide=lambda key, ev, opts, fb: review.decide(conn, key, "bank_rec", ev, opts, fb),
         vendor_acc={r["id"]: r["reconciliation_account"] for r in q("SELECT id, reconciliation_account FROM vendors")},

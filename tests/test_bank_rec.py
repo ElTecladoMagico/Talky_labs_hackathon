@@ -150,11 +150,18 @@ DD = "RECIBO AGUAS DE VEGALTA REF. MANDATO V100046-1100 FRA 0023956"
 
 
 def test_direct_debit_with_posted_invoice_is_booked_to_vendor():
-    c = ctx(ap={("V100046", "23956"): "0023956"}, vendor_acc={"V100046": "41000000"})
+    c = ctx(ap={("1100", "V100046", "23956"): "0023956"}, vendor_acc={"V100046": "41000000"})
     r = one(reconcile([acc([B("b1", -86707, "RECIBO AGUAS DE VEGALTA", detail=DD, ref2="0023956")], gl="57200002", id="CMA-1100")], c), "CMA-1100")
     assert cats(r) == {"b1": "DIRECT_DEBIT_NOT_BOOKED"}
     assert lines(adj(r, "DIRECT_DEBIT_NOT_BOOKED")[0]) == [("41000000", 86707, "V100046", "0023956", None),
                                                           ("57200002", -86707, None, None, None)]
+
+
+def test_direct_debit_of_an_invoice_posted_in_another_company_is_not_booked():
+    """Dev con P1: 2026-037570 contabilizada en 1910 pero el recibo (mandato V100028-1100) carga en CMA-1100 → destinatario erróneo."""
+    c = ctx(ap={("1910", "V100046", "23956"): "0023956"}, vendor_acc={"V100046": "41000000"})
+    r = one(reconcile([acc([B("b1", -86707, "RECIBO AGUAS DE VEGALTA", detail=DD, ref2="0023956")])], c))
+    assert cats(r) == {"b1": "DIRECT_DEBIT_NOT_BOOKED"} and r["adjustments"] == []
 
 
 def test_direct_debit_without_posted_invoice_is_classified_but_not_booked():
@@ -164,7 +171,7 @@ def test_direct_debit_without_posted_invoice_is_classified_but_not_booked():
 
 
 def test_duplicated_bank_charge_is_bank_error_and_not_booked_twice():
-    c = ctx(ap={("V100046", "23956"): "0023956"}, vendor_acc={"V100046": "41000000"})
+    c = ctx(ap={("1100", "V100046", "23956"): "0023956"}, vendor_acc={"V100046": "41000000"})
     bank = [B("b1", -86707, "RECIBO AGUAS", "2026-07-13", "R1", "0023956", DD), B("b2", -86707, "RECIBO AGUAS", "2026-07-14", "R1", "0023956", DD)]
     r = one(reconcile([acc(bank)], c))
     assert cats(r) == {"b1": "DIRECT_DEBIT_NOT_BOOKED", "b2": "BANK_ERROR"}
