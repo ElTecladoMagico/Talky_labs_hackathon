@@ -102,6 +102,9 @@ def test_shared_extraction_is_pending_and_never_proposes_journal(tmp_path):
     assert r[:4] == ("1100", "V1", 867829, None)
     assert json.loads(r[4])["status"] == "EXTRACTED_PENDING_DECISION"
     assert conn.execute("SELECT count(*) FROM proposed_je").fetchone()[0] == 0
+    conn.execute("UPDATE ap_result SET payable=0 WHERE doc_id='API004203'")
+    extract_phase(conn, ROOT / "participant/phase_dev")
+    assert conn.execute("SELECT payable FROM ap_result WHERE doc_id='API004203'").fetchone()[0] == 867829
     conn.execute("UPDATE ap_result SET decision='REJECT' WHERE doc_id='API004203'")
     extract_phase(conn, ROOT / "participant/phase_dev")
     assert conn.execute("SELECT decision FROM ap_result WHERE doc_id='API004203'").fetchone()[0] == 'REJECT'
@@ -177,3 +180,18 @@ def test_ocr_failure_is_explicit_and_does_not_abort_other_documents(monkeypatch)
     d = ap_extract.extract_document(DEV / "API005209")
     assert any(i.startswith("PARSE_ERROR:") for i in d["issues"])
     assert "NO_READABLE_DOCUMENT" in d["issues"]
+
+
+@pytest.mark.parametrize("doc,number", [("API005199", "2026-030797"), ("API005205", "2026-032015")])
+def test_ocr_preserves_complete_delivery_tables(doc, number):
+    from tasks.ap_extract import extract_document
+    d = extract_document(DEV / doc)
+    assert d["invoice_number"] == number
+    assert sum(i["amount"] for i in d["items"]) == d["net"]
+    assert all(i["quantity_milli"] is not None for i in d["items"])
+    assert not d["issues"]
+
+
+def test_ocr_decimal_point_misread_as_group_separator():
+    from tasks.ap_extract import money
+    assert money("1.325.28") == 132528
