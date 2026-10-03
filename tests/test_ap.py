@@ -267,6 +267,72 @@ def test_bank_mandate_requires_account_company_agreement(full_conn):
     assert row['company'] == '1910'
     assert not row.get('bank_evidence')
 
+@pytest.mark.parametrize('doc_id', ['API004559', 'API004307', 'API004314'])
+def test_source_backed_po_recovery_matches_golden(full_conn, doc_id):
+    from tasks.ap import run
+    from common.je import je_lines
+    full_conn.execute('DELETE FROM task_ap_documents WHERE id!=?', (doc_id,))
+    row, = run(full_conn)
+    gold = next(json.loads(l) for l in (db.PHASES['dev'] / 'golden/ap.jsonl').read_text().splitlines()
+                if json.loads(l)['doc_id'] == doc_id)
+    assert row['decision'] == gold['decision'] == 'POST'
+    assert [(l['po'], l['po_item'], l['account'], l['wbs']) for l in row['lines']] == [
+        (l['po'], l['po_item'], l['account'], l['wbs']) for l in gold['lines']]
+    assert sorted(je_lines(row['journal_entry'])) == sorted(je_lines(gold['journal_entry']))
+    assert row['po_evidence']
+
+def test_recovered_rental_is_available_to_p3_fx_without_p3_changes(full_conn):
+    from tasks.ap import run
+    from tasks.close import fx
+    full_conn.execute("DELETE FROM task_ap_documents WHERE id!='API004559'")
+    row, = run(full_conn)
+    assert row['decision'] == 'POST'
+    assert row['source_currency'] == 'USD' and row['currency'] == 'MXN'
+    assert row['source_amounts']['payable'] == 1450000
+    close_row = next(r for r in fx(full_conn, '2026-07') if r['item'] == 'AP:API004559')
+    # AP guarantees the item/source currency reaches P3. P3's FX rounding
+    # differs from golden by 4 cents; record that separately, not as an AP oracle.
+    assert close_row['company'] == row['company']
+    assert close_row['amount'] != 0
+    assert any(l['account'] == '40000000' and l['partner'] == row['vendor_id']
+               and l['assignment'] == row['invoice_number'] for l in close_row['journal_entry']['lines'])
+    assert sum(l['debit'] - l['credit'] for l in close_row['journal_entry']['lines']) == 0
+
+@pytest.mark.parametrize('change', ['no_history', 'only_one_history', 'history_is_grir', 'different_amount'])
+def test_direct_rental_requires_repeated_matching_expense_history(full_conn, monkeypatch, change):
+    from tasks import ap
+    from tasks.ap_extract import extract_phase
+    full_conn.execute("DELETE FROM task_ap_documents WHERE id!='API004559'")
+    docs = extract_phase(full_conn, db.PHASES['dev'])
+    if change == 'no_history':
+        full_conn.execute("DELETE FROM ap_invoices WHERE vendor='V100211'")
+    elif change == 'only_one_history':
+        full_conn.execute("DELETE FROM ap_invoices WHERE vendor='V100211' AND doc_id NOT IN (SELECT doc_id FROM ap_invoices WHERE vendor='V100211' ORDER BY issue_date DESC LIMIT 1)")
+    elif change == 'history_is_grir':
+        full_conn.execute("UPDATE je_line SET account='40090000' WHERE account='62110000' AND entry_id IN (SELECT journal_entry FROM ap_invoices WHERE vendor='V100211')")
+    else:
+        docs[0]['items'][0]['unit_price'] *= 2
+        docs[0]['items'][0]['amount'] *= 2
+        for k in ('net', 'gross', 'payable'):
+            docs[0][k] *= 2
+    monkeypatch.setattr(ap, 'extract_phase', lambda *_: docs)
+    row, = ap.run(full_conn)
+    assert row['decision'] == 'HOLD'
+    assert row['journal_entry'] is None
+
+@pytest.mark.parametrize('change', ['missing_receipt', 'wrong_company', 'wrong_currency'])
+def test_stale_po_recovery_keeps_receipt_and_identity_checks(full_conn, change):
+    from tasks.ap import run
+    full_conn.execute("DELETE FROM task_ap_documents WHERE id!='API004307'")
+    if change == 'missing_receipt':
+        full_conn.execute("DELETE FROM goods_receipts WHERE vendor='V100192' AND reference='GR-064704'")
+    elif change == 'wrong_company':
+        full_conn.execute("UPDATE purchase_orders SET company='1100' WHERE id='4500020318'")
+    else:
+        full_conn.execute("UPDATE purchase_orders SET currency='USD' WHERE id='4500020318'")
+    row, = run(full_conn)
+    assert row['decision'] in ('HOLD', 'REJECT')
+    assert row['journal_entry'] is None
 
 def test_bank_mandates_come_from_every_statement_format(full_conn):
     """El mandato se lee de bank_line (N43, camt y CSV ya parseados en common.statements), no solo de los .n43."""

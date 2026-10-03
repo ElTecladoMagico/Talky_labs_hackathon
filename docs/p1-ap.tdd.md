@@ -146,3 +146,67 @@ Quedan **9 diferencias de decisión** en dev frente a golden: `API004130`, `API0
 Persisten cinco avisos de extracción entre ambas fases. Tampoco se ha completado la aplicación de anticipos al cambio histórico. Las copias idénticas con recepción cronológicamente contradictoria usan un representante estable y señalan `RECEIPT_ORDER_CONFLICT` (`API005197`, `API005203`); no se presenta esa selección como prueba de primera recepción real.
 
 No se ha ejecutado el motor real de P2/P3, ausente de este checkout. Los tres recibos de energía y NETTING_AP están preparados en AP/ledger; **no se afirma bank_rec=1,000 ni ar_cash=1,000** hasta repetir la integración del equipo.
+
+## Recuperación mínima de pedidos desde main — 2026-10-03
+
+Este apartado sustituye los resultados y límites anteriores para la rama `codex/p1-ap-po-fix`. Fuente: feedback del equipo y políticas contables; no se ha usado golden como entrada del motor.
+
+### Reproducción y checkpoints
+
+Se actualizó el main local por avance rápido desde `origin/main`. En `main=c3eee7f`, antes de crear la rama, el pipeline real sobre una base temporal reprodujo las nueve diferencias AP, AP 0,9395, TOTAL 96,00 y siete partidas FX_REVAL (sin API004559). Banco y ar_cash ya dieron 1,000. Base y salida inicial: `/var/folders/gj/0k1mzmmx5blffmmsrg4j63rh0000gq/T/p1-main-dev-wyg1wfau/`.
+
+La rama se creó con `git switch -c codex/p1-ap-po-fix main`; su punto común con main es `c3eee7f0b2d45a8d75cd72449f15b67fbf13aeb3`. Main no recibió las correcciones.
+
+- RED `d8ddb60`: cuatro fallos debidos al HOLD incorrecto y siete comprobaciones de seguridad correctas, antes de cambiar producción.
+- GREEN `3197d02`: once comprobaciones correctas. La primera ejecución tras el arreglo detectó además una diferencia independiente del redondeo FX de P3 (67348 frente a 67344 céntimos). La prueba de integración se acotó al contrato AP: llegada de la partida, moneda original, proveedor, asignación y asiento cuadrado. No se presenta como igualdad exacta de la valoración FX con golden.
+
+Comando focalizado, ejecutado en RED y GREEN:
+
+```sh
+PYTHONDONTWRITEBYTECODE=1 .venv/bin/python -m pytest tests/test_ap.py -q -p no:cacheprovider -k 'source_backed_po_recovery or recovered_rental or direct_rental_requires or stale_po_recovery'
+```
+
+### Garantías verificadas
+
+| Necesidad | Prueba en tests/test_ap.py | Resultado |
+|---|---|---|
+| Recuperar pedidos antiguos solo con entradas existentes y conservar la imputación | test_source_backed_po_recovery_matches_golden (API004307, API004314) | POST y asiento completo igual a golden |
+| Reconocer el alquiler mensual contabilizado históricamente sin GR/IR | test_source_backed_po_recovery_matches_golden (API004559) | POST y asiento completo igual a golden |
+| Publicar la partida USD para el cierre de P3 | test_recovered_rental_is_available_to_p3_fx_without_p3_changes | Partida FX presente con proveedor y asignación correctos |
+| No aceptar alquiler sin dos precedentes, con antecedentes GR/IR o con importe distinto | test_direct_rental_requires_repeated_matching_expense_history | HOLD, sin asiento |
+| No omitir entrada, sociedad ni moneda al recuperar un pedido antiguo | test_stale_po_recovery_keeps_receipt_and_identity_checks | HOLD o REJECT, sin asiento |
+
+La misma recuperación se usa desde `_coding`, incluida su llamada recursiva para abonos. `po_evidence` registra el pedido declarado, el resuelto y las entradas, o los dos documentos históricos del alquiler. Simplificación Ponytail: sin dependencias nuevas ni excepciones por doc_id; el alquiler exige un único concepto mensual, precio exacto y antecedentes directos inequívocos. Un contrato con requisitos de recepción distintos necesitará evidencia explícita; no se amplía la excepción a compras de materiales.
+
+### Regresión, cobertura e integración
+
+```sh
+PYTHONDONTWRITEBYTECODE=1 COVERAGE_FILE=/private/tmp/p1-po-fix.coverage .venv/bin/python -m pytest -q -p no:cacheprovider --cov=tasks.ap --cov-branch --cov-fail-under=80 --cov-report=term-missing --cov-report=json:/private/tmp/p1-po-fix-coverage.json
+```
+
+Resultado: **172 PASS en 221,71 s**, sin pruebas omitidas. Cobertura AP conjunta **91,30 %**. Pipeline completo con los módulos reales P1/P2/P3, sin revisión IA ni llamadas externas, usando `/private/tmp/p1-main-regression.py dev` y `test` con bases nuevas:
+
+- Dev: AP **0,9501**, F1 HOLD **0,878**, cierre **0,8062**, balance **0,9900**, TOTAL **96,47**. Banco, ar_cash, ar_billing e intragrupo **1,000**; sus salidas son idénticas byte a byte a main. Solo cambian tres filas AP: API004307, API004314 y API004559.
+- P3 genera ocho partidas FX_REVAL, incluida AP:API004559. Su importe sigue cuatro céntimos por encima de golden por la inversión del tipo USD redondeada a seis decimales en `tasks.close.fx_rate`; P1 no modifica esa función.
+- Test: 297 decisiones; 222 POST, 3 POST_PAYMENT_BLOCK, 25 HOLD, 19 REJECT, 13 DUPLICATE y 15 NOT_INVOICE. API005024 y API004695 pasan de HOLD a POST respecto a la publicación AP anterior. No hay golden de test para verificar exactitud.
+- Ambas fases: ninguna decisión nula, todos los eventos cuadrados y `run.inconsistencies` vacío.
+
+Salidas temporales: dev `/var/folders/gj/0k1mzmmx5blffmmsrg4j63rh0000gq/T/p1-main-dev-1oz3m9as/`; test `/var/folders/gj/0k1mzmmx5blffmmsrg4j63rh0000gq/T/p1-main-test-a38342ul/`. No se han sustituido `db/kalmora_*.db` ni `submission/` compartidos.
+
+### Límites restantes
+
+Seis diferencias de decisión dev: API004095 y API004123 (hojas de servicio ambiguas), API004130 (PEP sin evidencia), API004204 (entrada 5000037485 citada por golden ausente del ERP), API005230 (fraude esperado sin evidencia bancaria en las fuentes) y API005205 (representación escaneada con importe distinto; aún POST, riesgo de doble contabilización pendiente). No se fuerza ninguno desde golden. Persisten los avisos de extracción, la aplicación de anticipos al cambio histórico y el conflicto de cronología documentados antes. La diferencia de cuatro céntimos de P3 debe resolverse antes de afirmar FX_REVAL exacto.
+
+### Última revisión para el PR a main
+
+Se integró `origin/main=7758693beba65782bbff661331c60dda83c5b4fe` (PR de utilidades compartidas) sin reescribir los checkpoints TDD. El único conflicto era aditivo en `tests/test_ap.py`: se conservaron las pruebas de ambas ramas. El diff final contra ese main queda limitado a README, esta evidencia, `tasks/ap.py` y `tests/test_ap.py`; las utilidades compartidas siguen siendo las de main.
+
+Se ejecutó el código AP del main actual en una base nueva con los tres documentos: **API004307, API004314 y API004559 siguen HOLD/QTY_NOT_RECEIVED en main**. Comando: `PYTHONDONTWRITEBYTECODE=1 .venv/bin/python /private/tmp/p1-pr-main-proof.py`.
+
+Regresión final: **179 PASS en 231,31 s**, sin pruebas omitidas, cobertura AP **91,82 %**:
+
+```sh
+PYTHONDONTWRITEBYTECODE=1 COVERAGE_FILE=/private/tmp/p1-pr-final.coverage .venv/bin/python -m pytest -q -p no:cacheprovider --cov=tasks.ap --cov-branch --cov-fail-under=80 --cov-report=term-missing --cov-report=json:/private/tmp/p1-pr-final-coverage.json
+```
+
+Los pipelines dev y test también se repitieron tras integrar main: AP **0,9501**, TOTAL **96,47**, banco/cobros/facturación/intragrupo **1,000** en dev; entrega y `propose()` siguen coincidiendo en ambas fases. Salidas aisladas: dev `/var/folders/gj/0k1mzmmx5blffmmsrg4j63rh0000gq/T/p1-main-dev-7onff73e/`; test `/var/folders/gj/0k1mzmmx5blffmmsrg4j63rh0000gq/T/p1-main-test-jrzd8a12/`. La revisión no añade excepciones por documento ni nuevas dependencias; no sustituye las bases compartidas. Los seis casos pendientes y los cuatro céntimos FX anteriores siguen fuera del arreglo.

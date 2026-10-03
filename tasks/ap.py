@@ -135,6 +135,33 @@ def _item_tax(item, code):
     return code
 
 
+def _direct_rental_history(conn, d, p, pi):
+    if (d['document_type'] != 'INVOICE' or len(d['items']) != 1
+            or pi['uom'] != 'month' or not pi['gl_account'].startswith('621')
+            or d['items'][0].get('receipt_ref') or d['items'][0].get('quantity_milli') != 1000
+            or d['items'][0].get('unit_price') != pi['unit_price'] or p['currency'] != d['currency']):
+        return []
+    history = conn.execute("""SELECT doc_id, issue_date, po_refs, journal_entry FROM ap_invoices
+        WHERE vendor=? AND company=? AND currency=? AND net=? AND kind='invoice'
+        AND issue_date<? AND decision IN ('POST','POST_PAYMENT_BLOCK') ORDER BY issue_date DESC""",
+        (p['vendor'], p['company'], p['currency'], d['net'], d['invoice_date'])).fetchall()
+    months = {}
+    for doc, day, refs, entry in history:
+        if _json(refs, []) != [p['id']]:
+            continue
+        lines = conn.execute("SELECT account, cost_center, wbs FROM je_line WHERE entry_id=? AND company=?",
+                             (entry, p['company'])).fetchall()
+        costs = {tuple(l) for l in lines if l[0].startswith(('6', '2'))}
+        if any(l[0] == '40090000' for l in lines) or costs != {(pi['gl_account'], pi['cost_center'], pi['wbs'])}:
+            continue
+        months.setdefault(day[:7], doc)
+        if len(months) == 2:
+            # ponytail: two matching monthly direct-expense precedents only;
+            # use explicit receipt requirements from the contract when supplied.
+            return list(months.values())
+    return []
+
+
 def _coding(conn, d, vendor, pos, receipts, docs=()):
     deposit = d['document_type'] == 'DOWN_PAYMENT_REQUEST'
     credit = d['document_type'] == 'CREDIT_NOTE'
@@ -161,7 +188,14 @@ def _coding(conn, d, vendor, pos, receipts, docs=()):
                       and (p['id'] in po_ids if po_ids else
                            any(g['po'] == p['id'] and g['po_item'] == pi['item'] for g in grs))]
         if grs:
+            received_candidates = [(p, pi) for p in pos.values() for pi in _json(p['items'], [])
+                                   if p['vendor'] == vendor['id'] and p['created_on'] <= d['invoice_date']
+                                   and any(g['po'] == p['id'] and g['po_item'] == pi['item'] for g in grs)]
             candidates = [(p, pi) for p, pi in candidates if any(g['po'] == p['id'] and g['po_item'] == pi['item'] for g in grs)]
+            if not candidates and po_ids and all(
+                    n in pos and pos[n]['vendor'] == vendor['id'] and pos[n]['company'] == d['company']
+                    and pos[n]['currency'] == d['currency'] for n in po_ids):
+                candidates = received_candidates
         if not candidates and not credit and not po_ids and not item.get('receipt_ref'):
             candidates = [(p, pi) for p in pos.values() for pi in _json(p['items'], [])
                           if p['vendor'] == vendor['id'] and p['company'] == d['company']
@@ -189,6 +223,12 @@ def _coding(conn, d, vendor, pos, receipts, docs=()):
             p, pi = candidates[0]
             if p['company'] != d['company']:
                 raise ValueError('WRONG_ADDRESSEE')
+            if p['currency'] != d['currency']:
+                raise ValueError('PO_CURRENCY_MISMATCH')
+            if po_ids and p['id'] not in po_ids:
+                d.setdefault('po_evidence', []).append(dict(method='DELIVERY_REFERENCE', declared=po_ids,
+                    resolved=p['id'], po_item=pi['item'], receipt_ref=item['receipt_ref'],
+                    goods_receipts=[g['id'] for g in grs if g['po'] == p['id'] and g['po_item'] == pi['item']]))
             code = pi['tax_code']
             line = dict(amount=item['amount'], account='40700000' if deposit else pi['gl_account'],
                         cost_center=pi['cost_center'], wbs=pi['wbs'], tax_code=code,
@@ -200,13 +240,18 @@ def _coding(conn, d, vendor, pos, receipts, docs=()):
                 grs = [g for g in grs if g['po'] == p['id'] and g['po_item'] == pi['item']]
                 qty = item.get('quantity_milli')
                 received = sum(g['quantity_milli'] for g in grs)
-                if not grs or qty is None or received < qty:
+                history = _direct_rental_history(conn, d, p, pi) if not grs else []
+                if (not grs or qty is None or received < qty) and not history:
                     raise ValueError('QTY_NOT_RECEIVED')
                 base = _round(Decimal(qty) * pi['unit_price'] / 1000)
                 variance = item['amount'] - base
                 if Decimal(variance) * _fx(conn, d['currency'], 'EUR', d['invoice_date']) > 15000 or variance > abs(base) * Decimal('.02'):
                     raise ValueError('PRICE_VARIANCE')
-                line['grir'] = base
+                if history:
+                    d.setdefault('po_evidence', []).append(dict(method='DIRECT_RECURRING_RENTAL',
+                        resolved=p['id'], po_item=pi['item'], history_doc_ids=history))
+                else:
+                    line['grir'] = base
             out.append(line)
         elif po_ids or item.get('receipt_ref') and vendor['po_required'] and not credit:
             raise ValueError('QTY_NOT_RECEIVED')
