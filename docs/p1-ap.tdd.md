@@ -57,3 +57,22 @@ Verificada la rama actual y la ascendencia de los checkpoints inicial y último 
 - Las regex cubren las plantillas observadas. «Sin avisos» significa comprobaciones de extracción superadas, no factura contablemente válida. OCR todavía puede confundir caracteres de IBAN o descripciones: conservar fuentes y revisar antes de decidir o pagar.
 - Falta completar periodos, retenciones compuestas, anticipos, referencias y metadatos efectivos de avisos de pago; resolver pedidos/entradas y objetos de coste.
 - Falta tasks/ap.py: prioridad de decisiones, certificados/fraude, asientos/FX y evaluación dev del módulo AP. No se ha calculado puntuación AP ni generado una entrega final.
+
+## Revisión Ponytail antes de los pasos 1 y 2
+
+Se reutilizan SQLite y la biblioteca estándar: SQL con columnas/parámetros nombrados, UPSERT sin borrar anotaciones, diccionarios por NIF normalizado y `deepcopy` para aislar la caché. No se añaden dependencias, tablas, módulos provisionales ni reglas contables. El parser y su versión no cambian.
+
+Garantías adicionales: prefijos NIF en minúsculas/espacios; identificadores ausentes o desconocidos no se adivinan; se conserva la primera coincidencia del maestro; no se altera `conn.row_factory`; una columna opcional no desplaza valores; una reextracción no elimina anotaciones ni decisiones finales; modificar una copia no modifica la caché original.
+
+- RED `982bd24`: 2 fallos, 34 PASS; ejecución focalizada posterior: 2 fallos, 2 PASS.
+- GREEN `3bc9121`: 36 pruebas AP PASS.
+- Refactor `0cab943`: suite completa **55 PASS en 26.14s**; cobertura conjunta líneas/ramas **91.34 %**, umbral 80 % superado.
+
+Comando ejecutado:
+
+```sh
+PYTHONDONTWRITEBYTECODE=1 COVERAGE_FILE=/private/tmp/p1-ponytail.coverage .venv/bin/python -m pytest -q -p no:cacheprovider --cov=tasks.ap_extract --cov-branch --cov-fail-under=80 --cov-report=term-missing
+```
+
+Además, reconstrucción SQLite temporal de ambas fases, reextracción desde caché y comparación de cada diccionario con el original: **305 dev y 297 test sin cambios**. Se conservan los cinco avisos. No se han cambiado las bases de trabajo ni las cachés versionadas en esta revisión. Checkpoints RED/GREEN verificados como ancestros del HEAD actual.
+Los pasos 1 y 2 siguen pendientes: esta revisión prepara el flujo, no resuelve los avisos ni completa datos contables.

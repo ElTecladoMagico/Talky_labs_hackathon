@@ -76,3 +76,15 @@ En una discrepancia, `data.representations.pdf` y `.xml` conservan los dos juego
 
 Se publican texto y metadatos como evidencia, no como instrucciones ejecutables. Los avisos están en `data.issues`.
 **Pendiente:** completar extracción de casos especiales y construir `tasks/ap.py` con decisiones, asientos y evaluación dev. Evidencia y límites: [docs/p1-ap.tdd.md](docs/p1-ap.tdd.md).
+
+Para la siguiente fase, consumir el JSON existente de `doc_extract`, limitado a los documentos solicitados y ordenado por recepción (necesario para duplicados):
+
+```python
+docs = [json.loads(data) for (data,) in conn.execute("""
+    SELECT e.data FROM doc_extract e JOIN task_ap_documents t ON t.id = e.doc_id
+    ORDER BY json_extract(e.data, '$.metadata.received_at'), e.doc_id
+""")]
+```
+
+El ejemplo requiere `import json` y una conexión ya cargada. No crea otra caché ni vuelve a interpretar PDF/XML. Para fuentes nuevas o modificadas, usar primero `extract_phase(conn, phase_dir)`, que valida hash y versión; esa función no hace commit.
+`run.py` vacía `ap_result` al comenzar: el futuro `tasks/ap.py` deberá volver a publicar las decisiones desde estos datos. No depender de que las filas provisionales del CLI sobrevivan al pipeline.
