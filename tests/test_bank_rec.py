@@ -17,9 +17,9 @@ def K(id, amount, date="2026-07-10", reference="", header="", source="FI", lines
             "source": source, "lines": lines or []}
 
 
-def acc(bank=(), book=(), id="BIN-1100", company="1100", gl="57200001", currency="EUR", prev_bank=()):
+def acc(bank=(), book=(), id="BIN-1100", company="1100", gl="57200001", currency="EUR", prev_bank=(), prev_book=()):
     return {"id": id, "company": company, "gl": gl, "currency": currency, "lc": "EUR" if company != "3100" else "MXN",
-            "bank": list(bank), "book": list(book), "prev_bank": list(prev_bank)}
+            "bank": list(bank), "book": list(book), "prev_bank": list(prev_bank), "prev_book": list(prev_book)}
 
 
 def ctx(**kw):
@@ -120,6 +120,31 @@ def test_factoring_advance_net_of_charges_books_665():
                                                                ("66500000", 550793, None, None, None)]
 
 
+def test_prior_month_open_book_item_clears_this_month():
+    """Test ago: el pago URG07 quedó pendiente el 31/07 y sale en el banco el 03/08 → se casa con el asiento de julio."""
+    a = acc([B("b1", -7011700, "TRANSFERENCIA A PEÑA Y RIBAS ENCOFRADOS", "2026-08-03")],
+            prev_book=[K("u1#2", -7011700, "2026-07-31", reference="URG07", source="MANUAL_PAYMENT"),
+                       K("x1#2", -500, "2026-07-30", reference="R")],
+            prev_bank=[B("j1", -500, "PAGO", "2026-07-30")])
+    r = one(reconcile([a], ctx()))
+    assert r["matches"] == [{"bank_lines": ["b1"], "book_lines": ["u1#2"]}] and not r["unmatched_bank"]
+
+
+def test_prior_month_after_the_fact_fee_entry_is_not_an_open_item():
+    """Dev: tesorería registra el 30/06 la comisión del 10/06; no puede absorber la comisión igual del 10/07."""
+    a = acc([B("b1", -3200, "COMISION TRANSFERENCIA EXTERIOR OUR", "2026-07-10")],
+            prev_book=[K("f1#2", -3200, "2026-06-30", reference="COMISION", source="BANKFEE")],
+            prev_bank=[B("j1", -3200, "COMISION TRANSFERENCIA EXTERIOR OUR", "2026-06-10")])
+    r = one(reconcile([a], ctx()))
+    assert r["matches"] == [] and cats(r) == {"b1": "BANK_FEE_NOT_BOOKED"}
+
+
+def test_prior_month_book_item_already_in_prior_statement_is_not_reused():
+    a = acc([B("b1", -500, "PAGO", "2026-08-02")], prev_book=[K("x1#2", -500, "2026-07-30", reference="R")],
+            prev_bank=[B("j1", -500, "PAGO", "2026-07-30")])
+    assert one(reconcile([a], ctx()))["matches"] == []
+
+
 # ---------------------------------------------------------------- banco sin casar
 DD = "RECIBO AGUAS DE VEGALTA REF. MANDATO V100046-1100 FRA 0023956"
 
@@ -144,6 +169,12 @@ def test_duplicated_bank_charge_is_bank_error_and_not_booked_twice():
     r = one(reconcile([acc(bank)], c))
     assert cats(r) == {"b1": "DIRECT_DEBIT_NOT_BOOKED", "b2": "BANK_ERROR"}
     assert len(r["adjustments"]) == 1
+
+
+def test_bank_reversing_its_own_duplicate_is_bank_error_not_a_receipt():
+    """Test ago: «ANULACION CARGO DUPLICADO» devuelve el cargo duplicado de julio; no es un cobro de cliente."""
+    r = one(reconcile([acc([B("b1", 526544, "ANULACION CARGO DUPLICADO 275173258792", "2026-08-06")])], ctx()))
+    assert cats(r) == {"b1": "BANK_ERROR"} and r["adjustments"] == []
 
 
 def test_fees_grouped_by_day_text_amount_and_guarantee_fees_to_669():

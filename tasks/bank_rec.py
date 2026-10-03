@@ -16,9 +16,12 @@ from common import db
 from common.je import make_je, norm_num, propose
 
 WINDOW = 3  # días de desfase banco/libro admitidos (en dev siempre 0)
+AFTER_THE_FACT = ("BANKFEE", "CARD", "DD", "INTEREST", "LOAN", "CLOSE_FX")  # registran a posteriori un cargo ya visto: no quedan pendientes
+CARRY_DAYS = 10  # una partida abierta del mes anterior se busca hasta 10 días atrás
 MAX_DIFF = 0.5  # una casación con diferencia no puede diferir más del 50 %
 
 RULES = [  # (regex sobre texto + concepto del extracto, clase); el orden importa
+    (r"ANULACI[OÓ]N (DE )?CARGO|CARGO DUPLICADO|RECTIFICACI[OÓ]N", "BANK_ERROR"),  # el banco corrige su propio error: sin ajuste
     (r"COMISI[OÓ]N DEVOLUCI[OÓ]N", "RETFEE"),
     (r"DEVOLUCI[OÓ]N RECIBO", "RET"),
     (r"CASH POOLING", "POOL"),
@@ -133,6 +136,17 @@ def _match(a, out):
                   if len(g) >= 2 and sum(b["amount"] for b in g) == k["amount"]), None)
         if g:
             take(g, [k])
+    # 3b) partida abierta del mes anterior (pago pendiente, traspaso en tránsito) que el banco liquida este mes:
+    #     asiento del mes anterior sin línea igual en el extracto anterior
+    prev_open = []
+    if a.get("prev_book"):  # se concilia el mes anterior con las mismas pasadas: abierto = lo que allí quedó sin casar
+        scratch = {"matches": [], "adjustments": [], "_explained": [], "unmatched_book": []}
+        _, prev_used = _match(dict(a, bank=a["prev_bank"], book=a["prev_book"], prev_book=[]), scratch)
+        prev_open = [k for k in a["prev_book"] if k["id"] not in prev_used and not k["source"].startswith(AFTER_THE_FACT)]
+    for b in free_b():
+        c = [k for k in prev_open if k["id"] not in used_k and k["amount"] == b["amount"] and _gap(b, k) <= CARRY_DAYS]
+        if c:
+            take([b], [min(c, key=lambda k: (not _linked(b, k), _gap(b, k)))])
     # 4) 1:1 con diferencia → se casa y se ajusta la diferencia. Enlace por referencia (diferencia ≤ 50 %) o, si no hay,
     #    por nombre del beneficiario con diferencia pequeña (≤ 1 %: dígitos traspuestos, céntimos)
     for b in free_b():
@@ -166,7 +180,7 @@ def _diff(a, b, k, out):
 
 def _factoring(a, out, ctx):
     """Anticipo de factoring abonado neto de intereses y comisión sin registrar el gasto: Dr 665 / Cr 553."""
-    book = {k["id"]: k for k in a["book"]}
+    book = {k["id"]: k for k in a["book"] + a.get("prev_book", [])}
     for m in out["matches"]:
         ks = [book[i] for i in m["book_lines"]]
         fac = ctx.factoring.get(ks[0]["reference"])
@@ -317,6 +331,21 @@ def _prev_month(m):
     return f"{y - (mo == 1)}-{12 if mo == 1 else mo - 1:02d}"
 
 
+def _book(q, a, month):
+    """Líneas 572 de la cuenta en el mes, con su asiento completo (para anular duplicados o ver el proveedor)."""
+    out = []
+    for r in q("""SELECT j.*, e.lines FROM je_line j JOIN (SELECT entry_id, json_group_array(json_object('company', company, 'account', account,
+                  'debit', debit, 'credit', credit, 'partner', partner, 'assignment', assignment, 'cost_center', cost_center, 'wbs', wbs)) lines
+                  FROM je_line WHERE posting_date LIKE ? GROUP BY entry_id) e USING (entry_id)
+                  WHERE j.company = ? AND j.account = ? AND j.posting_date LIKE ? ORDER BY j.entry_id, j.line""",
+               month + "%", a["company"], a["gl"], month + "%"):
+        sign = 1 if r["debit"] else -1  # cuenta en divisa (USD de 3100): se casa por el importe en divisa
+        amt = r["debit"] - r["credit"] if a["currency"] == a["lc"] else (sign * r["amount_doc"] if r["currency"] == a["currency"] else None)
+        out.append({"id": r["line_id"], "entry": r["entry_id"], "date": r["posting_date"], "amount": amt, "reference": r["reference"] or "",
+                    "header": r["header_text"] or "", "source": r["source"] or "", "lines": json.loads(r["lines"])})
+    return out
+
+
 def load(conn):
     month = db.get_json(conn, "tasks/close")["month"]
 
@@ -329,16 +358,8 @@ def load(conn):
     accounts = []
     for ba in q("SELECT b.* FROM task_bank_accounts t JOIN bank_accounts b ON b.id = t.id ORDER BY t.rowid"):
         a = {"id": ba["id"], "company": ba["company"], "gl": ba["gl_account"], "currency": ba["currency"], "lc": lc.get(ba["company"], "EUR"),
-             "bank": bank[(ba["id"], month)], "prev_bank": bank[(ba["id"], _prev_month(month))], "book": []}
-        for r in q("""SELECT j.*, e.lines FROM je_line j JOIN (SELECT entry_id, json_group_array(json_object('company', company, 'account', account,
-                      'debit', debit, 'credit', credit, 'partner', partner, 'assignment', assignment, 'cost_center', cost_center, 'wbs', wbs)) lines
-                      FROM je_line WHERE posting_date LIKE ? GROUP BY entry_id) e USING (entry_id)
-                      WHERE j.company = ? AND j.account = ? AND j.posting_date LIKE ? ORDER BY j.entry_id, j.line""",
-                   month + "%", a["company"], a["gl"], month + "%"):
-            sign = 1 if r["debit"] else -1  # cuenta en divisa (USD de 3100): se casa por el importe en divisa
-            amt = r["debit"] - r["credit"] if a["currency"] == a["lc"] else (sign * r["amount_doc"] if r["currency"] == a["currency"] else None)
-            a["book"].append({"id": r["line_id"], "entry": r["entry_id"], "date": r["posting_date"], "amount": amt, "reference": r["reference"] or "",
-                              "header": r["header_text"] or "", "source": r["source"] or "", "lines": json.loads(r["lines"])})
+             "bank": bank[(ba["id"], month)], "prev_bank": bank[(ba["id"], _prev_month(month))]}
+        a["book"], a["prev_book"] = _book(q, a, month), _book(q, a, _prev_month(month))
         accounts.append(a)
 
     rates = defaultdict(list)
