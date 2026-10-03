@@ -37,10 +37,11 @@ listas de `tasks/` → `task_<nombre>(id)`; JSON sueltos → `db.get_json(conn, 
 | Tabla / vista | Qué es | Quién escribe |
 |---|---|---|
 | `je_line` | diario desplegado, `line_id` = `<asiento>#<línea>` | carga |
-| `bank_line` | todas las líneas de extracto + `account`, `month` | carga |
+| `bank_line` | todas las líneas de extracto + `account`, `month` y, del extracto original (N43/camt/CSV), `ref1`, `ref2`, `detail` (mandato, nº de factura, OB26-…) | carga |
+| `bank_statement` | saldo inicial y final de cada extracto (`account`, `month`) | carga |
 | `doc_extract` | extracción de documentos AP (caché: no se borra al recargar) | P1 |
-| `ap_result` | decisión AP por documento (vendor, nº, importe) | P1 |
-| `bank_explained` | cada `bank_line` explicada **una sola vez** (PK) | P2 (P3 lee) |
+| `ap_result` | decisión AP por documento (vendor, nº, importe). **P2 necesita `vendor_id`, `invoice_number`, `decision`**: recibos domiciliados (solo `POST`) y facturas intragrupo recibidas (cualquier decisión) | P1 |
+| `bank_explained` | cada `bank_line` explicada **una sola vez** (PK): `kind` MATCH/ADJ/UNMATCHED + `category` §4. P3: `category = 'UNRECORDED_RECEIPT'` = cobros que P2 ya llevó a 555 | P2 (P3 lee) |
 | `proposed_je` | asientos propuestos, `event_key` único → sin doble contabilización | todos |
 | `ledger` (vista) | diario registrado + asientos propuestos (balance, partidas abiertas, cuadres) | — |
 
@@ -92,3 +93,25 @@ docs = [json.loads(data) for (data,) in conn.execute("""
 
 El ejemplo requiere `import json` y una conexión ya cargada. No crea otra caché ni vuelve a interpretar PDF/XML. Para fuentes nuevas o modificadas, usar primero `extract_phase(conn, phase_dir)`, que valida hash y versión; esa función no hace commit.
 `run.py` vacía `ap_result` al comenzar: `tasks/ap.py` revalida fuentes/caché y vuelve a publicar las decisiones soportadas. No depender de que las filas provisionales del CLI sobrevivan al pipeline.
+=======
+## P2 · banco e intragrupo (`tasks/bank_rec.py`, `tasks/ic.py`)
+
+- **El extracto manda.** Control en cada ejecución: saldo final del extracto = 572 al cierre + ajustes − libro abierto + cargos sin ajuste (0 céntimos en las 11 cuentas en moneda local, dev y test). Si no cuadra, `run` avisa.
+- **Recibo domiciliado:** se asienta (Dr proveedor / Cr 572) **solo si la factura está en `POST`**; la rechazada o no recibida se clasifica sin asiento (así lo hace el golden de dev).
+- **Factura intragrupo en tránsito:** solo se marca la mayor sin recibir (golden dev); las demás salen como `AVISO` para la revisión cruzada. Sin `ap_result` no se marca ninguna.
+- Dev con el AP del golden como `ap_result`: bank_rec 1.0, ic 1.0 (sin P1: 0.97 / 0.85).
+
+## Casos dudosos: reglas → IA → duda (`common/review.py`)
+
+1. Las reglas deciden lo que pueden. Lo que ninguna regla resuelve llama a `review.decide(conn, key, task, evidencia, opciones, prudente)`.
+2. Si `cache/<fase>/review.jsonl` tiene una decisión para esa `key` con `confidence ≥ 0.8` y dentro de las opciones → se usa.
+3. Si no → se aplica la opción **prudente** (la que no asienta) y el caso va a `submission/<fase>/doubts.jsonl` con toda la evidencia.
+4. `python3 run.py <fase> --review`: si hay dudas, llama a `claude -p` (sin interfaz, sin herramientas de escritura) con las políticas y la evidencia,
+   valida su respuesta como dato no fiable (claves existentes, opciones permitidas o `DUDA`, confianza en [0, 1]), la guarda en `review.jsonl`
+   y vuelve a ejecutar una vez. Coste ≈ 0,4 $ por llamada. Haced commit de `review.jsonl` para que todos ejecuten igual.
+5. Lo que siga en `doubts.jsonl` es la lista para la revisión cruzada humana. Sin `--review`, `run.py` no llama a la IA: ejecuciones reproducibles y sin red.
+
+**Auditoría final (`python3 run.py <fase> --audit`)**: `claude -p` (solo lectura, tope 3 $) recibe la lista de errores típicos inyectados
+(§4 y §6, `review.CHECKLIST`), el resumen de lo detectado y las rutas a los datos, y escribe `submission/<fase>/audit.jsonl` con lo que crea
+que se nos escapa. Es un informe para la revisión cruzada: **no cambia la entrega**. P1/P3: añadid vuestra lista en `CHECKLIST`.
+>>>>>>> origin/p2-bank-ic

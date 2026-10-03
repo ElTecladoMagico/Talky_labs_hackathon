@@ -3,6 +3,8 @@ import json
 import sqlite3
 from pathlib import Path
 
+from common import statements
+
 ROOT = Path(__file__).resolve().parent.parent
 PHASES = {"dev": ROOT / "participant/phase_dev", "test": ROOT / "participant/phase_test"}
 CACHE = ROOT / "cache"  # versionado en git: la extracción de documentos se comparte entre el equipo
@@ -13,8 +15,10 @@ CREATE TABLE IF NOT EXISTS ap_result(doc_id TEXT PRIMARY KEY, company TEXT, vend
                                      invoice_date TEXT, payable INTEGER, currency TEXT, decision TEXT, data TEXT);
 CREATE TABLE IF NOT EXISTS bank_explained(bank_line TEXT PRIMARY KEY, account TEXT, kind TEXT, category TEXT, owner TEXT, ref TEXT);
 CREATE TABLE IF NOT EXISTS proposed_je(event_key TEXT PRIMARY KEY, owner TEXT, task TEXT, company TEXT, lines TEXT);
+CREATE TABLE IF NOT EXISTS review(key TEXT PRIMARY KEY, decision TEXT, confidence REAL, reason TEXT);
+CREATE TABLE IF NOT EXISTS doubt(key TEXT PRIMARY KEY, task TEXT, evidence TEXT, options TEXT, fallback TEXT);
 """
-RUN_TABLES = ("ap_result", "bank_explained", "proposed_je")  # doc_extract es caché: sobrevive a todo
+RUN_TABLES = ("ap_result", "bank_explained", "proposed_je", "doubt")  # doc_extract es caché: sobrevive a todo
 
 LEDGER = """
 CREATE VIEW ledger AS
@@ -70,8 +74,20 @@ def build_db(phase_dir, db_path):
     _load(conn, "je_line", [dict({"line_id": f"{e['id']}#{l['line']}", "entry_id": e["id"]}, **{k: e.get(k) for k in head}, **dict(blank, **l))
                             for e in jes for l in e["lines"]])
 
-    _load(conn, "bank_line", [dict(r, account=f.parent.name, month=f.name[:7])
-                              for f in sorted((phase_dir / "bank").glob("*/*.lines.jsonl")) for r in _read_jsonl(f)])
+    bank, stmts = [], []
+    for f in sorted((phase_dir / "bank").glob("*/*.lines.jsonl")):
+        account, month = f.parent.name, f.name[:7]
+        lines = [dict(r, account=account, month=month, ref1=None, ref2=None, detail=None) for r in _read_jsonl(f)]
+        raw = [p for p in f.parent.glob(month + ".*") if not p.name.endswith(".lines.jsonl")]
+        if raw:  # el extracto original manda: saldos y referencias completas
+            st = statements.parse(raw[0])
+            statements.enrich(lines, st)
+            stmts.append({"account": account, "month": month, "opening": st["opening"], "closing": st["closing"]})
+        bank += lines
+    _load(conn, "bank_line", bank)
+    conn.execute("DROP TABLE IF EXISTS bank_statement")
+    conn.execute("CREATE TABLE bank_statement(account TEXT, month TEXT, opening INTEGER, closing INTEGER, PRIMARY KEY(account, month))")
+    conn.executemany("INSERT INTO bank_statement VALUES (:account, :month, :opening, :closing)", stmts)
     conn.executescript(LEDGER + "CREATE INDEX ix_je_acc ON je_line(company, account); CREATE INDEX ix_bank ON bank_line(account, month);")
     cache = CACHE / phase_dir.name / "doc_extract.jsonl"
     if cache.exists():
@@ -91,9 +107,9 @@ def dump_cache(conn, phase_dir):
 
 def connect(phase, rebuild=False):
     path = ROOT / "db" / f"kalmora_{phase}.db"
-    if rebuild or not path.exists():
-        return build_db(PHASES[phase], path)
-    return sqlite3.connect(path)
+    conn = build_db(PHASES[phase], path) if rebuild or not path.exists() else sqlite3.connect(path)
+    conn.executescript(SHARED)  # bases creadas antes de añadir tablas compartidas
+    return conn
 
 
 def get_json(conn, name):
