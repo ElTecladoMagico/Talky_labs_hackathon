@@ -1,0 +1,13 @@
+{
+ "doc_id": "API004306",
+ "channel": "email",
+ "received_at": "2026-07-09T13:56:00",
+ "mailbox": "facturas.proveedores@kalmora.example",
+ "attachments": [
+  "invoice_26010254.pdf"
+ ],
+ "from": "facturacion@construçõesalta.pt",
+ "to": "facturas.proveedores@kalmora.example",
+ "subject": "Construções Alta – documentación de facturación",
+ "body": ""
+}

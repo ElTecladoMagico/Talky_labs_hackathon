@@ -1,0 +1,13 @@
+{
+ "doc_id": "API004279",
+ "channel": "email",
+ "received_at": "2026-07-15T08:37:00",
+ "mailbox": "facturas.proveedores@kalmora.example",
+ "attachments": [
+  "factura_FV-2026-23347.pdf"
+ ],
+ "from": "facturacion@aguasdevaldemora.es",
+ "to": "facturas.proveedores@kalmora.example",
+ "subject": "FRA FV-2026-23347 KALMORA SERV URBANOS",
+ "body": "Les enviamos la factura correspondiente al periodo. Quedamos a su disposición."
+}

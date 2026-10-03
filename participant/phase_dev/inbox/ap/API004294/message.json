@@ -1,0 +1,13 @@
+{
+ "doc_id": "API004294",
+ "channel": "email",
+ "received_at": "2026-07-06T14:18:00",
+ "mailbox": "facturas.proveedores@kalmora.example",
+ "attachments": [
+  "factura_0034549.pdf"
+ ],
+ "from": "facturacion@suministrosdeobram.es",
+ "to": "facturas.proveedores@kalmora.example",
+ "subject": "Suministros de Obra Montalbar – documentación de facturación",
+ "body": "Saludos cordiales,\nDpto. Administración"
+}

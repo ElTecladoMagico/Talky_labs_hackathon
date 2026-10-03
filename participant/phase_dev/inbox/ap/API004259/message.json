@@ -1,0 +1,13 @@
+{
+ "doc_id": "API004259",
+ "channel": "email",
+ "received_at": "2026-07-06T14:11:00",
+ "mailbox": "facturas.proveedores@kalmora.example",
+ "attachments": [
+  "factura_SS202633770.pdf"
+ ],
+ "from": "facturacion@materialdeoficinaa.es",
+ "to": "facturas.proveedores@kalmora.example",
+ "subject": "Envío de factura nº SS202633770",
+ "body": "Buenos días, adjuntamos factura. Un saludo."
+}

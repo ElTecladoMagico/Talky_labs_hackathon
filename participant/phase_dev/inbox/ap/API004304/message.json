@@ -1,0 +1,13 @@
+{
+ "doc_id": "API004304",
+ "channel": "email",
+ "received_at": "2026-07-02T17:09:00",
+ "mailbox": "facturas.proveedores@kalmora.example",
+ "attachments": [
+  "invoice_C-008677.pdf"
+ ],
+ "from": "facturacion@gruasribeira.pt",
+ "to": "facturas.proveedores@kalmora.example",
+ "subject": "Factura C-008677",
+ "body": ""
+}

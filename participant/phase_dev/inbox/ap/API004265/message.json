@@ -1,0 +1,13 @@
+{
+ "doc_id": "API004265",
+ "channel": "email",
+ "received_at": "2026-07-27T18:09:00",
+ "mailbox": "facturas.proveedores@kalmora.example",
+ "attachments": [
+  "factura_GM26-21897.pdf"
+ ],
+ "from": "facturacion@telecomunicaciones.es",
+ "to": "facturas.proveedores@kalmora.example",
+ "subject": "Telecomunicaciones Ondanet Empresas – documentación de facturación",
+ "body": "Buenos días, adjuntamos factura. Un saludo."
+}

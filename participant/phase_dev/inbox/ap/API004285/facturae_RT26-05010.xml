@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<fe:Facturae xmlns:fe="http://www.facturae.gob.es/formato/Versiones/Facturaev3_2_2.xml">
+ <FileHeader><SchemaVersion>3.2.2</SchemaVersion><Modality>I</Modality><InvoiceIssuerType>EM</InvoiceIssuerType>
+  <Batch><BatchIdentifier>A48049458RT26/05010</BatchIdentifier><InvoicesCount>1</InvoicesCount>
+   <TotalInvoicesAmount><TotalAmount>642.16</TotalAmount></TotalInvoicesAmount><TotalOutstandingAmount><TotalAmount>642.16</TotalAmount></TotalOutstandingAmount>
+   <TotalExecutableAmount><TotalAmount>642.16</TotalAmount></TotalExecutableAmount><InvoiceCurrencyCode>EUR</InvoiceCurrencyCode></Batch></FileHeader>
+ <Parties>
+  <SellerParty><TaxIdentification><PersonTypeCode>J</PersonTypeCode><ResidenceTypeCode>R</ResidenceTypeCode><TaxIdentificationNumber>A48049458</TaxIdentificationNumber></TaxIdentification>
+   <LegalEntity><CorporateName>Suministros Industriales Plus, S.A.</CorporateName><AddressInSpain><Address>Avenida de Europa 162</Address><PostCode>40457</PostCode><Town>Navalcedro</Town><Province>Bizkaia</Province><CountryCode>ESP</CountryCode></AddressInSpain></LegalEntity></SellerParty>
+  <BuyerParty><TaxIdentification><PersonTypeCode>J</PersonTypeCode><ResidenceTypeCode>R</ResidenceTypeCode><TaxIdentificationNumber>B60331798</TaxIdentificationNumber></TaxIdentification>
+   <LegalEntity><CorporateName>Kalmora Servicios Urbanos, S.L.U.</CorporateName></LegalEntity></BuyerParty>
+ </Parties>
+ <Invoices><Invoice>
+  <InvoiceHeader><InvoiceNumber>RT26/05010</InvoiceNumber><InvoiceDocumentType>FC</InvoiceDocumentType><InvoiceClass>OO</InvoiceClass>
+   </InvoiceHeader>
+  <InvoiceIssueData><IssueDate>2026-06-30</IssueDate><InvoicingPeriod><StartDate>2026-06-01</StartDate><EndDate>2026-06-30</EndDate></InvoicingPeriod><InvoiceCurrencyCode>EUR</InvoiceCurrencyCode><TaxCurrencyCode>EUR</TaxCurrencyCode><LanguageName>es</LanguageName></InvoiceIssueData>
+  <TaxesOutputs><Tax><TaxTypeCode>01</TaxTypeCode><TaxRate>21.00</TaxRate><TaxableBase><TotalAmount>530.71</TotalAmount></TaxableBase><TaxAmount><TotalAmount>111.45</TotalAmount></TaxAmount></Tax></TaxesOutputs>
+  
+  <InvoiceTotals><TotalGrossAmount>530.71</TotalGrossAmount><TotalGrossAmountBeforeTaxes>530.71</TotalGrossAmountBeforeTaxes>
+   <TotalTaxOutputs>111.45</TotalTaxOutputs><TotalTaxesWithheld>0.00</TotalTaxesWithheld><InvoiceTotal>642.16</InvoiceTotal>
+   
+   <TotalOutstandingAmount>642.16</TotalOutstandingAmount><TotalExecutableAmount>642.16</TotalExecutableAmount></InvoiceTotals>
+  <Items><InvoiceLine><ItemDescription>Casco de seguridad EN397 – AL-090123 (25/06)</ItemDescription><Quantity>73.000</Quantity><UnitPriceWithoutTax>7.270000</UnitPriceWithoutTax><TotalCost>530.71</TotalCost><GrossAmount>530.71</GrossAmount><TaxesOutputs><Tax><TaxTypeCode>01</TaxTypeCode><TaxRate>21.00</TaxRate><TaxableBase><TotalAmount>530.71</TotalAmount></TaxableBase></Tax></TaxesOutputs></InvoiceLine></Items>
+  <AdditionalData><InvoiceAdditionalInformation> </InvoiceAdditionalInformation></AdditionalData>
+ </Invoice></Invoices>
+</fe:Facturae>

@@ -1,0 +1,13 @@
+{
+ "doc_id": "API004479",
+ "channel": "email",
+ "received_at": "2026-07-02T09:06:00",
+ "mailbox": "facturas.proveedores@kalmora.example",
+ "attachments": [
+  "factura_F2627988.pdf"
+ ],
+ "from": "facturacion@torrecastellananor.es",
+ "to": "facturas.proveedores@kalmora.example",
+ "subject": "Envío de factura nº F2627988",
+ "body": "Saludos cordiales,\nDpto. Administración"
+}

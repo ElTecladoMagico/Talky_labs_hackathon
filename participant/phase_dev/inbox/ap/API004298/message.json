@@ -1,0 +1,13 @@
+{
+ "doc_id": "API004298",
+ "channel": "email",
+ "received_at": "2026-07-01T08:44:00",
+ "mailbox": "facturas.proveedores@kalmora.example",
+ "attachments": [
+  "factura_2026-019433.pdf"
+ ],
+ "from": "facturacion@mrooperaciónymante.es",
+ "to": "facturas.proveedores@kalmora.example",
+ "subject": "MRO-Operación y Mantenimiento Solar – documentación de facturación",
+ "body": "Buenos días, adjuntamos factura. Un saludo."
+}

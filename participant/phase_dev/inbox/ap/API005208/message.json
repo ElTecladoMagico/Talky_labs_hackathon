@@ -1,0 +1,13 @@
+{
+ "doc_id": "API005208",
+ "channel": "email",
+ "received_at": "2026-07-30T13:22:00",
+ "mailbox": "facturas.proveedores@kalmora.example",
+ "attachments": [
+  "invoice_AGC26-38123.pdf"
+ ],
+ "from": "facturacion@engenhariaeconstru.pt",
+ "to": "facturas.proveedores@kalmora.example",
+ "subject": "RV: Factura AGC26/38123 – reenvío (pendiente de pago)",
+ "body": "Saludos cordiales,\nDpto. Administración"
+}

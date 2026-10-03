@@ -1,0 +1,13 @@
+{
+ "doc_id": "API004133",
+ "channel": "email",
+ "received_at": "2026-07-09T16:15:00",
+ "mailbox": "facturas.proveedores@kalmora.example",
+ "attachments": [
+  "factura_0008000.pdf"
+ ],
+ "from": "facturacion@valladosyservicios.es",
+ "to": "facturas.proveedores@kalmora.example",
+ "subject": "FRA 0008000 KALMORA CONSTRUCCION",
+ "body": "Saludos cordiales,\nDpto. Administración"
+}

@@ -1,0 +1,13 @@
+{
+ "doc_id": "API004559",
+ "channel": "email",
+ "received_at": "2026-07-13T19:47:00",
+ "mailbox": "facturas.proveedores@kalmora.example",
+ "attachments": [
+  "invoice_F2620621.pdf"
+ ],
+ "from": "facturacion@lonemesaequipmentr.com",
+ "to": "facturas.proveedores@kalmora.example",
+ "subject": "Envío de factura nº F2620621",
+ "body": ""
+}

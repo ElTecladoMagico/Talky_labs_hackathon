@@ -1,0 +1,14 @@
+{
+ "doc_id": "API004322",
+ "channel": "cfdi",
+ "received_at": "2026-07-06T10:57:00",
+ "mailbox": "facturas.proveedores@kalmora.example",
+ "attachments": [
+  "factura_2026-001244.pdf",
+  "618FDA9E-03D4-4750-97F0-1FCA373BFE3D.xml"
+ ],
+ "from": "facturacion@autotransportessan.mx",
+ "to": "facturas.proveedores@kalmora.example",
+ "subject": "Envío de factura nº 2026-001244",
+ "body": "Buenos días, adjuntamos factura. Un saludo."
+}

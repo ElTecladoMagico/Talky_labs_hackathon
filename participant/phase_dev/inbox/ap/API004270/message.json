@@ -1,0 +1,11 @@
+{
+ "doc_id": "API004270",
+ "channel": "portal",
+ "received_at": "2026-07-06T17:41:00",
+ "mailbox": "facturas.proveedores@kalmora.example",
+ "attachments": [
+  "factura_2026-009088.pdf"
+ ],
+ "source": "Portal de proveedores (descarga)",
+ "uploaded_by": "facturacion@garcíaycalvorepara.es"
+}

@@ -1,0 +1,13 @@
+{
+ "doc_id": "API004309",
+ "channel": "email",
+ "received_at": "2026-07-06T15:29:00",
+ "mailbox": "facturas.proveedores@kalmora.example",
+ "attachments": [
+  "invoice_26029280.pdf"
+ ],
+ "from": "facturacion@gruassoriano.pt",
+ "to": "facturas.proveedores@kalmora.example",
+ "subject": "FRA 26029280 KALMORA PORTUGAL",
+ "body": "Saludos cordiales,\nDpto. Administración"
+}

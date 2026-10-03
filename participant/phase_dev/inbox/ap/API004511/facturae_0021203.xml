@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<fe:Facturae xmlns:fe="http://www.facturae.gob.es/formato/Versiones/Facturaev3_2_2.xml">
+ <FileHeader><SchemaVersion>3.2.2</SchemaVersion><Modality>I</Modality><InvoiceIssuerType>EM</InvoiceIssuerType>
+  <Batch><BatchIdentifier>B992816740021203</BatchIdentifier><InvoicesCount>1</InvoicesCount>
+   <TotalInvoicesAmount><TotalAmount>687.95</TotalAmount></TotalInvoicesAmount><TotalOutstandingAmount><TotalAmount>687.95</TotalAmount></TotalOutstandingAmount>
+   <TotalExecutableAmount><TotalAmount>687.95</TotalAmount></TotalExecutableAmount><InvoiceCurrencyCode>EUR</InvoiceCurrencyCode></Batch></FileHeader>
+ <Parties>
+  <SellerParty><TaxIdentification><PersonTypeCode>J</PersonTypeCode><ResidenceTypeCode>R</ResidenceTypeCode><TaxIdentificationNumber>B99281674</TaxIdentificationNumber></TaxIdentification>
+   <LegalEntity><CorporateName>Bricolaje Profesional Navalcedro, S.L.</CorporateName><AddressInSpain><Address>Calle Real 114</Address><PostCode>42988</PostCode><Town>Valdemora</Town><Province>Granada</Province><CountryCode>ESP</CountryCode></AddressInSpain></LegalEntity></SellerParty>
+  <BuyerParty><TaxIdentification><PersonTypeCode>J</PersonTypeCode><ResidenceTypeCode>R</ResidenceTypeCode><TaxIdentificationNumber>B60331798</TaxIdentificationNumber></TaxIdentification>
+   <LegalEntity><CorporateName>Kalmora Servicios Urbanos, S.L.U.</CorporateName></LegalEntity></BuyerParty>
+ </Parties>
+ <Invoices><Invoice>
+  <InvoiceHeader><InvoiceNumber>0021203</InvoiceNumber><InvoiceDocumentType>FC</InvoiceDocumentType><InvoiceClass>OO</InvoiceClass>
+   </InvoiceHeader>
+  <InvoiceIssueData><IssueDate>2026-07-31</IssueDate><InvoicingPeriod><StartDate>2026-07-01</StartDate><EndDate>2026-07-31</EndDate></InvoicingPeriod><InvoiceCurrencyCode>EUR</InvoiceCurrencyCode><TaxCurrencyCode>EUR</TaxCurrencyCode><LanguageName>es</LanguageName></InvoiceIssueData>
+  <TaxesOutputs><Tax><TaxTypeCode>01</TaxTypeCode><TaxRate>21.00</TaxRate><TaxableBase><TotalAmount>568.55</TotalAmount></TaxableBase><TaxAmount><TotalAmount>119.40</TotalAmount></TaxAmount></Tax></TaxesOutputs>
+  
+  <InvoiceTotals><TotalGrossAmount>568.55</TotalGrossAmount><TotalGrossAmountBeforeTaxes>568.55</TotalGrossAmountBeforeTaxes>
+   <TotalTaxOutputs>119.40</TotalTaxOutputs><TotalTaxesWithheld>0.00</TotalTaxesWithheld><InvoiceTotal>687.95</InvoiceTotal>
+   
+   <TotalOutstandingAmount>687.95</TotalOutstandingAmount><TotalExecutableAmount>687.95</TotalExecutableAmount></InvoiceTotals>
+  <Items><InvoiceLine><ItemDescription>Herramienta manual variada – AL-008534 (02/07)</ItemDescription><Quantity>1.000</Quantity><UnitPriceWithoutTax>101.670000</UnitPriceWithoutTax><TotalCost>101.67</TotalCost><GrossAmount>101.67</GrossAmount><TaxesOutputs><Tax><TaxTypeCode>01</TaxTypeCode><TaxRate>21.00</TaxRate><TaxableBase><TotalAmount>101.67</TotalAmount></TaxableBase></Tax></TaxesOutputs></InvoiceLine><InvoiceLine><ItemDescription>Tornillería y fijaciones varias – AL-008550 (09/07)</ItemDescription><Quantity>2.000</Quantity><UnitPriceWithoutTax>50.320000</UnitPriceWithoutTax><TotalCost>100.64</TotalCost><GrossAmount>100.64</GrossAmount><TaxesOutputs><Tax><TaxTypeCode>01</TaxTypeCode><TaxRate>21.00</TaxRate><TaxableBase><TotalAmount>100.64</TotalAmount></TaxableBase></Tax></TaxesOutputs></InvoiceLine><InvoiceLine><ItemDescription>Tornillería y fijaciones varias – AL-008539 (17/07)</ItemDescription><Quantity>3.000</Quantity><UnitPriceWithoutTax>50.320000</UnitPriceWithoutTax><TotalCost>150.96</TotalCost><GrossAmount>150.96</GrossAmount><TaxesOutputs><Tax><TaxTypeCode>01</TaxTypeCode><TaxRate>21.00</TaxRate><TaxableBase><TotalAmount>150.96</TotalAmount></TaxableBase></Tax></TaxesOutputs></InvoiceLine><InvoiceLine><ItemDescription>Tornillería y fijaciones varias – AL-008547 (22/07)</ItemDescription><Quantity>3.000</Quantity><UnitPriceWithoutTax>50.320000</UnitPriceWithoutTax><TotalCost>150.96</TotalCost><GrossAmount>150.96</GrossAmount><TaxesOutputs><Tax><TaxTypeCode>01</TaxTypeCode><TaxRate>21.00</TaxRate><TaxableBase><TotalAmount>150.96</TotalAmount></TaxableBase></Tax></TaxesOutputs></InvoiceLine><InvoiceLine><ItemDescription>Discos de corte Ø230 (caja 25) – AL-008537 (28/07)</ItemDescription><Quantity>1.000</Quantity><UnitPriceWithoutTax>64.320000</UnitPriceWithoutTax><TotalCost>64.32</TotalCost><GrossAmount>64.32</GrossAmount><TaxesOutputs><Tax><TaxTypeCode>01</TaxTypeCode><TaxRate>21.00</TaxRate><TaxableBase><TotalAmount>64.32</TotalAmount></TaxableBase></Tax></TaxesOutputs></InvoiceLine></Items>
+  <AdditionalData><InvoiceAdditionalInformation> </InvoiceAdditionalInformation></AdditionalData>
+ </Invoice></Invoices>
+</fe:Facturae>

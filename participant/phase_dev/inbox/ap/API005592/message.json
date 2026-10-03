@@ -1,0 +1,13 @@
+{
+ "doc_id": "API005592",
+ "channel": "email",
+ "received_at": "2026-07-20T08:38:00",
+ "mailbox": "facturas.proveedores@kalmora.example",
+ "attachments": [
+  "proforma_API005592.pdf"
+ ],
+ "from": "facturacion@ferrerycanohierros.es",
+ "to": "facturas.proveedores@kalmora.example",
+ "subject": "Proforma para su aprobación",
+ "body": ""
+}

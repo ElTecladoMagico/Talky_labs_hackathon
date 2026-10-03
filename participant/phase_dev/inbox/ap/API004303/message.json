@@ -1,0 +1,13 @@
+{
+ "doc_id": "API004303",
+ "channel": "email",
+ "received_at": "2026-07-03T15:02:00",
+ "mailbox": "facturas.proveedores@kalmora.example",
+ "attachments": [
+  "invoice_H-017014.pdf"
+ ],
+ "from": "facturacion@pcmmateriaisdecons.pt",
+ "to": "facturas.proveedores@kalmora.example",
+ "subject": "FRA H-017014 KALMORA PORTUGAL",
+ "body": ""
+}

@@ -1,0 +1,13 @@
+{
+ "doc_id": "API004167",
+ "channel": "email",
+ "received_at": "2026-07-09T14:32:00",
+ "mailbox": "facturas.proveedores@kalmora.example",
+ "attachments": [
+  "factura_HHC202612618.pdf"
+ ],
+ "from": "facturacion@instalacioneseléct.es",
+ "to": "facturas.proveedores@kalmora.example",
+ "subject": "FRA HHC202612618 KALMORA CONSTRUCCION",
+ "body": "Adjunto remitimos la documentación indicada en el asunto."
+}

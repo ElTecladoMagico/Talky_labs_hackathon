@@ -1,0 +1,13 @@
+{
+ "doc_id": "API005218",
+ "channel": "email",
+ "received_at": "2026-07-06T17:10:00",
+ "mailbox": "facturas.proveedores@kalmora.example",
+ "attachments": [
+  "factura_F2633674.pdf"
+ ],
+ "from": "facturacion@hormigonespreparad.es",
+ "to": "facturas.proveedores@kalmora.example",
+ "subject": "Factura F2633674",
+ "body": "Saludos cordiales,\nDpto. Administración"
+}

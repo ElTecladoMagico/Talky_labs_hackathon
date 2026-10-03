@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<cfdi:Comprobante xmlns:cfdi="http://www.sat.gob.mx/cfd/4" Version="4.0" Serie="D26" Folio="D26/06835" Fecha="2026-07-06T10:00:00"
+ SubTotal="6864016.67" Moneda="MXN" Total="7962259.34" TipoDeComprobante="I" Exportacion="01" MetodoPago="PPD" FormaPago="99" LugarExpedicion="21231">
+ <cfdi:Emisor Rfc="CON960719B4G" Nombre="CONSTRUCCIONES VALLE, S.A. DE C.V." RegimenFiscal="601"/>
+ <cfdi:Receptor Rfc="KMI91110719K" Nombre="KALMORA MEXICO INFRAESTRUCTURA" DomicilioFiscalReceptor="11950" RegimenFiscalReceptor="601" UsoCFDI="G03"/>
+ <cfdi:Conceptos><cfdi:Concepto ClaveProdServ="72141000" Cantidad="26128.000" ClaveUnidad="E48" Descripcion="Excavación en desmonte con medios mecánicos" ValorUnitario="79.84" Importe="2086059.52" ObjetoImp="02"/><cfdi:Concepto ClaveProdServ="72141000" Cantidad="13044.500" ClaveUnidad="E48" Descripcion="Terraplén compactado 98 % PM" ValorUnitario="131.17" Importe="1711047.07" ObjetoImp="02"/><cfdi:Concepto ClaveProdServ="72141000" Cantidad="26448.000" ClaveUnidad="E48" Descripcion="Demolición de firme existente" ValorUnitario="115.96" Importe="3066910.08" ObjetoImp="02"/></cfdi:Conceptos>
+ <cfdi:Impuestos TotalImpuestosTrasladados="1098242.67">
+  <cfdi:Traslados><cfdi:Traslado Base="6864016.67" Impuesto="002" TipoFactor="Tasa" TasaOCuota="0.160000" Importe="1098242.67"/></cfdi:Traslados>
+ </cfdi:Impuestos>
+ <cfdi:Complemento><tfd:TimbreFiscalDigital xmlns:tfd="http://www.sat.gob.mx/TimbreFiscalDigital" Version="1.1" UUID="69C7350C-C14F-4EBA-BE15-7C2E6C99CF8A" FechaTimbrado="2026-07-06T10:05:12" RfcProvCertif="SAT970701NN3" NoCertificadoSAT="00001000000509846663"/></cfdi:Complemento>
+</cfdi:Comprobante>

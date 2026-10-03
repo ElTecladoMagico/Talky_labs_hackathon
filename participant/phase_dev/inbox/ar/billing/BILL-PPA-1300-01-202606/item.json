@@ -1,0 +1,11 @@
+{
+ "billing_item": "BILL-PPA-1300-01-202606",
+ "type": "PPA",
+ "company": "1300",
+ "contract": "PPA-1300-01",
+ "customer": "C200079",
+ "month": "2026-07",
+ "documents": [
+  "documento.pdf"
+ ]
+}

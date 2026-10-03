@@ -1,0 +1,13 @@
+{
+ "doc_id": "API004090",
+ "channel": "email",
+ "received_at": "2026-07-15T14:12:00",
+ "mailbox": "facturas.proveedores@kalmora.example",
+ "attachments": [
+  "factura_KEK202618710.pdf"
+ ],
+ "from": "facturacion@ferrallasyestructu.es",
+ "to": "facturas.proveedores@kalmora.example",
+ "subject": "Ferrallas y Estructuras Calablanca – documentación de facturación",
+ "body": "Saludos cordiales,\nDpto. Administración"
+}

@@ -1,0 +1,13 @@
+{
+ "doc_id": "API005206",
+ "channel": "email",
+ "received_at": "2026-07-07T14:36:00",
+ "mailbox": "facturas.proveedores@kalmora.example",
+ "attachments": [
+  "factura_F-26030808.pdf"
+ ],
+ "from": "facturacion@ferreteríaysuminis.es",
+ "to": "facturas.proveedores@kalmora.example",
+ "subject": "FRA 26030808 KALMORA CONSTRUCCION",
+ "body": "Adjunto remitimos la documentación indicada en el asunto."
+}

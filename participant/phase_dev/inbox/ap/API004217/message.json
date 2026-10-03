@@ -1,0 +1,13 @@
+{
+ "doc_id": "API004217",
+ "channel": "email",
+ "received_at": "2026-07-01T17:27:00",
+ "mailbox": "facturas.proveedores@kalmora.example",
+ "attachments": [
+  "factura_E202636436.pdf"
+ ],
+ "from": "facturacion@prefabricadosmolin.es",
+ "to": "facturas.proveedores@kalmora.example",
+ "subject": "Prefabricados Molina 2000 – documentación de facturación",
+ "body": "Les enviamos la factura correspondiente al periodo. Quedamos a su disposición."
+}

@@ -1,0 +1,13 @@
+{
+ "doc_id": "API004185",
+ "channel": "email",
+ "received_at": "2026-07-06T16:23:00",
+ "mailbox": "facturas.proveedores@kalmora.example",
+ "attachments": [
+  "factura_0008009.pdf"
+ ],
+ "from": "facturacion@valladosyservicios.es",
+ "to": "facturas.proveedores@kalmora.example",
+ "subject": "Facturas del mes",
+ "body": "Adjunto remitimos la documentación indicada en el asunto."
+}

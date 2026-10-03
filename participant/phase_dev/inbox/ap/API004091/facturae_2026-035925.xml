@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<fe:Facturae xmlns:fe="http://www.facturae.gob.es/formato/Versiones/Facturaev3_2_2.xml">
+ <FileHeader><SchemaVersion>3.2.2</SchemaVersion><Modality>I</Modality><InvoiceIssuerType>EM</InvoiceIssuerType>
+  <Batch><BatchIdentifier>A934320072026-035925</BatchIdentifier><InvoicesCount>1</InvoicesCount>
+   <TotalInvoicesAmount><TotalAmount>124496.84</TotalAmount></TotalInvoicesAmount><TotalOutstandingAmount><TotalAmount>118272.00</TotalAmount></TotalOutstandingAmount>
+   <TotalExecutableAmount><TotalAmount>118272.00</TotalAmount></TotalExecutableAmount><InvoiceCurrencyCode>EUR</InvoiceCurrencyCode></Batch></FileHeader>
+ <Parties>
+  <SellerParty><TaxIdentification><PersonTypeCode>J</PersonTypeCode><ResidenceTypeCode>R</ResidenceTypeCode><TaxIdentificationNumber>A93432007</TaxIdentificationNumber></TaxIdentification>
+   <LegalEntity><CorporateName>Instalaciones Eléctricas Hermanos, S.L.</CorporateName><AddressInSpain><Address>Ronda de Poniente 46</Address><PostCode>14911</PostCode><Town>Sierramayor</Town><Province>Madrid</Province><CountryCode>ESP</CountryCode></AddressInSpain></LegalEntity></SellerParty>
+  <BuyerParty><TaxIdentification><PersonTypeCode>J</PersonTypeCode><ResidenceTypeCode>R</ResidenceTypeCode><TaxIdentificationNumber>A12359962</TaxIdentificationNumber></TaxIdentification>
+   <LegalEntity><CorporateName>Kalmora Construcción, S.A.U.</CorporateName></LegalEntity></BuyerParty>
+ </Parties>
+ <Invoices><Invoice>
+  <InvoiceHeader><InvoiceNumber>2026-035925</InvoiceNumber><InvoiceDocumentType>FC</InvoiceDocumentType><InvoiceClass>OO</InvoiceClass>
+   </InvoiceHeader>
+  <InvoiceIssueData><IssueDate>2026-07-07</IssueDate><InvoicingPeriod><StartDate>2026-06-01</StartDate><EndDate>2026-06-30</EndDate></InvoicingPeriod><InvoiceCurrencyCode>EUR</InvoiceCurrencyCode><TaxCurrencyCode>EUR</TaxCurrencyCode><LanguageName>es</LanguageName></InvoiceIssueData>
+  <TaxesOutputs><Tax><TaxTypeCode>01</TaxTypeCode><TaxRate>0.00</TaxRate><TaxableBase><TotalAmount>124496.84</TotalAmount></TaxableBase><TaxAmount><TotalAmount>0.00</TotalAmount></TaxAmount></Tax></TaxesOutputs>
+  
+  <InvoiceTotals><TotalGrossAmount>124496.84</TotalGrossAmount><TotalGrossAmountBeforeTaxes>124496.84</TotalGrossAmountBeforeTaxes>
+   <TotalTaxOutputs>0.00</TotalTaxOutputs><TotalTaxesWithheld>0.00</TotalTaxesWithheld><InvoiceTotal>124496.84</InvoiceTotal>
+   <AmountsWithheld><WithholdingReason>Retención de garantía</WithholdingReason><WithholdingAmount>6224.84</WithholdingAmount></AmountsWithheld>
+   <TotalOutstandingAmount>118272.00</TotalOutstandingAmount><TotalExecutableAmount>118272.00</TotalExecutableAmount></InvoiceTotals>
+  <Items><InvoiceLine><ItemDescription>Línea de BT RZ1-K 4x25 instalada</ItemDescription><Quantity>1540.000</Quantity><UnitPriceWithoutTax>18.580000</UnitPriceWithoutTax><TotalCost>28613.20</TotalCost><GrossAmount>28613.20</GrossAmount><IssuerTransactionReference>4500021222</IssuerTransactionReference><TaxesOutputs><Tax><TaxTypeCode>01</TaxTypeCode><TaxRate>0.00</TaxRate><TaxableBase><TotalAmount>28613.20</TotalAmount></TaxableBase></Tax></TaxesOutputs></InvoiceLine><InvoiceLine><ItemDescription>Tubería PE100 Ø110 instalada</ItemDescription><Quantity>1453.000</Quantity><UnitPriceWithoutTax>29.420000</UnitPriceWithoutTax><TotalCost>42747.26</TotalCost><GrossAmount>42747.26</GrossAmount><IssuerTransactionReference>4500021222</IssuerTransactionReference><TaxesOutputs><Tax><TaxTypeCode>01</TaxTypeCode><TaxRate>0.00</TaxRate><TaxableBase><TotalAmount>42747.26</TotalAmount></TaxableBase></Tax></TaxesOutputs></InvoiceLine><InvoiceLine><ItemDescription>Cuadro general de protección</ItemDescription><Quantity>11.000</Quantity><UnitPriceWithoutTax>4830.580000</UnitPriceWithoutTax><TotalCost>53136.38</TotalCost><GrossAmount>53136.38</GrossAmount><IssuerTransactionReference>4500021222</IssuerTransactionReference><TaxesOutputs><Tax><TaxTypeCode>01</TaxTypeCode><TaxRate>0.00</TaxRate><TaxableBase><TotalAmount>53136.38</TotalAmount></TaxableBase></Tax></TaxesOutputs></InvoiceLine></Items>
+  <AdditionalData><InvoiceAdditionalInformation>Operación con inversión del sujeto pasivo conforme al artículo 84.Uno.2º.f) de la Ley 37/1992, del IVA. </InvoiceAdditionalInformation></AdditionalData>
+ </Invoice></Invoices>
+</fe:Facturae>

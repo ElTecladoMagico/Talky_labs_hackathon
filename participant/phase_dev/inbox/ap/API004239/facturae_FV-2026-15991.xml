@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<fe:Facturae xmlns:fe="http://www.facturae.gob.es/formato/Versiones/Facturaev3_2_2.xml">
+ <FileHeader><SchemaVersion>3.2.2</SchemaVersion><Modality>I</Modality><InvoiceIssuerType>EM</InvoiceIssuerType>
+  <Batch><BatchIdentifier>B95568431FV-2026-15991</BatchIdentifier><InvoicesCount>1</InvoicesCount>
+   <TotalInvoicesAmount><TotalAmount>16755.11</TotalAmount></TotalInvoicesAmount><TotalOutstandingAmount><TotalAmount>16755.11</TotalAmount></TotalOutstandingAmount>
+   <TotalExecutableAmount><TotalAmount>16755.11</TotalAmount></TotalExecutableAmount><InvoiceCurrencyCode>EUR</InvoiceCurrencyCode></Batch></FileHeader>
+ <Parties>
+  <SellerParty><TaxIdentification><PersonTypeCode>J</PersonTypeCode><ResidenceTypeCode>R</ResidenceTypeCode><TaxIdentificationNumber>B95568431</TaxIdentificationNumber></TaxIdentification>
+   <LegalEntity><CorporateName>Ingeniería de Costes y Licitaciones, S.L.</CorporateName><AddressInSpain><Address>Polígono Los Llanos, parcela 80</Address><PostCode>29764</PostCode><Town>Arenal del Sur</Town><Province>Tarragona</Province><CountryCode>ESP</CountryCode></AddressInSpain></LegalEntity></SellerParty>
+  <BuyerParty><TaxIdentification><PersonTypeCode>J</PersonTypeCode><ResidenceTypeCode>R</ResidenceTypeCode><TaxIdentificationNumber>A04071952</TaxIdentificationNumber></TaxIdentification>
+   <LegalEntity><CorporateName>Kalmora Infraestructuras y Servicios, S.A.</CorporateName></LegalEntity></BuyerParty>
+ </Parties>
+ <Invoices><Invoice>
+  <InvoiceHeader><InvoiceNumber>FV-2026-15991</InvoiceNumber><InvoiceDocumentType>FC</InvoiceDocumentType><InvoiceClass>OO</InvoiceClass>
+   </InvoiceHeader>
+  <InvoiceIssueData><IssueDate>2026-06-30</IssueDate><InvoicingPeriod><StartDate>2026-06-01</StartDate><EndDate>2026-06-30</EndDate></InvoicingPeriod><InvoiceCurrencyCode>EUR</InvoiceCurrencyCode><TaxCurrencyCode>EUR</TaxCurrencyCode><LanguageName>es</LanguageName></InvoiceIssueData>
+  <TaxesOutputs><Tax><TaxTypeCode>01</TaxTypeCode><TaxRate>21.00</TaxRate><TaxableBase><TotalAmount>13847.20</TotalAmount></TaxableBase><TaxAmount><TotalAmount>2907.91</TotalAmount></TaxAmount></Tax></TaxesOutputs>
+  
+  <InvoiceTotals><TotalGrossAmount>13847.20</TotalGrossAmount><TotalGrossAmountBeforeTaxes>13847.20</TotalGrossAmountBeforeTaxes>
+   <TotalTaxOutputs>2907.91</TotalTaxOutputs><TotalTaxesWithheld>0.00</TotalTaxesWithheld><InvoiceTotal>16755.11</InvoiceTotal>
+   
+   <TotalOutstandingAmount>16755.11</TotalOutstandingAmount><TotalExecutableAmount>16755.11</TotalExecutableAmount></InvoiceTotals>
+  <Items><InvoiceLine><ItemDescription>Servicios de consultoría según propuesta</ItemDescription><Quantity>1.000</Quantity><UnitPriceWithoutTax>13847.200000</UnitPriceWithoutTax><TotalCost>13847.20</TotalCost><GrossAmount>13847.20</GrossAmount><IssuerTransactionReference>4500021983</IssuerTransactionReference><TaxesOutputs><Tax><TaxTypeCode>01</TaxTypeCode><TaxRate>21.00</TaxRate><TaxableBase><TotalAmount>13847.20</TotalAmount></TaxableBase></Tax></TaxesOutputs></InvoiceLine></Items>
+  <AdditionalData><InvoiceAdditionalInformation> </InvoiceAdditionalInformation></AdditionalData>
+ </Invoice></Invoices>
+</fe:Facturae>

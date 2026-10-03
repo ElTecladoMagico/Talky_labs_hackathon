@@ -1,0 +1,13 @@
+{
+ "doc_id": "API004269",
+ "channel": "email",
+ "received_at": "2026-07-13T08:18:00",
+ "mailbox": "facturas.proveedores@kalmora.example",
+ "attachments": [
+  "factura_2026-033944.pdf"
+ ],
+ "from": "facturacion@vehículosindustria.es",
+ "to": "facturas.proveedores@kalmora.example",
+ "subject": "Facturas del mes",
+ "body": "Buenos días, adjuntamos factura. Un saludo."
+}

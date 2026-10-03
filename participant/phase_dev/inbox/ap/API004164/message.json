@@ -1,0 +1,13 @@
+{
+ "doc_id": "API004164",
+ "channel": "email",
+ "received_at": "2026-07-03T15:17:00",
+ "mailbox": "facturas.proveedores@kalmora.example",
+ "attachments": [
+  "factura_G-004771.pdf"
+ ],
+ "from": "facturacion@canterasyáridospar.es",
+ "to": "facturas.proveedores@kalmora.example",
+ "subject": "Canteras y Áridos Pardo – documentación de facturación",
+ "body": "Adjunto remitimos la documentación indicada en el asunto."
+}

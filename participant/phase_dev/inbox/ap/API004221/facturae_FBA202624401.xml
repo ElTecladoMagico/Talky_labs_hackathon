@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<fe:Facturae xmlns:fe="http://www.facturae.gob.es/formato/Versiones/Facturaev3_2_2.xml">
+ <FileHeader><SchemaVersion>3.2.2</SchemaVersion><Modality>I</Modality><InvoiceIssuerType>EM</InvoiceIssuerType>
+  <Batch><BatchIdentifier>B75100540FBA202624401</BatchIdentifier><InvoicesCount>1</InvoicesCount>
+   <TotalInvoicesAmount><TotalAmount>189859.22</TotalAmount></TotalInvoicesAmount><TotalOutstandingAmount><TotalAmount>180366.26</TotalAmount></TotalOutstandingAmount>
+   <TotalExecutableAmount><TotalAmount>180366.26</TotalAmount></TotalExecutableAmount><InvoiceCurrencyCode>EUR</InvoiceCurrencyCode></Batch></FileHeader>
+ <Parties>
+  <SellerParty><TaxIdentification><PersonTypeCode>J</PersonTypeCode><ResidenceTypeCode>R</ResidenceTypeCode><TaxIdentificationNumber>B75100540</TaxIdentificationNumber></TaxIdentification>
+   <LegalEntity><CorporateName>Instalaciones Integrales Fuentes, S.L.U.</CorporateName><AddressInSpain><Address>Camino Viejo 128</Address><PostCode>28554</PostCode><Town>Fuenteclara</Town><Province>Murcia</Province><CountryCode>ESP</CountryCode></AddressInSpain></LegalEntity></SellerParty>
+  <BuyerParty><TaxIdentification><PersonTypeCode>J</PersonTypeCode><ResidenceTypeCode>R</ResidenceTypeCode><TaxIdentificationNumber>U54740005</TaxIdentificationNumber></TaxIdentification>
+   <LegalEntity><CorporateName>UTE Kalmora Construcción – Hidrocon Obras, Ley 18/1982 (UTE Línea 9 Valdemora)</CorporateName></LegalEntity></BuyerParty>
+ </Parties>
+ <Invoices><Invoice>
+  <InvoiceHeader><InvoiceNumber>FBA202624401</InvoiceNumber><InvoiceDocumentType>FC</InvoiceDocumentType><InvoiceClass>OO</InvoiceClass>
+   </InvoiceHeader>
+  <InvoiceIssueData><IssueDate>2026-06-30</IssueDate><InvoicingPeriod><StartDate>2026-06-01</StartDate><EndDate>2026-06-30</EndDate></InvoicingPeriod><InvoiceCurrencyCode>EUR</InvoiceCurrencyCode><TaxCurrencyCode>EUR</TaxCurrencyCode><LanguageName>es</LanguageName></InvoiceIssueData>
+  <TaxesOutputs><Tax><TaxTypeCode>01</TaxTypeCode><TaxRate>0.00</TaxRate><TaxableBase><TotalAmount>189859.22</TotalAmount></TaxableBase><TaxAmount><TotalAmount>0.00</TotalAmount></TaxAmount></Tax></TaxesOutputs>
+  
+  <InvoiceTotals><TotalGrossAmount>189859.22</TotalGrossAmount><TotalGrossAmountBeforeTaxes>189859.22</TotalGrossAmountBeforeTaxes>
+   <TotalTaxOutputs>0.00</TotalTaxOutputs><TotalTaxesWithheld>0.00</TotalTaxesWithheld><InvoiceTotal>189859.22</InvoiceTotal>
+   <AmountsWithheld><WithholdingReason>Retención de garantía</WithholdingReason><WithholdingAmount>9492.96</WithholdingAmount></AmountsWithheld>
+   <TotalOutstandingAmount>180366.26</TotalOutstandingAmount><TotalExecutableAmount>180366.26</TotalExecutableAmount></InvoiceTotals>
+  <Items><InvoiceLine><ItemDescription>Línea de BT RZ1-K 4x25 instalada</ItemDescription><Quantity>2884.000</Quantity><UnitPriceWithoutTax>17.520000</UnitPriceWithoutTax><TotalCost>50527.68</TotalCost><GrossAmount>50527.68</GrossAmount><IssuerTransactionReference>4500019752</IssuerTransactionReference><TaxesOutputs><Tax><TaxTypeCode>01</TaxTypeCode><TaxRate>0.00</TaxRate><TaxableBase><TotalAmount>50527.68</TotalAmount></TaxableBase></Tax></TaxesOutputs></InvoiceLine><InvoiceLine><ItemDescription>Tubería PE100 Ø110 instalada</ItemDescription><Quantity>1412.000</Quantity><UnitPriceWithoutTax>27.730000</UnitPriceWithoutTax><TotalCost>39154.76</TotalCost><GrossAmount>39154.76</GrossAmount><IssuerTransactionReference>4500019752</IssuerTransactionReference><TaxesOutputs><Tax><TaxTypeCode>01</TaxTypeCode><TaxRate>0.00</TaxRate><TaxableBase><TotalAmount>39154.76</TotalAmount></TaxableBase></Tax></TaxesOutputs></InvoiceLine><InvoiceLine><ItemDescription>Cuadro general de protección</ItemDescription><Quantity>22.000</Quantity><UnitPriceWithoutTax>4553.490000</UnitPriceWithoutTax><TotalCost>100176.78</TotalCost><GrossAmount>100176.78</GrossAmount><IssuerTransactionReference>4500019752</IssuerTransactionReference><TaxesOutputs><Tax><TaxTypeCode>01</TaxTypeCode><TaxRate>0.00</TaxRate><TaxableBase><TotalAmount>100176.78</TotalAmount></TaxableBase></Tax></TaxesOutputs></InvoiceLine></Items>
+  <AdditionalData><InvoiceAdditionalInformation>Operación con inversión del sujeto pasivo conforme al artículo 84.Uno.2º.f) de la Ley 37/1992, del IVA. </InvoiceAdditionalInformation></AdditionalData>
+ </Invoice></Invoices>
+</fe:Facturae>

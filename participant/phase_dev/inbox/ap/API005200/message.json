@@ -1,0 +1,13 @@
+{
+ "doc_id": "API005200",
+ "channel": "email",
+ "received_at": "2026-07-22T16:41:00",
+ "mailbox": "facturas.proveedores@kalmora.example",
+ "attachments": [
+  "factura_F-F2611803.pdf"
+ ],
+ "from": "facturacion@aguasdesierramayor.es",
+ "to": "facturas.proveedores@kalmora.example",
+ "subject": "Aguas de Sierramayor – documentación de facturación",
+ "body": "Saludos cordiales,\nDpto. Administración"
+}

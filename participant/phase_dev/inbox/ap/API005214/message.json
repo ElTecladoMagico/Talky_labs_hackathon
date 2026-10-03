@@ -1,0 +1,13 @@
+{
+ "doc_id": "API005214",
+ "channel": "email",
+ "received_at": "2026-07-06T19:47:00",
+ "mailbox": "facturas.proveedores@kalmora.example",
+ "attachments": [
+  "factura_FV-2026-34123.pdf"
+ ],
+ "from": "facturacion@ffiinstalacionesel.es",
+ "to": "facturas.proveedores@kalmora.example",
+ "subject": "Factura FV-2026-34123",
+ "body": "Saludos cordiales,\nDpto. Administración"
+}

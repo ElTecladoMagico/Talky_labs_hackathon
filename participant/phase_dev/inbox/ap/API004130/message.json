@@ -1,0 +1,13 @@
+{
+ "doc_id": "API004130",
+ "channel": "email",
+ "received_at": "2026-07-02T08:59:00",
+ "mailbox": "facturas.proveedores@kalmora.example",
+ "attachments": [
+  "factura_FV-2026-34543.pdf"
+ ],
+ "from": "facturacion@lcfferreteríaindus.es",
+ "to": "facturas.proveedores@kalmora.example",
+ "subject": "Envío de factura nº FV-2026-34543",
+ "body": ""
+}

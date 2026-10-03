@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<fe:Facturae xmlns:fe="http://www.facturae.gob.es/formato/Versiones/Facturaev3_2_2.xml">
+ <FileHeader><SchemaVersion>3.2.2</SchemaVersion><Modality>I</Modality><InvoiceIssuerType>EM</InvoiceIssuerType>
+  <Batch><BatchIdentifier>A2532405726030599</BatchIdentifier><InvoicesCount>1</InvoicesCount>
+   <TotalInvoicesAmount><TotalAmount>455.92</TotalAmount></TotalInvoicesAmount><TotalOutstandingAmount><TotalAmount>455.92</TotalAmount></TotalOutstandingAmount>
+   <TotalExecutableAmount><TotalAmount>455.92</TotalAmount></TotalExecutableAmount><InvoiceCurrencyCode>EUR</InvoiceCurrencyCode></Batch></FileHeader>
+ <Parties>
+  <SellerParty><TaxIdentification><PersonTypeCode>J</PersonTypeCode><ResidenceTypeCode>R</ResidenceTypeCode><TaxIdentificationNumber>A25324057</TaxIdentificationNumber></TaxIdentification>
+   <LegalEntity><CorporateName>CEF-Ferretería y Suministros, S.A.</CorporateName><AddressInSpain><Address>Paseo de la Estación 133</Address><PostCode>06020</PostCode><Town>Montalbar</Town><Province>Bizkaia</Province><CountryCode>ESP</CountryCode></AddressInSpain></LegalEntity></SellerParty>
+  <BuyerParty><TaxIdentification><PersonTypeCode>J</PersonTypeCode><ResidenceTypeCode>R</ResidenceTypeCode><TaxIdentificationNumber>B60331798</TaxIdentificationNumber></TaxIdentification>
+   <LegalEntity><CorporateName>Kalmora Servicios Urbanos, S.L.U.</CorporateName></LegalEntity></BuyerParty>
+ </Parties>
+ <Invoices><Invoice>
+  <InvoiceHeader><InvoiceNumber>26030599</InvoiceNumber><InvoiceDocumentType>FC</InvoiceDocumentType><InvoiceClass>OO</InvoiceClass>
+   </InvoiceHeader>
+  <InvoiceIssueData><IssueDate>2026-07-02</IssueDate><InvoicingPeriod><StartDate>2026-06-01</StartDate><EndDate>2026-06-30</EndDate></InvoicingPeriod><InvoiceCurrencyCode>EUR</InvoiceCurrencyCode><TaxCurrencyCode>EUR</TaxCurrencyCode><LanguageName>es</LanguageName></InvoiceIssueData>
+  <TaxesOutputs><Tax><TaxTypeCode>01</TaxTypeCode><TaxRate>21.00</TaxRate><TaxableBase><TotalAmount>376.79</TotalAmount></TaxableBase><TaxAmount><TotalAmount>79.13</TotalAmount></TaxAmount></Tax></TaxesOutputs>
+  
+  <InvoiceTotals><TotalGrossAmount>376.79</TotalGrossAmount><TotalGrossAmountBeforeTaxes>376.79</TotalGrossAmountBeforeTaxes>
+   <TotalTaxOutputs>79.13</TotalTaxOutputs><TotalTaxesWithheld>0.00</TotalTaxesWithheld><InvoiceTotal>455.92</InvoiceTotal>
+   
+   <TotalOutstandingAmount>455.92</TotalOutstandingAmount><TotalExecutableAmount>455.92</TotalExecutableAmount></InvoiceTotals>
+  <Items><InvoiceLine><ItemDescription>Tornillería y fijaciones varias – AL-085293 (19/06)</ItemDescription><Quantity>3.000</Quantity><UnitPriceWithoutTax>53.510000</UnitPriceWithoutTax><TotalCost>160.53</TotalCost><GrossAmount>160.53</GrossAmount><TaxesOutputs><Tax><TaxTypeCode>01</TaxTypeCode><TaxRate>21.00</TaxRate><TaxableBase><TotalAmount>160.53</TotalAmount></TaxableBase></Tax></TaxesOutputs></InvoiceLine><InvoiceLine><ItemDescription>Herramienta manual variada – AL-085291 (24/06)</ItemDescription><Quantity>2.000</Quantity><UnitPriceWithoutTax>108.130000</UnitPriceWithoutTax><TotalCost>216.26</TotalCost><GrossAmount>216.26</GrossAmount><TaxesOutputs><Tax><TaxTypeCode>01</TaxTypeCode><TaxRate>21.00</TaxRate><TaxableBase><TotalAmount>216.26</TotalAmount></TaxableBase></Tax></TaxesOutputs></InvoiceLine></Items>
+  <AdditionalData><InvoiceAdditionalInformation> </InvoiceAdditionalInformation></AdditionalData>
+ </Invoice></Invoices>
+</fe:Facturae>

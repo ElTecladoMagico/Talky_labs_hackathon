@@ -1,0 +1,13 @@
+{
+ "doc_id": "API005590",
+ "channel": "email",
+ "received_at": "2026-07-17T13:38:00",
+ "mailbox": "facturas.proveedores@kalmora.example",
+ "attachments": [
+  "factura_R-GM26-21960.pdf"
+ ],
+ "from": "facturacion@telecomunicaciones.es",
+ "to": "facturas.proveedores@kalmora.example",
+ "subject": "Factura rectificativa R-GM26/21960",
+ "body": "Saludos cordiales,\nDpto. Administración"
+}

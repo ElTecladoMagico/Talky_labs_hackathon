@@ -1,0 +1,13 @@
+{
+ "doc_id": "API004161",
+ "channel": "email",
+ "received_at": "2026-07-06T15:49:00",
+ "mailbox": "facturas.proveedores@kalmora.example",
+ "attachments": [
+  "factura_2026-029957.pdf"
+ ],
+ "from": "facturacion@vigilanciatorrecas.es",
+ "to": "facturas.proveedores@kalmora.example",
+ "subject": "Vigilancia Torrecastro – documentación de facturación",
+ "body": ""
+}

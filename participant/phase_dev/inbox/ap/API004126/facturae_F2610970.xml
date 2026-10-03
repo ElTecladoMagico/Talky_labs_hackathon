@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<fe:Facturae xmlns:fe="http://www.facturae.gob.es/formato/Versiones/Facturaev3_2_2.xml">
+ <FileHeader><SchemaVersion>3.2.2</SchemaVersion><Modality>I</Modality><InvoiceIssuerType>EM</InvoiceIssuerType>
+  <Batch><BatchIdentifier>A49925794F2610970</BatchIdentifier><InvoicesCount>1</InvoicesCount>
+   <TotalInvoicesAmount><TotalAmount>1574.13</TotalAmount></TotalInvoicesAmount><TotalOutstandingAmount><TotalAmount>1574.13</TotalAmount></TotalOutstandingAmount>
+   <TotalExecutableAmount><TotalAmount>1574.13</TotalAmount></TotalExecutableAmount><InvoiceCurrencyCode>EUR</InvoiceCurrencyCode></Batch></FileHeader>
+ <Parties>
+  <SellerParty><TaxIdentification><PersonTypeCode>J</PersonTypeCode><ResidenceTypeCode>R</ResidenceTypeCode><TaxIdentificationNumber>A49925794</TaxIdentificationNumber></TaxIdentification>
+   <LegalEntity><CorporateName>Áridos Herrera 2000, S.L.</CorporateName><AddressInSpain><Address>Travesía del Molino 151</Address><PostCode>29946</PostCode><Town>Lomaseca</Town><Province>Cádiz</Province><CountryCode>ESP</CountryCode></AddressInSpain></LegalEntity></SellerParty>
+  <BuyerParty><TaxIdentification><PersonTypeCode>J</PersonTypeCode><ResidenceTypeCode>R</ResidenceTypeCode><TaxIdentificationNumber>A12359962</TaxIdentificationNumber></TaxIdentification>
+   <LegalEntity><CorporateName>Kalmora Construcción, S.A.U.</CorporateName></LegalEntity></BuyerParty>
+ </Parties>
+ <Invoices><Invoice>
+  <InvoiceHeader><InvoiceNumber>F2610970</InvoiceNumber><InvoiceDocumentType>FC</InvoiceDocumentType><InvoiceClass>OO</InvoiceClass>
+   </InvoiceHeader>
+  <InvoiceIssueData><IssueDate>2026-07-02</IssueDate><InvoicingPeriod><StartDate>2026-06-01</StartDate><EndDate>2026-06-30</EndDate></InvoicingPeriod><InvoiceCurrencyCode>EUR</InvoiceCurrencyCode><TaxCurrencyCode>EUR</TaxCurrencyCode><LanguageName>es</LanguageName></InvoiceIssueData>
+  <TaxesOutputs><Tax><TaxTypeCode>01</TaxTypeCode><TaxRate>21.00</TaxRate><TaxableBase><TotalAmount>1300.93</TotalAmount></TaxableBase><TaxAmount><TotalAmount>273.20</TotalAmount></TaxAmount></Tax></TaxesOutputs>
+  
+  <InvoiceTotals><TotalGrossAmount>1300.93</TotalGrossAmount><TotalGrossAmountBeforeTaxes>1300.93</TotalGrossAmountBeforeTaxes>
+   <TotalTaxOutputs>273.20</TotalTaxOutputs><TotalTaxesWithheld>0.00</TotalTaxesWithheld><InvoiceTotal>1574.13</InvoiceTotal>
+   
+   <TotalOutstandingAmount>1574.13</TotalOutstandingAmount><TotalExecutableAmount>1574.13</TotalExecutableAmount></InvoiceTotals>
+  <Items><InvoiceLine><ItemDescription>Zahorra artificial ZA-25 – AL-005349 (12/06)</ItemDescription><Quantity>26.910</Quantity><UnitPriceWithoutTax>13.150000</UnitPriceWithoutTax><TotalCost>353.87</TotalCost><GrossAmount>353.87</GrossAmount><IssuerTransactionReference>4500018667</IssuerTransactionReference><TaxesOutputs><Tax><TaxTypeCode>01</TaxTypeCode><TaxRate>21.00</TaxRate><TaxableBase><TotalAmount>353.87</TotalAmount></TaxableBase></Tax></TaxesOutputs></InvoiceLine><InvoiceLine><ItemDescription>Zahorra artificial ZA-25 – AL-005338 (22/06)</ItemDescription><Quantity>38.630</Quantity><UnitPriceWithoutTax>13.150000</UnitPriceWithoutTax><TotalCost>507.98</TotalCost><GrossAmount>507.98</GrossAmount><IssuerTransactionReference>4500018667</IssuerTransactionReference><TaxesOutputs><Tax><TaxTypeCode>01</TaxTypeCode><TaxRate>21.00</TaxRate><TaxableBase><TotalAmount>507.98</TotalAmount></TaxableBase></Tax></TaxesOutputs></InvoiceLine><InvoiceLine><ItemDescription>Zahorra artificial ZA-25 – AL-005340 (22/06)</ItemDescription><Quantity>33.390</Quantity><UnitPriceWithoutTax>13.150000</UnitPriceWithoutTax><TotalCost>439.08</TotalCost><GrossAmount>439.08</GrossAmount><IssuerTransactionReference>4500018667</IssuerTransactionReference><TaxesOutputs><Tax><TaxTypeCode>01</TaxTypeCode><TaxRate>21.00</TaxRate><TaxableBase><TotalAmount>439.08</TotalAmount></TaxableBase></Tax></TaxesOutputs></InvoiceLine></Items>
+  <AdditionalData><InvoiceAdditionalInformation> </InvoiceAdditionalInformation></AdditionalData>
+ </Invoice></Invoices>
+</fe:Facturae>

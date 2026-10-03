@@ -1,0 +1,14 @@
+{
+ "doc_id": "API004321",
+ "channel": "cfdi",
+ "received_at": "2026-07-07T18:26:00",
+ "mailbox": "facturas.proveedores@kalmora.example",
+ "attachments": [
+  "factura_F2625904.pdf",
+  "4F2BCBF5-D9E1-4151-AF46-5E9FBB0E4119.xml"
+ ],
+ "from": "facturacion@spmmaterialesparac.mx",
+ "to": "facturas.proveedores@kalmora.example",
+ "subject": "FRA F2625904 KALMORA MEXICO",
+ "body": "Adjunto remitimos la documentación indicada en el asunto."
+}

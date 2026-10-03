@@ -1,0 +1,239 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Document xmlns="urn:iso:std:iso:20022:tech:xsd:camt.053.001.08">
+ <BkToCstmrStmt>
+  <GrpHdr><MsgId>STMTBLC-210020260430</MsgId><CreDtTm>2026-04-30T23:59:00</CreDtTm></GrpHdr>
+  <Stmt><Id>BLC-2100-202604</Id><ElctrncSeqNb>4</ElctrncSeqNb><FrToDt><FrDtTm>2026-04-01T00:00:00</FrDtTm><ToDtTm>2026-04-30T23:59:59</ToDtTm></FrToDt>
+   <Acct><Id><IBAN>PT09009193573134102302650</IBAN></Id><Ccy>EUR</Ccy><Svcr><FinInstnId><BICFI>BLUCPTPLXXX</BICFI></FinInstnId></Svcr></Acct>
+   <Bal><Tp><CdOrPrtry><Cd>OPBD</Cd></CdOrPrtry></Tp><Amt Ccy="EUR">1307598.40</Amt><CdtDbtInd>CRDT</CdtDbtInd><Dt><Dt>2026-04-01</Dt></Dt></Bal>
+   <Bal><Tp><CdOrPrtry><Cd>CLBD</Cd></CdOrPrtry></Tp><Amt Ccy="EUR">1701347.75</Amt><CdtDbtInd>CRDT</CdtDbtInd><Dt><Dt>2026-04-30</Dt></Dt></Bal>
+   <Ntry><NtryRef>BL0000141</NtryRef><Amt Ccy="EUR">572896.80</Amt><CdtDbtInd>CRDT</CdtDbtInd><Sts><Cd>BOOK</Cd></Sts>
+    <BookgDt><Dt>2026-04-06</Dt></BookgDt><ValDt><Dt>2026-04-06</Dt></ValDt>
+    <BkTxCd><Prtry><Cd>02011</Cd></Prtry></BkTxCd>
+    <NtryDtls><TxDtls><Refs><EndToEndId>MANDAMIENTO 5633</EndToEndId></Refs>
+     <RltdPties><Dbtr><Nm>CÂMARA MUNICIPAL DE VILA SERRANA</Nm></Dbtr></RltdPties>
+     <RmtInf><Ustrd>TRANSFERENCIA DE CÂMARA MUNICIPAL DE VILA SERRA / MANDAMIENTO 56336 / ORDENANTE CÂMARA MUNICIPAL DE VILA SER</Ustrd></RmtInf></TxDtls></NtryDtls></Ntry>
+   <Ntry><NtryRef>BL0004392</NtryRef><Amt Ccy="EUR">309.07</Amt><CdtDbtInd>CRDT</CdtDbtInd><Sts><Cd>BOOK</Cd></Sts>
+    <BookgDt><Dt>2026-04-08</Dt></BookgDt><ValDt><Dt>2026-04-08</Dt></ValDt>
+    <BkTxCd><Prtry><Cd>02070</Cd></Prtry></BkTxCd>
+    <NtryDtls><TxDtls><Refs><EndToEndId>NOTPROVIDED</EndToEndId></Refs>
+     <RltdPties><Dbtr><Nm>AUTORIDADE TRIBUTARIA E ADUANEIRA</Nm></Dbtr></RltdPties>
+     <RmtInf><Ustrd>DEVOLUCION AUTORIDADE TRIBUTARIA E ADUANEIRA IVA 202602</Ustrd></RmtInf></TxDtls></NtryDtls></Ntry>
+   <Ntry><NtryRef>BL0000667</NtryRef><Amt Ccy="EUR">273648.19</Amt><CdtDbtInd>CRDT</CdtDbtInd><Sts><Cd>BOOK</Cd></Sts>
+    <BookgDt><Dt>2026-04-10</Dt></BookgDt><ValDt><Dt>2026-04-10</Dt></ValDt>
+    <BkTxCd><Prtry><Cd>02011</Cd></Prtry></BkTxCd>
+    <NtryDtls><TxDtls><Refs><EndToEndId>ORDEN DE PAGO 20</EndToEndId></Refs>
+     <RltdPties><Dbtr><Nm>IMOBILIÁRIA MONTE CLARO, S.A.</Nm></Dbtr></RltdPties>
+     <RmtInf><Ustrd>TRANSFERENCIA DE IMOBILIÁRIA MONTE CLARO, S.A. / ORDEN DE PAGO 2026/025465 / ORDENANTE IMOBILIÁRIA MONTE CLARO, S.A</Ustrd></RmtInf></TxDtls></NtryDtls></Ntry>
+   <Ntry><NtryRef>BL0002850</NtryRef><Amt Ccy="EUR">58452.55</Amt><CdtDbtInd>DBIT</CdtDbtInd><Sts><Cd>BOOK</Cd></Sts>
+    <BookgDt><Dt>2026-04-10</Dt></BookgDt><ValDt><Dt>2026-04-10</Dt></ValDt>
+    <BkTxCd><Prtry><Cd>04012</Cd></Prtry></BkTxCd>
+    <NtryDtls><TxDtls><Refs><EndToEndId>PAGO FRAS FV-202</EndToEndId></Refs>
+     <RltdPties><Cdtr><Nm>Engenharia e Construção Alvor, Lda.</Nm></Cdtr></RltdPties>
+     <RmtInf><Ustrd>TRANSFERENCIA A ENGENHARIA E CONSTRUÇÃO ALVO / PAGO FRAS FV-2026-06856</Ustrd></RmtInf></TxDtls></NtryDtls></Ntry>
+   <Ntry><NtryRef>BL0002851</NtryRef><Amt Ccy="EUR">118186.11</Amt><CdtDbtInd>DBIT</CdtDbtInd><Sts><Cd>BOOK</Cd></Sts>
+    <BookgDt><Dt>2026-04-10</Dt></BookgDt><ValDt><Dt>2026-04-10</Dt></ValDt>
+    <BkTxCd><Prtry><Cd>04012</Cd></Prtry></BkTxCd>
+    <NtryDtls><TxDtls><Refs><EndToEndId>PAGO FRAS FV-202</EndToEndId></Refs>
+     <RltdPties><Cdtr><Nm>Empreitadas Etxeberria, S.A.</Nm></Cdtr></RltdPties>
+     <RmtInf><Ustrd>TRANSFERENCIA A EMPREITADAS ETXEBERRIA, S.A. / PAGO FRAS FV-2026-34321</Ustrd></RmtInf></TxDtls></NtryDtls></Ntry>
+   <Ntry><NtryRef>BL0002852</NtryRef><Amt Ccy="EUR">11124.35</Amt><CdtDbtInd>DBIT</CdtDbtInd><Sts><Cd>BOOK</Cd></Sts>
+    <BookgDt><Dt>2026-04-10</Dt></BookgDt><ValDt><Dt>2026-04-10</Dt></ValDt>
+    <BkTxCd><Prtry><Cd>04012</Cd></Prtry></BkTxCd>
+    <NtryDtls><TxDtls><Refs><EndToEndId>PAGO FRAS D-0220</EndToEndId></Refs>
+     <RltdPties><Cdtr><Nm>Ferros Santos 1987, S.A.</Nm></Cdtr></RltdPties>
+     <RmtInf><Ustrd>TRANSFERENCIA A FERROS SANTOS 1987, S.A. / PAGO FRAS D-022016</Ustrd></RmtInf></TxDtls></NtryDtls></Ntry>
+   <Ntry><NtryRef>BL0002853</NtryRef><Amt Ccy="EUR">6757.52</Amt><CdtDbtInd>DBIT</CdtDbtInd><Sts><Cd>BOOK</Cd></Sts>
+    <BookgDt><Dt>2026-04-10</Dt></BookgDt><ValDt><Dt>2026-04-10</Dt></ValDt>
+    <BkTxCd><Prtry><Cd>04012</Cd></Prtry></BkTxCd>
+    <NtryDtls><TxDtls><Refs><EndToEndId>PAGO FRAS DN2026</EndToEndId></Refs>
+     <RltdPties><Cdtr><Nm>Betões Tejo, S.A.</Nm></Cdtr></RltdPties>
+     <RmtInf><Ustrd>TRANSFERENCIA A BETÕES TEJO, S.A. / PAGO FRAS DN20260746</Ustrd></RmtInf></TxDtls></NtryDtls></Ntry>
+   <Ntry><NtryRef>BL0002854</NtryRef><Amt Ccy="EUR">2434.18</Amt><CdtDbtInd>DBIT</CdtDbtInd><Sts><Cd>BOOK</Cd></Sts>
+    <BookgDt><Dt>2026-04-10</Dt></BookgDt><ValDt><Dt>2026-04-10</Dt></ValDt>
+    <BkTxCd><Prtry><Cd>04012</Cd></Prtry></BkTxCd>
+    <NtryDtls><TxDtls><Refs><EndToEndId>PAGO FRAS 002695</EndToEndId></Refs>
+     <RltdPties><Cdtr><Nm>Aluguer de Equipamentos e Hijos, Unipessoal, Lda.</Nm></Cdtr></RltdPties>
+     <RmtInf><Ustrd>TRANSFERENCIA A ALUGUER DE EQUIPAMENTOS E HI / PAGO FRAS 0026952</Ustrd></RmtInf></TxDtls></NtryDtls></Ntry>
+   <Ntry><NtryRef>BL0002855</NtryRef><Amt Ccy="EUR">44646.86</Amt><CdtDbtInd>DBIT</CdtDbtInd><Sts><Cd>BOOK</Cd></Sts>
+    <BookgDt><Dt>2026-04-10</Dt></BookgDt><ValDt><Dt>2026-04-10</Dt></ValDt>
+    <BkTxCd><Prtry><Cd>04012</Cd></Prtry></BkTxCd>
+    <NtryDtls><TxDtls><Refs><EndToEndId>PAGO FRAS SN-016</EndToEndId></Refs>
+     <RltdPties><Cdtr><Nm>Empreitadas Vidal, Unipessoal, Lda.</Nm></Cdtr></RltdPties>
+     <RmtInf><Ustrd>TRANSFERENCIA A EMPREITADAS VIDAL, UNIPESSOA / PAGO FRAS SN-016547</Ustrd></RmtInf></TxDtls></NtryDtls></Ntry>
+   <Ntry><NtryRef>BL0002856</NtryRef><Amt Ccy="EUR">40779.40</Amt><CdtDbtInd>DBIT</CdtDbtInd><Sts><Cd>BOOK</Cd></Sts>
+    <BookgDt><Dt>2026-04-10</Dt></BookgDt><ValDt><Dt>2026-04-10</Dt></ValDt>
+    <BkTxCd><Prtry><Cd>04012</Cd></Prtry></BkTxCd>
+    <NtryDtls><TxDtls><Refs><EndToEndId>PAGO FRAS 260250</EndToEndId></Refs>
+     <RltdPties><Cdtr><Nm>Construções Parra Hermanos, S.A.</Nm></Cdtr></RltdPties>
+     <RmtInf><Ustrd>TRANSFERENCIA A CONSTRUÇÕES PARRA HERMANOS,  / PAGO FRAS 26025058</Ustrd></RmtInf></TxDtls></NtryDtls></Ntry>
+   <Ntry><NtryRef>BL0002857</NtryRef><Amt Ccy="EUR">4816.05</Amt><CdtDbtInd>DBIT</CdtDbtInd><Sts><Cd>BOOK</Cd></Sts>
+    <BookgDt><Dt>2026-04-10</Dt></BookgDt><ValDt><Dt>2026-04-10</Dt></ValDt>
+    <BkTxCd><Prtry><Cd>04012</Cd></Prtry></BkTxCd>
+    <NtryDtls><TxDtls><Refs><EndToEndId>PAGO FRAS 000725</EndToEndId></Refs>
+     <RltdPties><Cdtr><Nm>Construções Ribeira, Lda.</Nm></Cdtr></RltdPties>
+     <RmtInf><Ustrd>TRANSFERENCIA A CONSTRUÇÕES RIBEIRA, LDA. / PAGO FRAS 0007258</Ustrd></RmtInf></TxDtls></NtryDtls></Ntry>
+   <Ntry><NtryRef>BL0002858</NtryRef><Amt Ccy="EUR">16243.45</Amt><CdtDbtInd>DBIT</CdtDbtInd><Sts><Cd>BOOK</Cd></Sts>
+    <BookgDt><Dt>2026-04-10</Dt></BookgDt><ValDt><Dt>2026-04-10</Dt></ValDt>
+    <BkTxCd><Prtry><Cd>04012</Cd></Prtry></BkTxCd>
+    <NtryDtls><TxDtls><Refs><EndToEndId>PAGO FRAS 2026-0</EndToEndId></Refs>
+     <RltdPties><Cdtr><Nm>Velasco y Gallardo Materiais de Construção, S.A.</Nm></Cdtr></RltdPties>
+     <RmtInf><Ustrd>TRANSFERENCIA A VELASCO Y GALLARDO MATERIAIS / PAGO FRAS 2026-031988</Ustrd></RmtInf></TxDtls></NtryDtls></Ntry>
+   <Ntry><NtryRef>BL0002859</NtryRef><Amt Ccy="EUR">16155.80</Amt><CdtDbtInd>DBIT</CdtDbtInd><Sts><Cd>BOOK</Cd></Sts>
+    <BookgDt><Dt>2026-04-10</Dt></BookgDt><ValDt><Dt>2026-04-10</Dt></ValDt>
+    <BkTxCd><Prtry><Cd>04012</Cd></Prtry></BkTxCd>
+    <NtryDtls><TxDtls><Refs><EndToEndId>PAGO FRAS H-0169</EndToEndId></Refs>
+     <RltdPties><Cdtr><Nm>PCM-Materiais de Construção, S.A.</Nm></Cdtr></RltdPties>
+     <RmtInf><Ustrd>TRANSFERENCIA A PCM-MATERIAIS DE CONSTRUÇÃO, / PAGO FRAS H-016991</Ustrd></RmtInf></TxDtls></NtryDtls></Ntry>
+   <Ntry><NtryRef>BL0002860</NtryRef><Amt Ccy="EUR">6317.46</Amt><CdtDbtInd>DBIT</CdtDbtInd><Sts><Cd>BOOK</Cd></Sts>
+    <BookgDt><Dt>2026-04-10</Dt></BookgDt><ValDt><Dt>2026-04-10</Dt></ValDt>
+    <BkTxCd><Prtry><Cd>04012</Cd></Prtry></BkTxCd>
+    <NtryDtls><TxDtls><Refs><EndToEndId>PAGO FRAS C-0086</EndToEndId></Refs>
+     <RltdPties><Cdtr><Nm>Gruas Ribeira, S.A.</Nm></Cdtr></RltdPties>
+     <RmtInf><Ustrd>TRANSFERENCIA A GRUAS RIBEIRA, S.A. / PAGO FRAS C-008664</Ustrd></RmtInf></TxDtls></NtryDtls></Ntry>
+   <Ntry><NtryRef>BL0002861</NtryRef><Amt Ccy="EUR">3263.99</Amt><CdtDbtInd>DBIT</CdtDbtInd><Sts><Cd>BOOK</Cd></Sts>
+    <BookgDt><Dt>2026-04-10</Dt></BookgDt><ValDt><Dt>2026-04-10</Dt></ValDt>
+    <BkTxCd><Prtry><Cd>04012</Cd></Prtry></BkTxCd>
+    <NtryDtls><TxDtls><Refs><EndToEndId>PAGO FRAS 2026-0</EndToEndId></Refs>
+     <RltdPties><Cdtr><Nm>Construções Peninsular, Unipessoal, Lda.</Nm></Cdtr></RltdPties>
+     <RmtInf><Ustrd>TRANSFERENCIA A CONSTRUÇÕES PENINSULAR, UNIP / PAGO FRAS 2026-006289</Ustrd></RmtInf></TxDtls></NtryDtls></Ntry>
+   <Ntry><NtryRef>BL0002862</NtryRef><Amt Ccy="EUR">68085.17</Amt><CdtDbtInd>DBIT</CdtDbtInd><Sts><Cd>BOOK</Cd></Sts>
+    <BookgDt><Dt>2026-04-10</Dt></BookgDt><ValDt><Dt>2026-04-10</Dt></ValDt>
+    <BkTxCd><Prtry><Cd>04012</Cd></Prtry></BkTxCd>
+    <NtryDtls><TxDtls><Refs><EndToEndId>PAGO FRAS AGC26/</EndToEndId></Refs>
+     <RltdPties><Cdtr><Nm>Engenharia e Construção Méndez, Unipessoal, Lda.</Nm></Cdtr></RltdPties>
+     <RmtInf><Ustrd>TRANSFERENCIA A ENGENHARIA E CONSTRUÇÃO MÉND / PAGO FRAS AGC26/38081</Ustrd></RmtInf></TxDtls></NtryDtls></Ntry>
+   <Ntry><NtryRef>BL0002863</NtryRef><Amt Ccy="EUR">23528.41</Amt><CdtDbtInd>DBIT</CdtDbtInd><Sts><Cd>BOOK</Cd></Sts>
+    <BookgDt><Dt>2026-04-10</Dt></BookgDt><ValDt><Dt>2026-04-10</Dt></ValDt>
+    <BkTxCd><Prtry><Cd>04012</Cd></Prtry></BkTxCd>
+    <NtryDtls><TxDtls><Refs><EndToEndId>PAGO FRAS FV-202</EndToEndId></Refs>
+     <RltdPties><Cdtr><Nm>Materiais de Construção Hermanos, S.A.</Nm></Cdtr></RltdPties>
+     <RmtInf><Ustrd>TRANSFERENCIA A MATERIAIS DE CONSTRUÇÃO HERM / PAGO FRAS FV-2026-01827</Ustrd></RmtInf></TxDtls></NtryDtls></Ntry>
+   <Ntry><NtryRef>BL0002864</NtryRef><Amt Ccy="EUR">13202.84</Amt><CdtDbtInd>DBIT</CdtDbtInd><Sts><Cd>BOOK</Cd></Sts>
+    <BookgDt><Dt>2026-04-10</Dt></BookgDt><ValDt><Dt>2026-04-10</Dt></ValDt>
+    <BkTxCd><Prtry><Cd>04012</Cd></Prtry></BkTxCd>
+    <NtryDtls><TxDtls><Refs><EndToEndId>PAGO FRAS 001578</EndToEndId></Refs>
+     <RltdPties><Cdtr><Nm>SSB-Betões, S.A.</Nm></Cdtr></RltdPties>
+     <RmtInf><Ustrd>TRANSFERENCIA A SSB-BETÕES, S.A. / PAGO FRAS 0015781</Ustrd></RmtInf></TxDtls></NtryDtls></Ntry>
+   <Ntry><NtryRef>BL0002865</NtryRef><Amt Ccy="EUR">6343.93</Amt><CdtDbtInd>DBIT</CdtDbtInd><Sts><Cd>BOOK</Cd></Sts>
+    <BookgDt><Dt>2026-04-10</Dt></BookgDt><ValDt><Dt>2026-04-10</Dt></ValDt>
+    <BkTxCd><Prtry><Cd>04012</Cd></Prtry></BkTxCd>
+    <NtryDtls><TxDtls><Refs><EndToEndId>PAGO FRAS 260292</EndToEndId></Refs>
+     <RltdPties><Cdtr><Nm>Gruas Soriano, Unipessoal, Lda.</Nm></Cdtr></RltdPties>
+     <RmtInf><Ustrd>TRANSFERENCIA A GRUAS SORIANO, UNIPESSOAL, L / PAGO FRAS 26029251</Ustrd></RmtInf></TxDtls></NtryDtls></Ntry>
+   <Ntry><NtryRef>BL0002866</NtryRef><Amt Ccy="EUR">34112.00</Amt><CdtDbtInd>DBIT</CdtDbtInd><Sts><Cd>BOOK</Cd></Sts>
+    <BookgDt><Dt>2026-04-10</Dt></BookgDt><ValDt><Dt>2026-04-10</Dt></ValDt>
+    <BkTxCd><Prtry><Cd>04012</Cd></Prtry></BkTxCd>
+    <NtryDtls><TxDtls><Refs><EndToEndId>PAGO FRAS IC1000</EndToEndId></Refs>
+     <RltdPties><Cdtr><Nm>Kalmora Infraestructuras y Servicios, S.A.</Nm></Cdtr></RltdPties>
+     <RmtInf><Ustrd>TRANSFERENCIA A KALMORA INFRAESTRUCTURAS Y S / PAGO FRAS IC1000-26-0009</Ustrd></RmtInf></TxDtls></NtryDtls></Ntry>
+   <Ntry><NtryRef>BL0000613</NtryRef><Amt Ccy="EUR">283192.15</Amt><CdtDbtInd>CRDT</CdtDbtInd><Sts><Cd>BOOK</Cd></Sts>
+    <BookgDt><Dt>2026-04-15</Dt></BookgDt><ValDt><Dt>2026-04-15</Dt></ValDt>
+    <BkTxCd><Prtry><Cd>02011</Cd></Prtry></BkTxCd>
+    <NtryDtls><TxDtls><Refs><EndToEndId>FT OB25-00026</EndToEndId></Refs>
+     <RltdPties><Dbtr><Nm>CÂMARA MUNICIPAL DE PORTO ALVOR</Nm></Dbtr></RltdPties>
+     <RmtInf><Ustrd>TRANSFERENCIA DE CÂMARA MUNICIPAL DE PORTO ALVO / FT OB25-00026 / ORDENANTE CÂMARA MUNICIPAL DE PORTO AL</Ustrd></RmtInf></TxDtls></NtryDtls></Ntry>
+   <Ntry><NtryRef>BL0001673</NtryRef><Amt Ccy="EUR">3044.87</Amt><CdtDbtInd>DBIT</CdtDbtInd><Sts><Cd>BOOK</Cd></Sts>
+    <BookgDt><Dt>2026-04-17</Dt></BookgDt><ValDt><Dt>2026-04-17</Dt></ValDt>
+    <BkTxCd><Prtry><Cd>03017</Cd></Prtry></BkTxCd>
+    <NtryDtls><TxDtls><Refs><EndToEndId>L202614947</EndToEndId></Refs>
+     <RltdPties><Cdtr><Nm>Energia Lusa Comercial, S.A.</Nm></Cdtr></RltdPties>
+     <RmtInf><Ustrd>RECIBO ENERGIA LUSA COMERCIAL / REF. MANDATO V100195-2100 / FRA L202614947</Ustrd></RmtInf></TxDtls></NtryDtls></Ntry>
+   <Ntry><NtryRef>BL0004407</NtryRef><Amt Ccy="EUR">17986.14</Amt><CdtDbtInd>DBIT</CdtDbtInd><Sts><Cd>BOOK</Cd></Sts>
+    <BookgDt><Dt>2026-04-20</Dt></BookgDt><ValDt><Dt>2026-04-20</Dt></ValDt>
+    <BkTxCd><Prtry><Cd>03050</Cd></Prtry></BkTxCd>
+    <NtryDtls><TxDtls><Refs><EndToEndId>NOTPROVIDED</EndToEndId></Refs>
+     <RltdPties><Cdtr><Nm>AUTORIDADE TRIBUTARIA E ADUANEIRA</Nm></Cdtr></RltdPties>
+     <RmtInf><Ustrd>AUTORIDADE TRIBUTARIA E ADUANEIRA RETENCIONES 2026-03</Ustrd></RmtInf></TxDtls></NtryDtls></Ntry>
+   <Ntry><NtryRef>BL0000668</NtryRef><Amt Ccy="EUR">124548.89</Amt><CdtDbtInd>CRDT</CdtDbtInd><Sts><Cd>BOOK</Cd></Sts>
+    <BookgDt><Dt>2026-04-27</Dt></BookgDt><ValDt><Dt>2026-04-27</Dt></ValDt>
+    <BkTxCd><Prtry><Cd>02011</Cd></Prtry></BkTxCd>
+    <NtryDtls><TxDtls><Refs><EndToEndId>ORDEN DE PAGO 20</EndToEndId></Refs>
+     <RltdPties><Dbtr><Nm>IMOBILIÁRIA MONTE CLARO, S.A.</Nm></Dbtr></RltdPties>
+     <RmtInf><Ustrd>TRANSFERENCIA DE IMOBILIÁRIA MONTE CLARO, S.A. / ORDEN DE PAGO 2026/011214 / ORDENANTE IMOBILIÁRIA MONTE CLARO, S.A</Ustrd></RmtInf></TxDtls></NtryDtls></Ntry>
+   <Ntry><NtryRef>BL0002901</NtryRef><Amt Ccy="EUR">39647.23</Amt><CdtDbtInd>DBIT</CdtDbtInd><Sts><Cd>BOOK</Cd></Sts>
+    <BookgDt><Dt>2026-04-27</Dt></BookgDt><ValDt><Dt>2026-04-27</Dt></ValDt>
+    <BkTxCd><Prtry><Cd>04012</Cd></Prtry></BkTxCd>
+    <NtryDtls><TxDtls><Refs><EndToEndId>PAGO FRAS FV-202</EndToEndId></Refs>
+     <RltdPties><Cdtr><Nm>Empreitadas Etxeberria, S.A.</Nm></Cdtr></RltdPties>
+     <RmtInf><Ustrd>TRANSFERENCIA A EMPREITADAS ETXEBERRIA, S.A. / PAGO FRAS FV-2026-34322</Ustrd></RmtInf></TxDtls></NtryDtls></Ntry>
+   <Ntry><NtryRef>BL0002902</NtryRef><Amt Ccy="EUR">2974.88</Amt><CdtDbtInd>DBIT</CdtDbtInd><Sts><Cd>BOOK</Cd></Sts>
+    <BookgDt><Dt>2026-04-27</Dt></BookgDt><ValDt><Dt>2026-04-27</Dt></ValDt>
+    <BkTxCd><Prtry><Cd>04012</Cd></Prtry></BkTxCd>
+    <NtryDtls><TxDtls><Refs><EndToEndId>PAGO FRAS D-0220</EndToEndId></Refs>
+     <RltdPties><Cdtr><Nm>Ferros Santos 1987, S.A.</Nm></Cdtr></RltdPties>
+     <RmtInf><Ustrd>TRANSFERENCIA A FERROS SANTOS 1987, S.A. / PAGO FRAS D-022017</Ustrd></RmtInf></TxDtls></NtryDtls></Ntry>
+   <Ntry><NtryRef>BL0002903</NtryRef><Amt Ccy="EUR">30740.60</Amt><CdtDbtInd>DBIT</CdtDbtInd><Sts><Cd>BOOK</Cd></Sts>
+    <BookgDt><Dt>2026-04-27</Dt></BookgDt><ValDt><Dt>2026-04-27</Dt></ValDt>
+    <BkTxCd><Prtry><Cd>04012</Cd></Prtry></BkTxCd>
+    <NtryDtls><TxDtls><Refs><EndToEndId>PAGO FRAS SN-016</EndToEndId></Refs>
+     <RltdPties><Cdtr><Nm>Empreitadas Vidal, Unipessoal, Lda.</Nm></Cdtr></RltdPties>
+     <RmtInf><Ustrd>TRANSFERENCIA A EMPREITADAS VIDAL, UNIPESSOA / PAGO FRAS SN-016550</Ustrd></RmtInf></TxDtls></NtryDtls></Ntry>
+   <Ntry><NtryRef>BL0002904</NtryRef><Amt Ccy="EUR">35175.96</Amt><CdtDbtInd>DBIT</CdtDbtInd><Sts><Cd>BOOK</Cd></Sts>
+    <BookgDt><Dt>2026-04-27</Dt></BookgDt><ValDt><Dt>2026-04-27</Dt></ValDt>
+    <BkTxCd><Prtry><Cd>04012</Cd></Prtry></BkTxCd>
+    <NtryDtls><TxDtls><Refs><EndToEndId>PAGO FRAS 000726</EndToEndId></Refs>
+     <RltdPties><Cdtr><Nm>Construções Ribeira, Lda.</Nm></Cdtr></RltdPties>
+     <RmtInf><Ustrd>TRANSFERENCIA A CONSTRUÇÕES RIBEIRA, LDA. / PAGO FRAS 0007261</Ustrd></RmtInf></TxDtls></NtryDtls></Ntry>
+   <Ntry><NtryRef>BL0002905</NtryRef><Amt Ccy="EUR">12295.39</Amt><CdtDbtInd>DBIT</CdtDbtInd><Sts><Cd>BOOK</Cd></Sts>
+    <BookgDt><Dt>2026-04-27</Dt></BookgDt><ValDt><Dt>2026-04-27</Dt></ValDt>
+    <BkTxCd><Prtry><Cd>04012</Cd></Prtry></BkTxCd>
+    <NtryDtls><TxDtls><Refs><EndToEndId>PAGO FRAS 2026-0</EndToEndId></Refs>
+     <RltdPties><Cdtr><Nm>Velasco y Gallardo Materiais de Construção, S.A.</Nm></Cdtr></RltdPties>
+     <RmtInf><Ustrd>TRANSFERENCIA A VELASCO Y GALLARDO MATERIAIS / PAGO FRAS 2026-031990</Ustrd></RmtInf></TxDtls></NtryDtls></Ntry>
+   <Ntry><NtryRef>BL0002906</NtryRef><Amt Ccy="EUR">13887.68</Amt><CdtDbtInd>DBIT</CdtDbtInd><Sts><Cd>BOOK</Cd></Sts>
+    <BookgDt><Dt>2026-04-27</Dt></BookgDt><ValDt><Dt>2026-04-27</Dt></ValDt>
+    <BkTxCd><Prtry><Cd>04012</Cd></Prtry></BkTxCd>
+    <NtryDtls><TxDtls><Refs><EndToEndId>PAGO FRAS H-0170</EndToEndId></Refs>
+     <RltdPties><Cdtr><Nm>PCM-Materiais de Construção, S.A.</Nm></Cdtr></RltdPties>
+     <RmtInf><Ustrd>TRANSFERENCIA A PCM-MATERIAIS DE CONSTRUÇÃO, / PAGO FRAS H-017006</Ustrd></RmtInf></TxDtls></NtryDtls></Ntry>
+   <Ntry><NtryRef>BL0002907</NtryRef><Amt Ccy="EUR">5019.00</Amt><CdtDbtInd>DBIT</CdtDbtInd><Sts><Cd>BOOK</Cd></Sts>
+    <BookgDt><Dt>2026-04-27</Dt></BookgDt><ValDt><Dt>2026-04-27</Dt></ValDt>
+    <BkTxCd><Prtry><Cd>04012</Cd></Prtry></BkTxCd>
+    <NtryDtls><TxDtls><Refs><EndToEndId>PAGO FRAS C-0086</EndToEndId></Refs>
+     <RltdPties><Cdtr><Nm>Gruas Ribeira, S.A.</Nm></Cdtr></RltdPties>
+     <RmtInf><Ustrd>TRANSFERENCIA A GRUAS RIBEIRA, S.A. / PAGO FRAS C-008667</Ustrd></RmtInf></TxDtls></NtryDtls></Ntry>
+   <Ntry><NtryRef>BL0002908</NtryRef><Amt Ccy="EUR">63851.33</Amt><CdtDbtInd>DBIT</CdtDbtInd><Sts><Cd>BOOK</Cd></Sts>
+    <BookgDt><Dt>2026-04-27</Dt></BookgDt><ValDt><Dt>2026-04-27</Dt></ValDt>
+    <BkTxCd><Prtry><Cd>04012</Cd></Prtry></BkTxCd>
+    <NtryDtls><TxDtls><Refs><EndToEndId>PAGO FRAS AGC26/</EndToEndId></Refs>
+     <RltdPties><Cdtr><Nm>Engenharia e Construção Méndez, Unipessoal, Lda.</Nm></Cdtr></RltdPties>
+     <RmtInf><Ustrd>TRANSFERENCIA A ENGENHARIA E CONSTRUÇÃO MÉND / PAGO FRAS AGC26/38084</Ustrd></RmtInf></TxDtls></NtryDtls></Ntry>
+   <Ntry><NtryRef>BL0002909</NtryRef><Amt Ccy="EUR">12307.90</Amt><CdtDbtInd>DBIT</CdtDbtInd><Sts><Cd>BOOK</Cd></Sts>
+    <BookgDt><Dt>2026-04-27</Dt></BookgDt><ValDt><Dt>2026-04-27</Dt></ValDt>
+    <BkTxCd><Prtry><Cd>04012</Cd></Prtry></BkTxCd>
+    <NtryDtls><TxDtls><Refs><EndToEndId>PAGO FRAS 001579</EndToEndId></Refs>
+     <RltdPties><Cdtr><Nm>SSB-Betões, S.A.</Nm></Cdtr></RltdPties>
+     <RmtInf><Ustrd>TRANSFERENCIA A SSB-BETÕES, S.A. / PAGO FRAS 0015796</Ustrd></RmtInf></TxDtls></NtryDtls></Ntry>
+   <Ntry><NtryRef>BL0002910</NtryRef><Amt Ccy="EUR">6039.47</Amt><CdtDbtInd>DBIT</CdtDbtInd><Sts><Cd>BOOK</Cd></Sts>
+    <BookgDt><Dt>2026-04-27</Dt></BookgDt><ValDt><Dt>2026-04-27</Dt></ValDt>
+    <BkTxCd><Prtry><Cd>04012</Cd></Prtry></BkTxCd>
+    <NtryDtls><TxDtls><Refs><EndToEndId>PAGO FRAS 260292</EndToEndId></Refs>
+     <RltdPties><Cdtr><Nm>Gruas Soriano, Unipessoal, Lda.</Nm></Cdtr></RltdPties>
+     <RmtInf><Ustrd>TRANSFERENCIA A GRUAS SORIANO, UNIPESSOAL, L / PAGO FRAS 26029254</Ustrd></RmtInf></TxDtls></NtryDtls></Ntry>
+   <Ntry><NtryRef>BL0002911</NtryRef><Amt Ccy="EUR">1004.74</Amt><CdtDbtInd>DBIT</CdtDbtInd><Sts><Cd>BOOK</Cd></Sts>
+    <BookgDt><Dt>2026-04-27</Dt></BookgDt><ValDt><Dt>2026-04-27</Dt></ValDt>
+    <BkTxCd><Prtry><Cd>04012</Cd></Prtry></BkTxCd>
+    <NtryDtls><TxDtls><Refs><EndToEndId>PAGO FRAS 2026/8</EndToEndId></Refs>
+     <RltdPties><Cdtr><Nm>Rafael Otero Montero</Nm></Cdtr></RltdPties>
+     <RmtInf><Ustrd>TRANSFERENCIA A RAFAEL OTERO MONTERO / PAGO FRAS 2026/813</Ustrd></RmtInf></TxDtls></NtryDtls></Ntry>
+   <Ntry><NtryRef>BL0003604</NtryRef><Amt Ccy="EUR">30.00</Amt><CdtDbtInd>DBIT</CdtDbtInd><Sts><Cd>BOOK</Cd></Sts>
+    <BookgDt><Dt>2026-04-30</Dt></BookgDt><ValDt><Dt>2026-04-30</Dt></ValDt>
+    <BkTxCd><Prtry><Cd>17040</Cd></Prtry></BkTxCd>
+    <NtryDtls><TxDtls><Refs><EndToEndId>NOTPROVIDED</EndToEndId></Refs>
+     <RltdPties><Cdtr><Nm>Banco Lusitano Comercial</Nm></Cdtr></RltdPties>
+     <RmtInf><Ustrd>COMISION MANTENIMIENTO CUENTA</Ustrd></RmtInf></TxDtls></NtryDtls></Ntry>
+   <Ntry><NtryRef>BL0003959</NtryRef><Amt Ccy="EUR">44007.97</Amt><CdtDbtInd>DBIT</CdtDbtInd><Sts><Cd>BOOK</Cd></Sts>
+    <BookgDt><Dt>2026-04-30</Dt></BookgDt><ValDt><Dt>2026-04-30</Dt></ValDt>
+    <BkTxCd><Prtry><Cd>15020</Cd></Prtry></BkTxCd>
+    <NtryDtls><TxDtls><Refs><EndToEndId>NOTPROVIDED</EndToEndId></Refs>
+     <RltdPties><Cdtr><Nm>SEGURANCA SOCIAL IGFSS</Nm></Cdtr></RltdPties>
+     <RmtInf><Ustrd>SEGURANCA SOCIAL IGFSS RECIBO 03/2026</Ustrd></RmtInf></TxDtls></NtryDtls></Ntry>
+   <Ntry><NtryRef>BL0003972</NtryRef><Amt Ccy="EUR">98382.52</Amt><CdtDbtInd>DBIT</CdtDbtInd><Sts><Cd>BOOK</Cd></Sts>
+    <BookgDt><Dt>2026-04-30</Dt></BookgDt><ValDt><Dt>2026-04-30</Dt></ValDt>
+    <BkTxCd><Prtry><Cd>15010</Cd></Prtry></BkTxCd>
+    <NtryDtls><TxDtls><Refs><EndToEndId>NOTPROVIDED</EndToEndId></Refs>
+     <RltdPties><Cdtr><Nm>NOMINAS</Nm></Cdtr></RltdPties>
+     <RmtInf><Ustrd>ORDEN NOMINAS 04/2026</Ustrd></RmtInf></TxDtls></NtryDtls></Ntry>
+  </Stmt>
+ </BkToCstmrStmt>
+</Document>

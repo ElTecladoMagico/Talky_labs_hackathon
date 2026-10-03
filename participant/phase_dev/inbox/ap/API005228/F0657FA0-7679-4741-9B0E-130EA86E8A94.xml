@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<cfdi:Comprobante xmlns:cfdi="http://www.sat.gob.mx/cfd/4" Version="4.0" Serie="202" Folio="2026-007838" Fecha="2026-07-04T10:00:00"
+ SubTotal="27320.60" Moneda="MXN" Total="32542.30" TipoDeComprobante="I" Exportacion="01" MetodoPago="PPD" FormaPago="99" LugarExpedicion="22666">
+ <cfdi:Emisor Rfc="COM920323EC3" Nombre="COMISIÓN DE ENERGÍA DEL VALLE" RegimenFiscal="601"/>
+ <cfdi:Receptor Rfc="KMI91110719K" Nombre="KALMORA MEXICO INFRAESTRUCTURA" DomicilioFiscalReceptor="11950" RegimenFiscalReceptor="601" UsoCFDI="G03"/>
+ <cfdi:Conceptos><cfdi:Concepto ClaveProdServ="72141000" Cantidad="1.000" ClaveUnidad="E48" Descripcion="Suministro eléctrico 01/06/2026 – 30/06/2026" ValorUnitario="27320.60" Importe="27320.60" ObjetoImp="02"/></cfdi:Conceptos>
+ <cfdi:Impuestos TotalImpuestosTrasladados="4371.30">
+  <cfdi:Traslados><cfdi:Traslado Base="27320.60" Impuesto="002" TipoFactor="Tasa" TasaOCuota="0.160000" Importe="4371.30"/></cfdi:Traslados>
+ </cfdi:Impuestos>
+ <cfdi:Complemento><tfd:TimbreFiscalDigital xmlns:tfd="http://www.sat.gob.mx/TimbreFiscalDigital" Version="1.1" UUID="F0657FA0-7679-4741-9B0E-130EA86E8A94" FechaTimbrado="2026-07-04T10:05:12" RfcProvCertif="SAT970701NN3" NoCertificadoSAT="00001000000509846663"/></cfdi:Complemento>
+</cfdi:Comprobante>

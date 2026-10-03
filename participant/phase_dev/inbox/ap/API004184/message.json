@@ -1,0 +1,13 @@
+{
+ "doc_id": "API004184",
+ "channel": "email",
+ "received_at": "2026-07-06T14:46:00",
+ "mailbox": "facturas.proveedores@kalmora.example",
+ "attachments": [
+  "factura_26008165.pdf"
+ ],
+ "from": "facturacion@contenedorespérez1.es",
+ "to": "facturas.proveedores@kalmora.example",
+ "subject": "Contenedores Pérez 1987 – documentación de facturación",
+ "body": "Les enviamos la factura correspondiente al periodo. Quedamos a su disposición."
+}

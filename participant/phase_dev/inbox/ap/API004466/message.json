@@ -1,0 +1,10 @@
+{
+ "doc_id": "API004466",
+ "channel": "facturae",
+ "received_at": "2026-07-21T18:58:00",
+ "mailbox": "facturas.proveedores@kalmora.example",
+ "attachments": [
+  "facturae_AC26-30373.xml"
+ ],
+ "source": "Buzón de factura electrónica (Facturae 3.2.2)"
+}

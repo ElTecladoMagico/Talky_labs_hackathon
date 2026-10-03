@@ -1,0 +1,13 @@
+{
+ "doc_id": "API004240",
+ "channel": "email",
+ "received_at": "2026-07-02T17:12:00",
+ "mailbox": "facturas.proveedores@kalmora.example",
+ "attachments": [
+  "factura_F2624828.pdf"
+ ],
+ "from": "facturacion@comunicabrandingym.es",
+ "to": "facturas.proveedores@kalmora.example",
+ "subject": "Envío de factura nº F2624828",
+ "body": ""
+}

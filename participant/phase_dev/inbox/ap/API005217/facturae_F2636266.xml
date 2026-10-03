@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<fe:Facturae xmlns:fe="http://www.facturae.gob.es/formato/Versiones/Facturaev3_2_2.xml">
+ <FileHeader><SchemaVersion>3.2.2</SchemaVersion><Modality>I</Modality><InvoiceIssuerType>EM</InvoiceIssuerType>
+  <Batch><BatchIdentifier>B65866644F2636266</BatchIdentifier><InvoicesCount>1</InvoicesCount>
+   <TotalInvoicesAmount><TotalAmount>6277.29</TotalAmount></TotalInvoicesAmount><TotalOutstandingAmount><TotalAmount>6277.29</TotalAmount></TotalOutstandingAmount>
+   <TotalExecutableAmount><TotalAmount>6277.29</TotalAmount></TotalExecutableAmount><InvoiceCurrencyCode>EUR</InvoiceCurrencyCode></Batch></FileHeader>
+ <Parties>
+  <SellerParty><TaxIdentification><PersonTypeCode>J</PersonTypeCode><ResidenceTypeCode>R</ResidenceTypeCode><TaxIdentificationNumber>B65866644</TaxIdentificationNumber></TaxIdentification>
+   <LegalEntity><CorporateName>Pardo y Arnau Vigilancia, S.L.U.</CorporateName><AddressInSpain><Address>Calle Mayor 38</Address><PostCode>12380</PostCode><Town>Castrolargo</Town><Province>Madrid</Province><CountryCode>ESP</CountryCode></AddressInSpain></LegalEntity></SellerParty>
+  <BuyerParty><TaxIdentification><PersonTypeCode>J</PersonTypeCode><ResidenceTypeCode>R</ResidenceTypeCode><TaxIdentificationNumber>A12359962</TaxIdentificationNumber></TaxIdentification>
+   <LegalEntity><CorporateName>Kalmora Construcción, S.A.U.</CorporateName></LegalEntity></BuyerParty>
+ </Parties>
+ <Invoices><Invoice>
+  <InvoiceHeader><InvoiceNumber>F2636266</InvoiceNumber><InvoiceDocumentType>FC</InvoiceDocumentType><InvoiceClass>OO</InvoiceClass>
+   </InvoiceHeader>
+  <InvoiceIssueData><IssueDate>2026-07-31</IssueDate><InvoicingPeriod><StartDate>2026-07-01</StartDate><EndDate>2026-07-31</EndDate></InvoicingPeriod><InvoiceCurrencyCode>EUR</InvoiceCurrencyCode><TaxCurrencyCode>EUR</TaxCurrencyCode><LanguageName>es</LanguageName></InvoiceIssueData>
+  <TaxesOutputs><Tax><TaxTypeCode>01</TaxTypeCode><TaxRate>10.00</TaxRate><TaxableBase><TotalAmount>5706.63</TotalAmount></TaxableBase><TaxAmount><TotalAmount>570.66</TotalAmount></TaxAmount></Tax></TaxesOutputs>
+  
+  <InvoiceTotals><TotalGrossAmount>5706.63</TotalGrossAmount><TotalGrossAmountBeforeTaxes>5706.63</TotalGrossAmountBeforeTaxes>
+   <TotalTaxOutputs>570.66</TotalTaxOutputs><TotalTaxesWithheld>0.00</TotalTaxesWithheld><InvoiceTotal>6277.29</InvoiceTotal>
+   
+   <TotalOutstandingAmount>6277.29</TotalOutstandingAmount><TotalExecutableAmount>6277.29</TotalExecutableAmount></InvoiceTotals>
+  <Items><InvoiceLine><ItemDescription>Servicio de vigilancia y control de accesos de obra – julio 2026</ItemDescription><Quantity>1.000</Quantity><UnitPriceWithoutTax>5706.630000</UnitPriceWithoutTax><TotalCost>5706.63</TotalCost><GrossAmount>5706.63</GrossAmount><IssuerTransactionReference>4500019390</IssuerTransactionReference><TaxesOutputs><Tax><TaxTypeCode>01</TaxTypeCode><TaxRate>10.00</TaxRate><TaxableBase><TotalAmount>5706.63</TotalAmount></TaxableBase></Tax></TaxesOutputs></InvoiceLine></Items>
+  <AdditionalData><InvoiceAdditionalInformation> </InvoiceAdditionalInformation></AdditionalData>
+ </Invoice></Invoices>
+</fe:Facturae>

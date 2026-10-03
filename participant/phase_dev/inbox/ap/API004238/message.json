@@ -1,0 +1,13 @@
+{
+ "doc_id": "API004238",
+ "channel": "email",
+ "received_at": "2026-07-06T17:15:00",
+ "mailbox": "facturas.proveedores@kalmora.example",
+ "attachments": [
+  "factura_26003634.pdf"
+ ],
+ "from": "facturacion@bufetemendizábalro.es",
+ "to": "facturas.proveedores@kalmora.example",
+ "subject": "Facturas del mes",
+ "body": "Buenos días, adjuntamos factura. Un saludo."
+}

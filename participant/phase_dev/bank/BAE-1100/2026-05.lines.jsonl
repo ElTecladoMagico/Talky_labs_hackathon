@@ -1,0 +1,11 @@
+{"bank_line": "BL0000078", "booking_date": "2026-05-04", "value_date": "2026-05-04", "amount": 3773128, "currency": "EUR", "text": "LIQUIDACION FACTORING OB26-00002"}
+{"bank_line": "BL0002804", "booking_date": "2026-05-04", "value_date": "2026-05-04", "amount": -15471964, "currency": "EUR", "text": "CONFIRMING VTO 040526 REMESA CF110026031074"}
+{"bank_line": "BL0002825", "booking_date": "2026-05-04", "value_date": "2026-05-04", "amount": -40824137, "currency": "EUR", "text": "CONFIRMING VTO 040526 REMESA CF110026032579"}
+{"bank_line": "BL0004558", "booking_date": "2026-05-04", "value_date": "2026-05-04", "amount": 30000000, "currency": "EUR", "text": "TRASPASO DE CTA 2848142243"}
+{"bank_line": "BL0002805", "booking_date": "2026-05-05", "value_date": "2026-05-05", "amount": -13125767, "currency": "EUR", "text": "CONFIRMING VTO 050526 REMESA CF110026031075"}
+{"bank_line": "BL0002826", "booking_date": "2026-05-05", "value_date": "2026-05-05", "amount": -52062393, "currency": "EUR", "text": "CONFIRMING VTO 050526 REMESA CF110026032580"}
+{"bank_line": "BL0000038", "booking_date": "2026-05-11", "value_date": "2026-05-11", "amount": 15797631, "currency": "EUR", "text": "ABONO ANTICIPO FACTORING REMESA FAC26051175"}
+{"bank_line": "BL0000036", "booking_date": "2026-05-12", "value_date": "2026-05-12", "amount": 36919407, "currency": "EUR", "text": "ABONO ANTICIPO FACTORING REMESA FAC26051269"}
+{"bank_line": "BL0000037", "booking_date": "2026-05-13", "value_date": "2026-05-13", "amount": 89955670, "currency": "EUR", "text": "ABONO ANTICIPO FACTORING REMESA FAC26051356"}
+{"bank_line": "BL0004560", "booking_date": "2026-05-28", "value_date": "2026-05-28", "amount": 80000000, "currency": "EUR", "text": "TRASPASO DE CTA 2848142243"}
+{"bank_line": "BL0003615", "booking_date": "2026-05-29", "value_date": "2026-05-29", "amount": -3000, "currency": "EUR", "text": "COMISION MANTENIMIENTO CUENTA"}

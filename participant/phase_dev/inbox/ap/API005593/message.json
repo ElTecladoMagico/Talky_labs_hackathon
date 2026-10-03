@@ -1,0 +1,13 @@
+{
+ "doc_id": "API005593",
+ "channel": "email",
+ "received_at": "2026-07-06T13:03:00",
+ "mailbox": "facturas.proveedores@kalmora.example",
+ "attachments": [
+  "proforma_API005593.pdf"
+ ],
+ "from": "facturacion@ámmmaquinariadeobr.es",
+ "to": "facturas.proveedores@kalmora.example",
+ "subject": "Proforma para su aprobación",
+ "body": "Les enviamos la factura correspondiente al periodo. Quedamos a su disposición."
+}

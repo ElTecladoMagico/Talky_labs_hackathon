@@ -1,0 +1,13 @@
+{
+ "doc_id": "API004189",
+ "channel": "email",
+ "received_at": "2026-07-06T10:50:00",
+ "mailbox": "facturas.proveedores@kalmora.example",
+ "attachments": [
+  "factura_F2600133.pdf"
+ ],
+ "from": "facturacion@graveraspeñaserena.es",
+ "to": "facturas.proveedores@kalmora.example",
+ "subject": "Graveras Peñaserena – documentación de facturación",
+ "body": "Saludos cordiales,\nDpto. Administración"
+}

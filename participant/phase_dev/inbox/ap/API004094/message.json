@@ -1,0 +1,13 @@
+{
+ "doc_id": "API004094",
+ "channel": "email",
+ "received_at": "2026-07-02T12:46:00",
+ "mailbox": "facturas.proveedores@kalmora.example",
+ "attachments": [
+  "factura_26008164.pdf"
+ ],
+ "from": "facturacion@contenedorespérez1.es",
+ "to": "facturas.proveedores@kalmora.example",
+ "subject": "Factura 26008164",
+ "body": ""
+}

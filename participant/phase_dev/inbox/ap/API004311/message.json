@@ -1,0 +1,14 @@
+{
+ "doc_id": "API004311",
+ "channel": "cfdi",
+ "received_at": "2026-07-13T18:02:00",
+ "mailbox": "facturas.proveedores@kalmora.example",
+ "attachments": [
+  "factura_BM-030385.pdf",
+  "CBC93A6C-BC48-493A-B34E-30D1CC3208CF.xml"
+ ],
+ "from": "facturacion@construccionesvall.mx",
+ "to": "facturas.proveedores@kalmora.example",
+ "subject": "Envío de factura nº BM-030385",
+ "body": "Les enviamos la factura correspondiente al periodo. Quedamos a su disposición."
+}

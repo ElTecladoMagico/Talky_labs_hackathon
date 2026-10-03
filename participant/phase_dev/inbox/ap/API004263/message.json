@@ -1,0 +1,13 @@
+{
+ "doc_id": "API004263",
+ "channel": "email",
+ "received_at": "2026-07-07T07:27:00",
+ "mailbox": "facturas.proveedores@kalmora.example",
+ "attachments": [
+  "factura_GM26-21894.pdf"
+ ],
+ "from": "facturacion@telecomunicaciones.es",
+ "to": "facturas.proveedores@kalmora.example",
+ "subject": "Facturas del mes",
+ "body": "Saludos cordiales,\nDpto. Administración"
+}

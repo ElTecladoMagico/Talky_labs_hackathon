@@ -1,0 +1,14 @@
+{
+ "doc_id": "API004312",
+ "channel": "cfdi",
+ "received_at": "2026-07-02T18:36:00",
+ "mailbox": "facturas.proveedores@kalmora.example",
+ "attachments": [
+  "factura_FV-2026-36913.pdf",
+  "FB696F4B-C29B-4508-9CE8-44123A99EE07.xml"
+ ],
+ "from": "facturacion@obrasyterraceríasm.mx",
+ "to": "facturas.proveedores@kalmora.example",
+ "subject": "FRA FV-2026-36913 KALMORA MEXICO",
+ "body": "Saludos cordiales,\nDpto. Administración"
+}

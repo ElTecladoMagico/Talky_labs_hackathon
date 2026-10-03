@@ -1,0 +1,11 @@
+{
+ "doc_id": "API005204",
+ "channel": "portal",
+ "received_at": "2026-07-24T12:04:00",
+ "mailbox": "facturas.proveedores@kalmora.example",
+ "attachments": [
+  "factura_TKD26-28636.pdf"
+ ],
+ "source": "Portal de proveedores (descarga)",
+ "uploaded_by": "facturacion@rmllaboratoriodeco.es"
+}

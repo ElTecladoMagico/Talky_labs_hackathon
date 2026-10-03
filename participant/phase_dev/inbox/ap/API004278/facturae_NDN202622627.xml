@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<fe:Facturae xmlns:fe="http://www.facturae.gob.es/formato/Versiones/Facturaev3_2_2.xml">
+ <FileHeader><SchemaVersion>3.2.2</SchemaVersion><Modality>I</Modality><InvoiceIssuerType>EM</InvoiceIssuerType>
+  <Batch><BatchIdentifier>A09909116NDN202622627</BatchIdentifier><InvoicesCount>1</InvoicesCount>
+   <TotalInvoicesAmount><TotalAmount>321393.45</TotalAmount></TotalInvoicesAmount><TotalOutstandingAmount><TotalAmount>321393.45</TotalAmount></TotalOutstandingAmount>
+   <TotalExecutableAmount><TotalAmount>321393.45</TotalAmount></TotalExecutableAmount><InvoiceCurrencyCode>EUR</InvoiceCurrencyCode></Batch></FileHeader>
+ <Parties>
+  <SellerParty><TaxIdentification><PersonTypeCode>J</PersonTypeCode><ResidenceTypeCode>R</ResidenceTypeCode><TaxIdentificationNumber>A09909116</TaxIdentificationNumber></TaxIdentification>
+   <LegalEntity><CorporateName>Consorcio para la Gestión de Residuos de Valdemora</CorporateName><AddressInSpain><Address>Calle de los Herreros 89</Address><PostCode>38068</PostCode><Town>Campollano</Town><Province>Tarragona</Province><CountryCode>ESP</CountryCode></AddressInSpain></LegalEntity></SellerParty>
+  <BuyerParty><TaxIdentification><PersonTypeCode>J</PersonTypeCode><ResidenceTypeCode>R</ResidenceTypeCode><TaxIdentificationNumber>B60331798</TaxIdentificationNumber></TaxIdentification>
+   <LegalEntity><CorporateName>Kalmora Servicios Urbanos, S.L.U.</CorporateName></LegalEntity></BuyerParty>
+ </Parties>
+ <Invoices><Invoice>
+  <InvoiceHeader><InvoiceNumber>NDN202622627</InvoiceNumber><InvoiceDocumentType>FC</InvoiceDocumentType><InvoiceClass>OO</InvoiceClass>
+   </InvoiceHeader>
+  <InvoiceIssueData><IssueDate>2026-07-03</IssueDate><InvoicingPeriod><StartDate>2026-06-01</StartDate><EndDate>2026-06-30</EndDate></InvoicingPeriod><InvoiceCurrencyCode>EUR</InvoiceCurrencyCode><TaxCurrencyCode>EUR</TaxCurrencyCode><LanguageName>es</LanguageName></InvoiceIssueData>
+  <TaxesOutputs><Tax><TaxTypeCode>01</TaxTypeCode><TaxRate>10.00</TaxRate><TaxableBase><TotalAmount>137714.50</TotalAmount></TaxableBase><TaxAmount><TotalAmount>13771.45</TotalAmount></TaxAmount></Tax><Tax><TaxTypeCode>01</TaxTypeCode><TaxRate>0.00</TaxRate><TaxableBase><TotalAmount>169907.50</TotalAmount></TaxableBase><TaxAmount><TotalAmount>0.00</TotalAmount></TaxAmount></Tax></TaxesOutputs>
+  
+  <InvoiceTotals><TotalGrossAmount>307622.00</TotalGrossAmount><TotalGrossAmountBeforeTaxes>307622.00</TotalGrossAmountBeforeTaxes>
+   <TotalTaxOutputs>13771.45</TotalTaxOutputs><TotalTaxesWithheld>0.00</TotalTaxesWithheld><InvoiceTotal>321393.45</InvoiceTotal>
+   
+   <TotalOutstandingAmount>321393.45</TotalOutstandingAmount><TotalExecutableAmount>321393.45</TotalExecutableAmount></InvoiceTotals>
+  <Items><InvoiceLine><ItemDescription>Tratamiento y eliminación de residuos urbanos en vertedero controlado – 3.577 t</ItemDescription><Quantity>3577.000</Quantity><UnitPriceWithoutTax>38.500000</UnitPriceWithoutTax><TotalCost>137714.50</TotalCost><GrossAmount>137714.50</GrossAmount><TaxesOutputs><Tax><TaxTypeCode>01</TaxTypeCode><TaxRate>10.00</TaxRate><TaxableBase><TotalAmount>137714.50</TotalAmount></TaxableBase></Tax></TaxesOutputs></InvoiceLine><InvoiceLine><ItemDescription>Canon autonómico sobre la deposición de residuos – 3.577 t (no sujeto a IVA)</ItemDescription><Quantity>3577.000</Quantity><UnitPriceWithoutTax>47.500000</UnitPriceWithoutTax><TotalCost>169907.50</TotalCost><GrossAmount>169907.50</GrossAmount><TaxesOutputs><Tax><TaxTypeCode>01</TaxTypeCode><TaxRate>0.00</TaxRate><TaxableBase><TotalAmount>169907.50</TotalAmount></TaxableBase></Tax></TaxesOutputs></InvoiceLine></Items>
+  <AdditionalData><InvoiceAdditionalInformation> </InvoiceAdditionalInformation></AdditionalData>
+ </Invoice></Invoices>
+</fe:Facturae>

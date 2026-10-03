@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<cfdi:Comprobante xmlns:cfdi="http://www.sat.gob.mx/cfd/4" Version="4.0" Serie="202" Folio="2026/142" Fecha="2026-07-19T10:00:00"
+ SubTotal="26263.31" Moneda="MXN" Total="25036.81" TipoDeComprobante="I" Exportacion="01" MetodoPago="PPD" FormaPago="99" LugarExpedicion="29773">
+ <cfdi:Emisor Rfc="ESTH6202017FX" Nombre="ESTHER VICENTE VÁZQUEZ" RegimenFiscal="612"/>
+ <cfdi:Receptor Rfc="KMI91110719K" Nombre="KALMORA MEXICO INFRAESTRUCTURA" DomicilioFiscalReceptor="11950" RegimenFiscalReceptor="601" UsoCFDI="G03"/>
+ <cfdi:Conceptos><cfdi:Concepto ClaveProdServ="72141000" Cantidad="1.000" ClaveUnidad="E48" Descripcion="Honorarios por asesoría fiscal" ValorUnitario="26263.31" Importe="26263.31" ObjetoImp="02"/></cfdi:Conceptos>
+ <cfdi:Impuestos TotalImpuestosTrasladados="4202.13" TotalImpuestosRetenidos="5428.63">
+  <cfdi:Retenciones><cfdi:Retencion Impuesto="001" Importe="2626.33"/><cfdi:Retencion Impuesto="002" Importe="2802.30"/></cfdi:Retenciones><cfdi:Traslados><cfdi:Traslado Base="26263.31" Impuesto="002" TipoFactor="Tasa" TasaOCuota="0.160000" Importe="4202.13"/></cfdi:Traslados>
+ </cfdi:Impuestos>
+ <cfdi:Complemento><tfd:TimbreFiscalDigital xmlns:tfd="http://www.sat.gob.mx/TimbreFiscalDigital" Version="1.1" UUID="797ECA1D-34DA-48EA-AB25-78FC9697E912" FechaTimbrado="2026-07-19T10:05:12" RfcProvCertif="SAT970701NN3" NoCertificadoSAT="00001000000509846663"/></cfdi:Complemento>
+</cfdi:Comprobante>

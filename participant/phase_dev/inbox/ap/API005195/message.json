@@ -1,0 +1,13 @@
+{
+ "doc_id": "API005195",
+ "channel": "email",
+ "received_at": "2026-07-20T08:11:00",
+ "mailbox": "facturas.proveedores@kalmora.example",
+ "attachments": [
+  "letter_bank_change_API005195.pdf"
+ ],
+ "from": "facturacion@aguasdecastrolargo.es",
+ "to": "facturas.proveedores@kalmora.example",
+ "subject": "Cambio de cuenta bancaria",
+ "body": "Saludos cordiales,\nDpto. Administración"
+}

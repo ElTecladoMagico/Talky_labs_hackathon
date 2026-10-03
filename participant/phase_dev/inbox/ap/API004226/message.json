@@ -1,0 +1,13 @@
+{
+ "doc_id": "API004226",
+ "channel": "email",
+ "received_at": "2026-07-03T13:06:00",
+ "mailbox": "facturas.proveedores@kalmora.example",
+ "attachments": [
+  "factura_FA202628821.pdf"
+ ],
+ "from": "facturacion@grúasalonso1987.es",
+ "to": "facturas.proveedores@kalmora.example",
+ "subject": "Factura FA202628821",
+ "body": "Les enviamos la factura correspondiente al periodo. Quedamos a su disposición."
+}

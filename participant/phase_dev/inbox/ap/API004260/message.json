@@ -1,0 +1,13 @@
+{
+ "doc_id": "API004260",
+ "channel": "email",
+ "received_at": "2026-07-03T19:42:00",
+ "mailbox": "facturas.proveedores@kalmora.example",
+ "attachments": [
+  "factura_L202622097.pdf"
+ ],
+ "from": "facturacion@mensajeríaexprésra.es",
+ "to": "facturas.proveedores@kalmora.example",
+ "subject": "Envío de factura nº L202622097",
+ "body": "Saludos cordiales,\nDpto. Administración"
+}

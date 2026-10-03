@@ -1,0 +1,14 @@
+{
+ "doc_id": "API004317",
+ "channel": "cfdi",
+ "received_at": "2026-07-10T08:36:00",
+ "mailbox": "facturas.proveedores@kalmora.example",
+ "attachments": [
+  "factura_D26-06835.pdf",
+  "69C7350C-C14F-4EBA-BE15-7C2E6C99CF8A.xml"
+ ],
+ "from": "facturacion@construccionesvall.mx",
+ "to": "facturas.proveedores@kalmora.example",
+ "subject": "FRA D26/06835 KALMORA MEXICO",
+ "body": "Buenos días, adjuntamos factura. Un saludo."
+}

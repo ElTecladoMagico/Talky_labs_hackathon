@@ -1,0 +1,13 @@
+{
+ "doc_id": "API004299",
+ "channel": "email",
+ "received_at": "2026-07-02T15:32:00",
+ "mailbox": "facturas.proveedores@kalmora.example",
+ "attachments": [
+  "factura_26012023.pdf"
+ ],
+ "from": "facturacion@ibermarketrepresen.es",
+ "to": "facturas.proveedores@kalmora.example",
+ "subject": "Factura 26012023",
+ "body": "Les enviamos la factura correspondiente al periodo. Quedamos a su disposición."
+}

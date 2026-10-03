@@ -1,0 +1,13 @@
+{
+ "doc_id": "API004469",
+ "channel": "email",
+ "received_at": "2026-07-06T09:55:00",
+ "mailbox": "facturas.proveedores@kalmora.example",
+ "attachments": [
+  "invoice_HF26070294.pdf"
+ ],
+ "from": "facturacion@ningbohengfaformwo.com",
+ "to": "facturas.proveedores@kalmora.example",
+ "subject": "Facturas del mes",
+ "body": ""
+}

@@ -1,0 +1,13 @@
+{
+ "doc_id": "API004288",
+ "channel": "email",
+ "received_at": "2026-07-17T12:29:00",
+ "mailbox": "facturas.proveedores@kalmora.example",
+ "attachments": [
+  "factura_0009557.pdf"
+ ],
+ "from": "facturacion@consorcioparalages.es",
+ "to": "facturas.proveedores@kalmora.example",
+ "subject": "FRA 0009557 KALMORA SERV URBANOS",
+ "body": "Saludos cordiales,\nDpto. Administración"
+}

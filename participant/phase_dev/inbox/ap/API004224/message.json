@@ -1,0 +1,13 @@
+{
+ "doc_id": "API004224",
+ "channel": "email",
+ "received_at": "2026-07-06T18:50:00",
+ "mailbox": "facturas.proveedores@kalmora.example",
+ "attachments": [
+  "factura_0015347.pdf"
+ ],
+ "from": "facturacion@ferreteríaindustri.es",
+ "to": "facturas.proveedores@kalmora.example",
+ "subject": "FRA 0015347 UTE LINEA 9",
+ "body": "Saludos cordiales,\nDpto. Administración"
+}

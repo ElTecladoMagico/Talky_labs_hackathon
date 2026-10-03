@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<fe:Facturae xmlns:fe="http://www.facturae.gob.es/formato/Versiones/Facturaev3_2_2.xml">
+ <FileHeader><SchemaVersion>3.2.2</SchemaVersion><Modality>I</Modality><InvoiceIssuerType>EM</InvoiceIssuerType>
+  <Batch><BatchIdentifier>B06046513GRE202610717</BatchIdentifier><InvoicesCount>1</InvoicesCount>
+   <TotalInvoicesAmount><TotalAmount>4812.90</TotalAmount></TotalInvoicesAmount><TotalOutstandingAmount><TotalAmount>4812.90</TotalAmount></TotalOutstandingAmount>
+   <TotalExecutableAmount><TotalAmount>4812.90</TotalAmount></TotalExecutableAmount><InvoiceCurrencyCode>EUR</InvoiceCurrencyCode></Batch></FileHeader>
+ <Parties>
+  <SellerParty><TaxIdentification><PersonTypeCode>J</PersonTypeCode><ResidenceTypeCode>R</ResidenceTypeCode><TaxIdentificationNumber>B06046513</TaxIdentificationNumber></TaxIdentification>
+   <LegalEntity><CorporateName>Prefabricados Plus, S.L.</CorporateName><AddressInSpain><Address>Avenida del Puerto 48</Address><PostCode>52310</PostCode><Town>Vegalta</Town><Province>Sevilla</Province><CountryCode>ESP</CountryCode></AddressInSpain></LegalEntity></SellerParty>
+  <BuyerParty><TaxIdentification><PersonTypeCode>J</PersonTypeCode><ResidenceTypeCode>R</ResidenceTypeCode><TaxIdentificationNumber>A12359962</TaxIdentificationNumber></TaxIdentification>
+   <LegalEntity><CorporateName>Kalmora Construcción, S.A.U.</CorporateName></LegalEntity></BuyerParty>
+ </Parties>
+ <Invoices><Invoice>
+  <InvoiceHeader><InvoiceNumber>GRE202610717</InvoiceNumber><InvoiceDocumentType>FC</InvoiceDocumentType><InvoiceClass>OO</InvoiceClass>
+   </InvoiceHeader>
+  <InvoiceIssueData><IssueDate>2026-07-06</IssueDate><InvoicingPeriod><StartDate>2026-06-01</StartDate><EndDate>2026-06-30</EndDate></InvoicingPeriod><InvoiceCurrencyCode>EUR</InvoiceCurrencyCode><TaxCurrencyCode>EUR</TaxCurrencyCode><LanguageName>es</LanguageName></InvoiceIssueData>
+  <TaxesOutputs><Tax><TaxTypeCode>01</TaxTypeCode><TaxRate>21.00</TaxRate><TaxableBase><TotalAmount>3977.60</TotalAmount></TaxableBase><TaxAmount><TotalAmount>835.30</TotalAmount></TaxAmount></Tax></TaxesOutputs>
+  
+  <InvoiceTotals><TotalGrossAmount>3977.60</TotalGrossAmount><TotalGrossAmountBeforeTaxes>3977.60</TotalGrossAmountBeforeTaxes>
+   <TotalTaxOutputs>835.30</TotalTaxOutputs><TotalTaxesWithheld>0.00</TotalTaxesWithheld><InvoiceTotal>4812.90</InvoiceTotal>
+   
+   <TotalOutstandingAmount>4812.90</TotalOutstandingAmount><TotalExecutableAmount>4812.90</TotalExecutableAmount></InvoiceTotals>
+  <Items><InvoiceLine><ItemDescription>Arqueta registro prefabricada 60x60 – AL-045646 (10/06)</ItemDescription><Quantity>16.000</Quantity><UnitPriceWithoutTax>248.600000</UnitPriceWithoutTax><TotalCost>3977.60</TotalCost><GrossAmount>3977.60</GrossAmount><TaxesOutputs><Tax><TaxTypeCode>01</TaxTypeCode><TaxRate>21.00</TaxRate><TaxableBase><TotalAmount>3977.60</TotalAmount></TaxableBase></Tax></TaxesOutputs></InvoiceLine></Items>
+  <AdditionalData><InvoiceAdditionalInformation> </InvoiceAdditionalInformation></AdditionalData>
+ </Invoice></Invoices>
+</fe:Facturae>

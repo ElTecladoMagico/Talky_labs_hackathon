@@ -1,0 +1,11 @@
+{
+ "doc_id": "API005203",
+ "channel": "portal",
+ "received_at": "2026-07-08T14:03:00",
+ "mailbox": "facturas.proveedores@kalmora.example",
+ "attachments": [
+  "invoice_2026-031182.pdf"
+ ],
+ "source": "Portal de proveedores (descarga)",
+ "uploaded_by": "facturacion@baumaschinenkirchh.com"
+}

@@ -1,0 +1,13 @@
+{
+ "doc_id": "API005211",
+ "channel": "email",
+ "received_at": "2026-07-07T09:46:00",
+ "mailbox": "facturas.proveedores@kalmora.example",
+ "attachments": [
+  "factura_2026-001968.pdf"
+ ],
+ "from": "facturacion@desmontesyobraspro.es",
+ "to": "facturas.proveedores@kalmora.example",
+ "subject": "Facturas del mes",
+ "body": "Saludos cordiales,\nDpto. Administración"
+}

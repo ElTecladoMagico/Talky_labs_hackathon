@@ -1,0 +1,13 @@
+{
+ "doc_id": "API004218",
+ "channel": "email",
+ "received_at": "2026-07-08T16:31:00",
+ "mailbox": "facturas.proveedores@kalmora.example",
+ "attachments": [
+  "factura_KEK202618724.pdf"
+ ],
+ "from": "facturacion@ferrallasyestructu.es",
+ "to": "facturas.proveedores@kalmora.example",
+ "subject": "Envío de factura nº KEK202618724",
+ "body": "Saludos cordiales,\nDpto. Administración"
+}

@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<fe:Facturae xmlns:fe="http://www.facturae.gob.es/formato/Versiones/Facturaev3_2_2.xml">
+ <FileHeader><SchemaVersion>3.2.2</SchemaVersion><Modality>I</Modality><InvoiceIssuerType>EM</InvoiceIssuerType>
+  <Batch><BatchIdentifier>40020909C2026/091</BatchIdentifier><InvoicesCount>1</InvoicesCount>
+   <TotalInvoicesAmount><TotalAmount>31200.00</TotalAmount></TotalInvoicesAmount><TotalOutstandingAmount><TotalAmount>31200.00</TotalAmount></TotalOutstandingAmount>
+   <TotalExecutableAmount><TotalAmount>31200.00</TotalAmount></TotalExecutableAmount><InvoiceCurrencyCode>EUR</InvoiceCurrencyCode></Batch></FileHeader>
+ <Parties>
+  <SellerParty><TaxIdentification><PersonTypeCode>F</PersonTypeCode><ResidenceTypeCode>R</ResidenceTypeCode><TaxIdentificationNumber>40020909C</TaxIdentificationNumber></TaxIdentification>
+   <LegalEntity><CorporateName>Álvaro Galán Bernal</CorporateName><AddressInSpain><Address>Polígono Los Llanos, parcela 76</Address><PostCode>46744</PostCode><Town>Villamar del Río</Town><Province>Cádiz</Province><CountryCode>ESP</CountryCode></AddressInSpain></LegalEntity></SellerParty>
+  <BuyerParty><TaxIdentification><PersonTypeCode>J</PersonTypeCode><ResidenceTypeCode>R</ResidenceTypeCode><TaxIdentificationNumber>B92876545</TaxIdentificationNumber></TaxIdentification>
+   <LegalEntity><CorporateName>Kalmora Energía Renovable, S.L.U.</CorporateName></LegalEntity></BuyerParty>
+ </Parties>
+ <Invoices><Invoice>
+  <InvoiceHeader><InvoiceNumber>2026/091</InvoiceNumber><InvoiceDocumentType>FC</InvoiceDocumentType><InvoiceClass>OO</InvoiceClass>
+   </InvoiceHeader>
+  <InvoiceIssueData><IssueDate>2026-07-03</IssueDate><InvoicingPeriod><StartDate>2026-07-01</StartDate><EndDate>2026-12-31</EndDate></InvoicingPeriod><InvoiceCurrencyCode>EUR</InvoiceCurrencyCode><TaxCurrencyCode>EUR</TaxCurrencyCode><LanguageName>es</LanguageName></InvoiceIssueData>
+  <TaxesOutputs><Tax><TaxTypeCode>01</TaxTypeCode><TaxRate>0.00</TaxRate><TaxableBase><TotalAmount>31200.00</TotalAmount></TaxableBase><TaxAmount><TotalAmount>0.00</TotalAmount></TaxAmount></Tax></TaxesOutputs>
+  
+  <InvoiceTotals><TotalGrossAmount>31200.00</TotalGrossAmount><TotalGrossAmountBeforeTaxes>31200.00</TotalGrossAmountBeforeTaxes>
+   <TotalTaxOutputs>0.00</TotalTaxOutputs><TotalTaxesWithheld>0.00</TotalTaxesWithheld><InvoiceTotal>31200.00</InvoiceTotal>
+   
+   <TotalOutstandingAmount>31200.00</TotalOutstandingAmount><TotalExecutableAmount>31200.00</TotalExecutableAmount></InvoiceTotals>
+  <Items><InvoiceLine><ItemDescription>Renta semestral arrendamiento de fincas rústicas (polígono 32, parcelas 153 y 280) – PSF Lomaseca (32,4 MWp) – 2.º semestre 2026</ItemDescription><Quantity>1.000</Quantity><UnitPriceWithoutTax>31200.000000</UnitPriceWithoutTax><TotalCost>31200.00</TotalCost><GrossAmount>31200.00</GrossAmount><TaxesOutputs><Tax><TaxTypeCode>01</TaxTypeCode><TaxRate>0.00</TaxRate><TaxableBase><TotalAmount>31200.00</TotalAmount></TaxableBase></Tax></TaxesOutputs></InvoiceLine></Items>
+  <AdditionalData><InvoiceAdditionalInformation> Arrendamiento de finca rústica: operación exenta de IVA (art. 20.Uno.23º b) LIVA). No sujeto a retención (art. 75.3 RIRPF: inmueble no urbano).</InvoiceAdditionalInformation></AdditionalData>
+ </Invoice></Invoices>
+</fe:Facturae>

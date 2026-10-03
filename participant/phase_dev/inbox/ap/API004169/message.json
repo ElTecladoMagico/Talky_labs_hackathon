@@ -1,0 +1,13 @@
+{
+ "doc_id": "API004169",
+ "channel": "email",
+ "received_at": "2026-07-06T18:11:00",
+ "mailbox": "facturas.proveedores@kalmora.example",
+ "attachments": [
+  "factura_F2636270.pdf"
+ ],
+ "from": "facturacion@cabrerayllorentebr.es",
+ "to": "facturas.proveedores@kalmora.example",
+ "subject": "FRA F2636270 KALMORA CONSTRUCCION",
+ "body": "Saludos cordiales,\nDpto. Administración"
+}

@@ -1,0 +1,13 @@
+{
+ "doc_id": "API005594",
+ "channel": "email",
+ "received_at": "2026-07-02T12:07:00",
+ "mailbox": "facturas.proveedores@kalmora.example",
+ "attachments": [
+  "proforma_API005594.pdf"
+ ],
+ "from": "facturacion@energíapeninsularc.es",
+ "to": "facturas.proveedores@kalmora.example",
+ "subject": "Proforma para su aprobación",
+ "body": "Les enviamos la factura correspondiente al periodo. Quedamos a su disposición."
+}

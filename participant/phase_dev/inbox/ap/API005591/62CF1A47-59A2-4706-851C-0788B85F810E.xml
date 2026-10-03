@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<cfdi:Comprobante xmlns:cfdi="http://www.sat.gob.mx/cfd/4" Version="4.0" Serie="NC-" Folio="NC-2026-009967" Fecha="2026-07-09T10:00:00"
+ SubTotal="410226.32" Moneda="MXN" Total="475862.53" TipoDeComprobante="E" Exportacion="01" MetodoPago="PPD" FormaPago="99" LugarExpedicion="33123">
+ <cfdi:Emisor Rfc="EDI861222CVA" Nombre="EDIFICACIONES MÉNDEZ, S. DE R.L. DE C.V." RegimenFiscal="601"/>
+ <cfdi:Receptor Rfc="KMI91110719K" Nombre="KALMORA MEXICO INFRAESTRUCTURA" DomicilioFiscalReceptor="11950" RegimenFiscalReceptor="601" UsoCFDI="G03"/>
+ <cfdi:Conceptos><cfdi:Concepto ClaveProdServ="72141000" Cantidad="1.000" ClaveUnidad="E48" Descripcion="Rappel por volumen de compras 2026" ValorUnitario="410226.32" Importe="410226.32" ObjetoImp="02"/></cfdi:Conceptos>
+ <cfdi:Impuestos TotalImpuestosTrasladados="65636.21">
+  <cfdi:Traslados><cfdi:Traslado Base="410226.32" Impuesto="002" TipoFactor="Tasa" TasaOCuota="0.160000" Importe="65636.21"/></cfdi:Traslados>
+ </cfdi:Impuestos>
+ <cfdi:Complemento><tfd:TimbreFiscalDigital xmlns:tfd="http://www.sat.gob.mx/TimbreFiscalDigital" Version="1.1" UUID="62CF1A47-59A2-4706-851C-0788B85F810E" FechaTimbrado="2026-07-09T10:05:12" RfcProvCertif="SAT970701NN3" NoCertificadoSAT="00001000000509846663"/></cfdi:Complemento>
+</cfdi:Comprobante>

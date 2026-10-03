@@ -1,0 +1,71 @@
+{
+ "management_fees": {
+  "1100": {
+   "monthly_eur_2025": 23600000,
+   "monthly_eur_2026": 24544000,
+   "issuer": "1000",
+   "basis": "Contrato de servicios corporativos 2023, revisión +4 % en 2026"
+  },
+  "1200": {
+   "monthly_eur_2025": 14350000,
+   "monthly_eur_2026": 14924000,
+   "issuer": "1000",
+   "basis": "Contrato de servicios corporativos 2023, revisión +4 % en 2026"
+  },
+  "1300": {
+   "monthly_eur_2025": 6120000,
+   "monthly_eur_2026": 6364800,
+   "issuer": "1000",
+   "basis": "Contrato de servicios corporativos 2023, revisión +4 % en 2026"
+  },
+  "2100": {
+   "monthly_eur_2025": 3280000,
+   "monthly_eur_2026": 3411200,
+   "issuer": "1000",
+   "basis": "Contrato de servicios corporativos 2023, revisión +4 % en 2026"
+  },
+  "3100": {
+   "monthly_eur_2025": 4150000,
+   "monthly_eur_2026": 4316000,
+   "issuer": "1000",
+   "basis": "Contrato de servicios corporativos 2023, revisión +4 % en 2026"
+  }
+ },
+ "loan": {
+  "id": "KMI-2025-01",
+  "principal": 500000000,
+  "rate_bp": 600,
+  "basis": "act/360",
+  "start": "2025-02-03",
+  "lender": "1000",
+  "borrower": "3100",
+  "note": "Intereses devengados mensualmente por ambas partes con base act/360; pago anual en diciembre"
+ },
+ "cash_pooling": {
+  "header": "BIN-1000",
+  "participants": [
+   "BIN-1100",
+   "BIN-1200"
+  ],
+  "scheme": "Zero balancing diario",
+  "interest": "EURIBOR 1M sintético (2,35 %) + 0,50 %, act/360, liquidación mensual"
+ },
+ "ute": {
+  "company": "1910",
+  "partners": [
+   [
+    "1100",
+    5000
+   ],
+   [
+    "EXT-HIDROCON",
+    5000
+   ]
+  ],
+  "external_partner": {
+   "id": "EXT-HIDROCON",
+   "name": "Hidrocon Obras, S.A.",
+   "tax_id": "A34037145"
+  }
+ }
+}

@@ -1,0 +1,11 @@
+{
+ "billing_item": "BILL-CT-1200-LV01-202607",
+ "type": "SERVICE_MONTHLY",
+ "company": "1200",
+ "contract": "CT-1200-LV01",
+ "customer": "C200001",
+ "month": "2026-07",
+ "documents": [
+  "documento.pdf"
+ ]
+}

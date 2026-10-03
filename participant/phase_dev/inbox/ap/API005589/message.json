@@ -1,0 +1,13 @@
+{
+ "doc_id": "API005589",
+ "channel": "email",
+ "received_at": "2026-07-17T13:08:00",
+ "mailbox": "facturas.proveedores@kalmora.example",
+ "attachments": [
+  "factura_R-PES20263351.pdf"
+ ],
+ "from": "facturacion@asfaltosglobal.es",
+ "to": "facturas.proveedores@kalmora.example",
+ "subject": "Factura rectificativa R-PES20263351",
+ "body": "Buenos días, adjuntamos factura. Un saludo."
+}

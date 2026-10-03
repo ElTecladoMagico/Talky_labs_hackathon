@@ -1,0 +1,13 @@
+{
+ "doc_id": "API005596",
+ "channel": "email",
+ "received_at": "2026-07-07T08:08:00",
+ "mailbox": "facturas.proveedores@kalmora.example",
+ "attachments": [
+  "statement_API005596.pdf"
+ ],
+ "from": "facturacion@energíapeninsularc.es",
+ "to": "facturas.proveedores@kalmora.example",
+ "subject": "Recordatorio de pago – extracto de cuenta",
+ "body": "Buenos días, adjuntamos factura. Un saludo."
+}

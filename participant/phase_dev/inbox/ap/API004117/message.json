@@ -1,0 +1,13 @@
+{
+ "doc_id": "API004117",
+ "channel": "email",
+ "received_at": "2026-07-03T13:16:00",
+ "mailbox": "facturas.proveedores@kalmora.example",
+ "attachments": [
+  "factura_FA202628799.pdf"
+ ],
+ "from": "facturacion@grúasalonso1987.es",
+ "to": "facturas.proveedores@kalmora.example",
+ "subject": "FRA FA202628799 KALMORA CONSTRUCCION",
+ "body": ""
+}

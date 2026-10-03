@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<fe:Facturae xmlns:fe="http://www.facturae.gob.es/formato/Versiones/Facturaev3_2_2.xml">
+ <FileHeader><SchemaVersion>3.2.2</SchemaVersion><Modality>I</Modality><InvoiceIssuerType>EM</InvoiceIssuerType>
+  <Batch><BatchIdentifier>A25324057R-26030615</BatchIdentifier><InvoicesCount>1</InvoicesCount>
+   <TotalInvoicesAmount><TotalAmount>60.50</TotalAmount></TotalInvoicesAmount><TotalOutstandingAmount><TotalAmount>60.50</TotalAmount></TotalOutstandingAmount>
+   <TotalExecutableAmount><TotalAmount>60.50</TotalAmount></TotalExecutableAmount><InvoiceCurrencyCode>EUR</InvoiceCurrencyCode></Batch></FileHeader>
+ <Parties>
+  <SellerParty><TaxIdentification><PersonTypeCode>J</PersonTypeCode><ResidenceTypeCode>R</ResidenceTypeCode><TaxIdentificationNumber>A25324057</TaxIdentificationNumber></TaxIdentification>
+   <LegalEntity><CorporateName>CEF-Ferretería y Suministros, S.A.</CorporateName><AddressInSpain><Address>Paseo de la Estación 133</Address><PostCode>06020</PostCode><Town>Montalbar</Town><Province>Bizkaia</Province><CountryCode>ESP</CountryCode></AddressInSpain></LegalEntity></SellerParty>
+  <BuyerParty><TaxIdentification><PersonTypeCode>J</PersonTypeCode><ResidenceTypeCode>R</ResidenceTypeCode><TaxIdentificationNumber>B60331798</TaxIdentificationNumber></TaxIdentification>
+   <LegalEntity><CorporateName>Kalmora Servicios Urbanos, S.L.U.</CorporateName></LegalEntity></BuyerParty>
+ </Parties>
+ <Invoices><Invoice>
+  <InvoiceHeader><InvoiceNumber>R-26030615</InvoiceNumber><InvoiceDocumentType>FC</InvoiceDocumentType><InvoiceClass>OR</InvoiceClass>
+   <Corrective><InvoiceNumber>26030597</InvoiceNumber><ReasonCode>01</ReasonCode><ReasonDescription>devolución</ReasonDescription></Corrective></InvoiceHeader>
+  <InvoiceIssueData><IssueDate>2026-07-13</IssueDate><InvoicingPeriod><StartDate>2026-05-01</StartDate><EndDate>2026-05-31</EndDate></InvoicingPeriod><InvoiceCurrencyCode>EUR</InvoiceCurrencyCode><TaxCurrencyCode>EUR</TaxCurrencyCode><LanguageName>es</LanguageName></InvoiceIssueData>
+  <TaxesOutputs><Tax><TaxTypeCode>01</TaxTypeCode><TaxRate>21.00</TaxRate><TaxableBase><TotalAmount>50.00</TotalAmount></TaxableBase><TaxAmount><TotalAmount>10.50</TotalAmount></TaxAmount></Tax></TaxesOutputs>
+  
+  <InvoiceTotals><TotalGrossAmount>50.00</TotalGrossAmount><TotalGrossAmountBeforeTaxes>50.00</TotalGrossAmountBeforeTaxes>
+   <TotalTaxOutputs>10.50</TotalTaxOutputs><TotalTaxesWithheld>0.00</TotalTaxesWithheld><InvoiceTotal>60.50</InvoiceTotal>
+   
+   <TotalOutstandingAmount>60.50</TotalOutstandingAmount><TotalExecutableAmount>60.50</TotalExecutableAmount></InvoiceTotals>
+  <Items><InvoiceLine><ItemDescription>Devolución de material – Cinta de balizamiento (rollo 200 m) – AL-0852</ItemDescription><Quantity>1.000</Quantity><UnitPriceWithoutTax>50.000000</UnitPriceWithoutTax><TotalCost>50.00</TotalCost><GrossAmount>50.00</GrossAmount><TaxesOutputs><Tax><TaxTypeCode>01</TaxTypeCode><TaxRate>21.00</TaxRate><TaxableBase><TotalAmount>50.00</TotalAmount></TaxableBase></Tax></TaxesOutputs></InvoiceLine></Items>
+  <AdditionalData><InvoiceAdditionalInformation> </InvoiceAdditionalInformation></AdditionalData>
+ </Invoice></Invoices>
+</fe:Facturae>

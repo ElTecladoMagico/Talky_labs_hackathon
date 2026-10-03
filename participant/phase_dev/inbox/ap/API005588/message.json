@@ -1,0 +1,13 @@
+{
+ "doc_id": "API005588",
+ "channel": "email",
+ "received_at": "2026-07-16T13:07:00",
+ "mailbox": "facturas.proveedores@kalmora.example",
+ "attachments": [
+  "invoice_NC-2026-817.pdf"
+ ],
+ "from": "facturacion@rafaeloteromontero.pt",
+ "to": "facturas.proveedores@kalmora.example",
+ "subject": "Factura rectificativa NC-2026/817",
+ "body": "Buenos días, adjuntamos factura. Un saludo."
+}

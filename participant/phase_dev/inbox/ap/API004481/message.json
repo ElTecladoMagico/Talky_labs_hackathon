@@ -1,0 +1,13 @@
+{
+ "doc_id": "API004481",
+ "channel": "email",
+ "received_at": "2026-07-01T18:50:00",
+ "mailbox": "facturas.proveedores@kalmora.example",
+ "attachments": [
+  "factura_F2605351.pdf"
+ ],
+ "from": "facturacion@patrimonialfernánd.es",
+ "to": "facturas.proveedores@kalmora.example",
+ "subject": "FRA F2605351 KALMORA SERV URBANOS",
+ "body": "Les enviamos la factura correspondiente al periodo. Quedamos a su disposición."
+}

@@ -1,0 +1,14 @@
+{
+ "doc_id": "API004558",
+ "channel": "cfdi",
+ "received_at": "2026-07-21T13:56:00",
+ "mailbox": "facturas.proveedores@kalmora.example",
+ "attachments": [
+  "factura_2026-142.pdf",
+  "797ECA1D-34DA-48EA-AB25-78FC9697E912.xml"
+ ],
+ "from": "facturacion@esthervicentevázqu.mx",
+ "to": "facturas.proveedores@kalmora.example",
+ "subject": "Envío de factura nº 2026/142",
+ "body": "Adjunto remitimos la documentación indicada en el asunto."
+}

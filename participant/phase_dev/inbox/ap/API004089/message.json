@@ -1,0 +1,13 @@
+{
+ "doc_id": "API004089",
+ "channel": "email",
+ "received_at": "2026-07-08T14:50:00",
+ "mailbox": "facturas.proveedores@kalmora.example",
+ "attachments": [
+  "factura_E202636432.pdf"
+ ],
+ "from": "facturacion@prefabricadosmolin.es",
+ "to": "facturas.proveedores@kalmora.example",
+ "subject": "Facturas del mes",
+ "body": "Adjunto remitimos la documentación indicada en el asunto."
+}

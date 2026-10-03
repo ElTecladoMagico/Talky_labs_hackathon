@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<fe:Facturae xmlns:fe="http://www.facturae.gob.es/formato/Versiones/Facturaev3_2_2.xml">
+ <FileHeader><SchemaVersion>3.2.2</SchemaVersion><Modality>I</Modality><InvoiceIssuerType>EM</InvoiceIssuerType>
+  <Batch><BatchIdentifier>B65866644R-F2636302</BatchIdentifier><InvoicesCount>1</InvoicesCount>
+   <TotalInvoicesAmount><TotalAmount>298.54</TotalAmount></TotalInvoicesAmount><TotalOutstandingAmount><TotalAmount>298.54</TotalAmount></TotalOutstandingAmount>
+   <TotalExecutableAmount><TotalAmount>298.54</TotalAmount></TotalExecutableAmount><InvoiceCurrencyCode>EUR</InvoiceCurrencyCode></Batch></FileHeader>
+ <Parties>
+  <SellerParty><TaxIdentification><PersonTypeCode>J</PersonTypeCode><ResidenceTypeCode>R</ResidenceTypeCode><TaxIdentificationNumber>B65866644</TaxIdentificationNumber></TaxIdentification>
+   <LegalEntity><CorporateName>Pardo y Arnau Vigilancia, S.L.U.</CorporateName><AddressInSpain><Address>Calle Mayor 38</Address><PostCode>12380</PostCode><Town>Castrolargo</Town><Province>Madrid</Province><CountryCode>ESP</CountryCode></AddressInSpain></LegalEntity></SellerParty>
+  <BuyerParty><TaxIdentification><PersonTypeCode>J</PersonTypeCode><ResidenceTypeCode>R</ResidenceTypeCode><TaxIdentificationNumber>A12359962</TaxIdentificationNumber></TaxIdentification>
+   <LegalEntity><CorporateName>Kalmora Construcción, S.A.U.</CorporateName></LegalEntity></BuyerParty>
+ </Parties>
+ <Invoices><Invoice>
+  <InvoiceHeader><InvoiceNumber>R-F2636302</InvoiceNumber><InvoiceDocumentType>FC</InvoiceDocumentType><InvoiceClass>OR</InvoiceClass>
+   <Corrective><InvoiceNumber>F2636258</InvoiceNumber><ReasonCode>01</ReasonCode><ReasonDescription>anulación parcial</ReasonDescription></Corrective></InvoiceHeader>
+  <InvoiceIssueData><IssueDate>2026-07-10</IssueDate><InvoicingPeriod><StartDate>2026-06-01</StartDate><EndDate>2026-06-30</EndDate></InvoicingPeriod><InvoiceCurrencyCode>EUR</InvoiceCurrencyCode><TaxCurrencyCode>EUR</TaxCurrencyCode><LanguageName>es</LanguageName></InvoiceIssueData>
+  <TaxesOutputs><Tax><TaxTypeCode>01</TaxTypeCode><TaxRate>21.00</TaxRate><TaxableBase><TotalAmount>246.73</TotalAmount></TaxableBase><TaxAmount><TotalAmount>51.81</TotalAmount></TaxAmount></Tax></TaxesOutputs>
+  
+  <InvoiceTotals><TotalGrossAmount>246.73</TotalGrossAmount><TotalGrossAmountBeforeTaxes>246.73</TotalGrossAmountBeforeTaxes>
+   <TotalTaxOutputs>51.81</TotalTaxOutputs><TotalTaxesWithheld>0.00</TotalTaxesWithheld><InvoiceTotal>298.54</InvoiceTotal>
+   
+   <TotalOutstandingAmount>298.54</TotalOutstandingAmount><TotalExecutableAmount>298.54</TotalExecutableAmount></InvoiceTotals>
+  <Items><InvoiceLine><ItemDescription>Anulación parcial – Servicio de vigilancia y control de accesos d</ItemDescription><Quantity>1.000</Quantity><UnitPriceWithoutTax>246.730000</UnitPriceWithoutTax><TotalCost>246.73</TotalCost><GrossAmount>246.73</GrossAmount><TaxesOutputs><Tax><TaxTypeCode>01</TaxTypeCode><TaxRate>21.00</TaxRate><TaxableBase><TotalAmount>246.73</TotalAmount></TaxableBase></Tax></TaxesOutputs></InvoiceLine></Items>
+  <AdditionalData><InvoiceAdditionalInformation> </InvoiceAdditionalInformation></AdditionalData>
+ </Invoice></Invoices>
+</fe:Facturae>

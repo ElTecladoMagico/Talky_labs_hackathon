@@ -1,0 +1,11 @@
+{
+ "billing_item": "BILL-CV-OB-2100-2502-202607",
+ "type": "OBRA_CERTIFICATION",
+ "company": "2100",
+ "contract": "CV-OB-2100-2502",
+ "customer": "C200016",
+ "month": "2026-07",
+ "documents": [
+  "documento.pdf"
+ ]
+}

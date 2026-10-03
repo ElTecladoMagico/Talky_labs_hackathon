@@ -1,0 +1,13 @@
+{
+ "doc_id": "API005229",
+ "channel": "email",
+ "received_at": "2026-07-30T07:31:00",
+ "mailbox": "facturas.proveedores@kalmora.example",
+ "attachments": [
+  "factura_FV-2026-34123.pdf"
+ ],
+ "from": "facturacion@ffiinstalacionesel-es.es",
+ "to": "facturas.proveedores@kalmora.example",
+ "subject": "URGENTE – Nueva cuenta bancaria – Factura FV-2026-34123",
+ "body": "Buenos días, por auditoría interna hemos cambiado de entidad. Rogamos realicen el pago de la factura adjunta en la nueva cuenta indicada. Saludos."
+}

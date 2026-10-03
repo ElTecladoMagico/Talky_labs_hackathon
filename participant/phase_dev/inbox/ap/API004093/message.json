@@ -1,0 +1,13 @@
+{
+ "doc_id": "API004093",
+ "channel": "email",
+ "received_at": "2026-07-01T10:20:00",
+ "mailbox": "facturas.proveedores@kalmora.example",
+ "attachments": [
+  "factura_EG-019592.pdf"
+ ],
+ "from": "facturacion@ámmmaquinariadeobr.es",
+ "to": "facturas.proveedores@kalmora.example",
+ "subject": "FRA EG-019592 KALMORA CONSTRUCCION",
+ "body": ""
+}

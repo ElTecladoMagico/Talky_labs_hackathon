@@ -1,0 +1,13 @@
+{
+ "doc_id": "API004544",
+ "channel": "email",
+ "received_at": "2026-07-06T11:17:00",
+ "mailbox": "facturas.proveedores@kalmora.example",
+ "attachments": [
+  "invoice_2026-815.pdf"
+ ],
+ "from": "facturacion@rafaeloteromontero.pt",
+ "to": "facturas.proveedores@kalmora.example",
+ "subject": "FRA 2026/815 KALMORA PORTUGAL",
+ "body": ""
+}

@@ -1,0 +1,14 @@
+{
+ "doc_id": "API004315",
+ "channel": "cfdi",
+ "received_at": "2026-07-07T10:11:00",
+ "mailbox": "facturas.proveedores@kalmora.example",
+ "attachments": [
+  "factura_TR26-37377.pdf",
+  "C6E74825-126B-4BF3-B251-806A1D302754.xml"
+ ],
+ "from": "facturacion@materialesparacons.mx",
+ "to": "facturas.proveedores@kalmora.example",
+ "subject": "Facturas del mes",
+ "body": "Buenos días, adjuntamos factura. Un saludo."
+}

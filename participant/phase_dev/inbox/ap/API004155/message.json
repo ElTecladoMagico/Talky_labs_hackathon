@@ -1,0 +1,13 @@
+{
+ "doc_id": "API004155",
+ "channel": "email",
+ "received_at": "2026-07-08T19:53:00",
+ "mailbox": "facturas.proveedores@kalmora.example",
+ "attachments": [
+  "factura_0038762.pdf"
+ ],
+ "from": "facturacion@camposymuñozbricol.es",
+ "to": "facturas.proveedores@kalmora.example",
+ "subject": "Campos y Muñoz Bricolaje Profesional – documentación de facturación",
+ "body": "Buenos días, adjuntamos factura. Un saludo."
+}

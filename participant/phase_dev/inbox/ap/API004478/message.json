@@ -1,0 +1,13 @@
+{
+ "doc_id": "API004478",
+ "channel": "email",
+ "received_at": "2026-07-30T10:34:00",
+ "mailbox": "facturas.proveedores@kalmora.example",
+ "attachments": [
+  "factura_2026-045.pdf"
+ ],
+ "from": "facturacion@notaríadedmanuelur.es",
+ "to": "facturas.proveedores@kalmora.example",
+ "subject": "Notaría de D. Manuel Urrutia Gallardo – documentación de facturación",
+ "body": "Saludos cordiales,\nDpto. Administración"
+}

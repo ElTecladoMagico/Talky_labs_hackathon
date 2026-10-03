@@ -1,0 +1,13 @@
+{
+ "doc_id": "API004154",
+ "channel": "email",
+ "received_at": "2026-07-06T07:16:00",
+ "mailbox": "facturas.proveedores@kalmora.example",
+ "attachments": [
+  "factura_2026-020513.pdf"
+ ],
+ "from": "facturacion@aguirreygómezconst.es",
+ "to": "facturas.proveedores@kalmora.example",
+ "subject": "Envío de factura nº 2026-020513",
+ "body": "Buenos días, adjuntamos factura. Un saludo."
+}

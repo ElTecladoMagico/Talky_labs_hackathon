@@ -1,0 +1,13 @@
+{
+ "doc_id": "API005198",
+ "channel": "email",
+ "received_at": "2026-07-27T14:44:00",
+ "mailbox": "facturas.proveedores@kalmora.example",
+ "attachments": [
+  "factura_G-004771.pdf"
+ ],
+ "from": "facturacion@canterasyáridospar.es",
+ "to": "facturas.proveedores@kalmora.example",
+ "subject": "RV: Factura G-004771 – reenvío (pendiente de pago)",
+ "body": "Saludos cordiales,\nDpto. Administración"
+}

@@ -1,0 +1,13 @@
+{
+ "doc_id": "API004219",
+ "channel": "email",
+ "received_at": "2026-07-21T17:37:00",
+ "mailbox": "facturas.proveedores@kalmora.example",
+ "attachments": [
+  "factura_FV-2026-02266.pdf"
+ ],
+ "from": "facturacion@construccionesestr.es",
+ "to": "facturas.proveedores@kalmora.example",
+ "subject": "FRA FV-2026-02266 UTE LINEA 9",
+ "body": "Adjunto remitimos la documentación indicada en el asunto."
+}

@@ -1,0 +1,14 @@
+{
+ "doc_id": "API005591",
+ "channel": "cfdi",
+ "received_at": "2026-07-13T15:49:00",
+ "mailbox": "facturas.proveedores@kalmora.example",
+ "attachments": [
+  "factura_NC-2026-009967.pdf",
+  "62CF1A47-59A2-4706-851C-0788B85F810E.xml"
+ ],
+ "from": "facturacion@edificacionesménde.mx",
+ "to": "facturas.proveedores@kalmora.example",
+ "subject": "Factura rectificativa NC-2026-009967",
+ "body": "Buenos días, adjuntamos factura. Un saludo."
+}

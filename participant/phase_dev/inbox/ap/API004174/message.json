@@ -1,0 +1,13 @@
+{
+ "doc_id": "API004174",
+ "channel": "email",
+ "received_at": "2026-07-09T14:03:00",
+ "mailbox": "facturas.proveedores@kalmora.example",
+ "attachments": [
+  "factura_E202639834.pdf"
+ ],
+ "from": "facturacion@aguasdealcanzar.es",
+ "to": "facturas.proveedores@kalmora.example",
+ "subject": "Aguas de Alcanzar – documentación de facturación",
+ "body": "Saludos cordiales,\nDpto. Administración"
+}

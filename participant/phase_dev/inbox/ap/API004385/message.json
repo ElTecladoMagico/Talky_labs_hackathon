@@ -1,0 +1,13 @@
+{
+ "doc_id": "API004385",
+ "channel": "email",
+ "received_at": "2026-07-21T12:01:00",
+ "mailbox": "facturas.proveedores@kalmora.example",
+ "attachments": [
+  "factura_G202621021.pdf"
+ ],
+ "from": "facturacion@fernándezyrocatopo.es",
+ "to": "facturas.proveedores@kalmora.example",
+ "subject": "Facturas del mes",
+ "body": "Adjunto remitimos la documentación indicada en el asunto."
+}

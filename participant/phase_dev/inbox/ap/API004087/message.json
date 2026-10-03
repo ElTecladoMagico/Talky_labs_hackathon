@@ -1,0 +1,13 @@
+{
+ "doc_id": "API004087",
+ "channel": "email",
+ "received_at": "2026-07-17T16:03:00",
+ "mailbox": "facturas.proveedores@kalmora.example",
+ "attachments": [
+  "factura_0031279.pdf"
+ ],
+ "from": "facturacion@elggraveras.es",
+ "to": "facturas.proveedores@kalmora.example",
+ "subject": "Envío de factura nº 0031279",
+ "body": "Les enviamos la factura correspondiente al periodo. Quedamos a su disposición."
+}

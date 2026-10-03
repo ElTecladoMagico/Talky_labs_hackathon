@@ -1,0 +1,18 @@
+{
+ "phase": "dev",
+ "month": "2026-07",
+ "ap_documents": 305,
+ "ar_billing_items": 26,
+ "ar_receipts": 32,
+ "bank_accounts": 12,
+ "ic_differences": 5,
+ "close_entries": 76,
+ "tagged": {
+  "IC": 3,
+  "AP": 242,
+  "BANK": 54,
+  "AR_BILL": 25,
+  "AR_CASH": 32,
+  "CLOSE": 76
+ }
+}

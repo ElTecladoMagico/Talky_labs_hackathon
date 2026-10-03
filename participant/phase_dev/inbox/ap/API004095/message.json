@@ -1,0 +1,13 @@
+{
+ "doc_id": "API004095",
+ "channel": "email",
+ "received_at": "2026-07-13T07:02:00",
+ "mailbox": "facturas.proveedores@kalmora.example",
+ "attachments": [
+  "factura_0007998.pdf"
+ ],
+ "from": "facturacion@valladosyservicios.es",
+ "to": "facturas.proveedores@kalmora.example",
+ "subject": "Envío de factura nº 0007998",
+ "body": "Saludos cordiales,\nDpto. Administración"
+}

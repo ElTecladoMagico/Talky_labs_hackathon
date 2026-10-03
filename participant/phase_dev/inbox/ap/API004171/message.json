@@ -1,0 +1,13 @@
+{
+ "doc_id": "API004171",
+ "channel": "email",
+ "received_at": "2026-07-03T12:17:00",
+ "mailbox": "facturas.proveedores@kalmora.example",
+ "attachments": [
+  "factura_26035764.pdf"
+ ],
+ "from": "facturacion@gestiónderesiduosl.es",
+ "to": "facturas.proveedores@kalmora.example",
+ "subject": "Envío de factura nº 26035764",
+ "body": "Buenos días, adjuntamos factura. Un saludo."
+}

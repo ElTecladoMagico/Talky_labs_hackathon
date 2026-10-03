@@ -1,0 +1,14 @@
+{
+ "doc_id": "API004320",
+ "channel": "cfdi",
+ "received_at": "2026-07-06T18:20:00",
+ "mailbox": "facturas.proveedores@kalmora.example",
+ "attachments": [
+  "factura_N20263292.pdf",
+  "27CE25E7-1FA1-4858-B8F4-C1CF128ECCBF.xml"
+ ],
+ "from": "facturacion@concretosglobal.mx",
+ "to": "facturas.proveedores@kalmora.example",
+ "subject": "Facturas del mes",
+ "body": "Saludos cordiales,\nDpto. Administración"
+}

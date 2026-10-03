@@ -1,0 +1,13 @@
+{
+ "doc_id": "API004486",
+ "channel": "email",
+ "received_at": "2026-07-13T13:08:00",
+ "mailbox": "facturas.proveedores@kalmora.example",
+ "attachments": [
+  "invoice_MT26-30133.pdf"
+ ],
+ "from": "facturacion@planhivesoftwareir.com",
+ "to": "facturas.proveedores@kalmora.example",
+ "subject": "Envío de factura nº MT26/30133",
+ "body": "Buenos días, adjuntamos factura. Un saludo."
+}

@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<fe:Facturae xmlns:fe="http://www.facturae.gob.es/formato/Versiones/Facturaev3_2_2.xml">
+ <FileHeader><SchemaVersion>3.2.2</SchemaVersion><Modality>I</Modality><InvoiceIssuerType>EM</InvoiceIssuerType>
+  <Batch><BatchIdentifier>B01385340F2610440</BatchIdentifier><InvoicesCount>1</InvoicesCount>
+   <TotalInvoicesAmount><TotalAmount>1084.58</TotalAmount></TotalInvoicesAmount><TotalOutstandingAmount><TotalAmount>1084.58</TotalAmount></TotalOutstandingAmount>
+   <TotalExecutableAmount><TotalAmount>1084.58</TotalAmount></TotalExecutableAmount><InvoiceCurrencyCode>EUR</InvoiceCurrencyCode></Batch></FileHeader>
+ <Parties>
+  <SellerParty><TaxIdentification><PersonTypeCode>J</PersonTypeCode><ResidenceTypeCode>R</ResidenceTypeCode><TaxIdentificationNumber>B01385340</TaxIdentificationNumber></TaxIdentification>
+   <LegalEntity><CorporateName>Bricolaje Profesional Vega, S.L.</CorporateName><AddressInSpain><Address>Ronda de Poniente 112</Address><PostCode>43715</PostCode><Town>Villamar del Río</Town><Province>Madrid</Province><CountryCode>ESP</CountryCode></AddressInSpain></LegalEntity></SellerParty>
+  <BuyerParty><TaxIdentification><PersonTypeCode>J</PersonTypeCode><ResidenceTypeCode>R</ResidenceTypeCode><TaxIdentificationNumber>B60331798</TaxIdentificationNumber></TaxIdentification>
+   <LegalEntity><CorporateName>Kalmora Servicios Urbanos, S.L.U.</CorporateName></LegalEntity></BuyerParty>
+ </Parties>
+ <Invoices><Invoice>
+  <InvoiceHeader><InvoiceNumber>F2610440</InvoiceNumber><InvoiceDocumentType>FC</InvoiceDocumentType><InvoiceClass>OO</InvoiceClass>
+   </InvoiceHeader>
+  <InvoiceIssueData><IssueDate>2026-06-30</IssueDate><InvoicingPeriod><StartDate>2026-06-01</StartDate><EndDate>2026-06-30</EndDate></InvoicingPeriod><InvoiceCurrencyCode>EUR</InvoiceCurrencyCode><TaxCurrencyCode>EUR</TaxCurrencyCode><LanguageName>es</LanguageName></InvoiceIssueData>
+  <TaxesOutputs><Tax><TaxTypeCode>01</TaxTypeCode><TaxRate>21.00</TaxRate><TaxableBase><TotalAmount>896.35</TotalAmount></TaxableBase><TaxAmount><TotalAmount>188.23</TotalAmount></TaxAmount></Tax></TaxesOutputs>
+  
+  <InvoiceTotals><TotalGrossAmount>896.35</TotalGrossAmount><TotalGrossAmountBeforeTaxes>896.35</TotalGrossAmountBeforeTaxes>
+   <TotalTaxOutputs>188.23</TotalTaxOutputs><TotalTaxesWithheld>0.00</TotalTaxesWithheld><InvoiceTotal>1084.58</InvoiceTotal>
+   
+   <TotalOutstandingAmount>1084.58</TotalOutstandingAmount><TotalExecutableAmount>1084.58</TotalExecutableAmount></InvoiceTotals>
+  <Items><InvoiceLine><ItemDescription>Tornillería y fijaciones varias – AL-071593 (05/06)</ItemDescription><Quantity>2.000</Quantity><UnitPriceWithoutTax>55.500000</UnitPriceWithoutTax><TotalCost>111.00</TotalCost><GrossAmount>111.00</GrossAmount><TaxesOutputs><Tax><TaxTypeCode>01</TaxTypeCode><TaxRate>21.00</TaxRate><TaxableBase><TotalAmount>111.00</TotalAmount></TaxableBase></Tax></TaxesOutputs></InvoiceLine><InvoiceLine><ItemDescription>Tornillería y fijaciones varias – AL-071599 (05/06)</ItemDescription><Quantity>2.000</Quantity><UnitPriceWithoutTax>55.500000</UnitPriceWithoutTax><TotalCost>111.00</TotalCost><GrossAmount>111.00</GrossAmount><TaxesOutputs><Tax><TaxTypeCode>01</TaxTypeCode><TaxRate>21.00</TaxRate><TaxableBase><TotalAmount>111.00</TotalAmount></TaxableBase></Tax></TaxesOutputs></InvoiceLine><InvoiceLine><ItemDescription>Tornillería y fijaciones varias – AL-071608 (08/06)</ItemDescription><Quantity>3.000</Quantity><UnitPriceWithoutTax>55.500000</UnitPriceWithoutTax><TotalCost>166.50</TotalCost><GrossAmount>166.50</GrossAmount><TaxesOutputs><Tax><TaxTypeCode>01</TaxTypeCode><TaxRate>21.00</TaxRate><TaxableBase><TotalAmount>166.50</TotalAmount></TaxableBase></Tax></TaxesOutputs></InvoiceLine><InvoiceLine><ItemDescription>Herramienta manual variada – AL-071622 (10/06)</ItemDescription><Quantity>2.000</Quantity><UnitPriceWithoutTax>112.150000</UnitPriceWithoutTax><TotalCost>224.30</TotalCost><GrossAmount>224.30</GrossAmount><TaxesOutputs><Tax><TaxTypeCode>01</TaxTypeCode><TaxRate>21.00</TaxRate><TaxableBase><TotalAmount>224.30</TotalAmount></TaxableBase></Tax></TaxesOutputs></InvoiceLine><InvoiceLine><ItemDescription>Tornillería y fijaciones varias – AL-071617 (12/06)</ItemDescription><Quantity>2.000</Quantity><UnitPriceWithoutTax>55.500000</UnitPriceWithoutTax><TotalCost>111.00</TotalCost><GrossAmount>111.00</GrossAmount><TaxesOutputs><Tax><TaxTypeCode>01</TaxTypeCode><TaxRate>21.00</TaxRate><TaxableBase><TotalAmount>111.00</TotalAmount></TaxableBase></Tax></TaxesOutputs></InvoiceLine><InvoiceLine><ItemDescription>Cemento CEM II 25 kg – AL-071595 (23/06)</ItemDescription><Quantity>29.000</Quantity><UnitPriceWithoutTax>5.950000</UnitPriceWithoutTax><TotalCost>172.55</TotalCost><GrossAmount>172.55</GrossAmount><TaxesOutputs><Tax><TaxTypeCode>01</TaxTypeCode><TaxRate>21.00</TaxRate><TaxableBase><TotalAmount>172.55</TotalAmount></TaxableBase></Tax></TaxesOutputs></InvoiceLine></Items>
+  <AdditionalData><InvoiceAdditionalInformation> </InvoiceAdditionalInformation></AdditionalData>
+ </Invoice></Invoices>
+</fe:Facturae>

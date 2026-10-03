@@ -1,0 +1,30 @@
+{"bank_line": "BL0000650", "booking_date": "2026-04-01", "value_date": "2026-04-01", "amount": 92592426, "currency": "EUR", "text": "TRANSFERENCIA DE LOGÍSTICA VEGALTA, S.L."}
+{"bank_line": "BL0005504", "booking_date": "2026-04-01", "value_date": "2026-04-01", "amount": -92592426, "currency": "EUR", "text": "TRASPASO CASH POOLING SALDO CERO"}
+{"bank_line": "BL0004553", "booking_date": "2026-04-02", "value_date": "2026-04-02", "amount": -90000000, "currency": "EUR", "text": "TRASPASO A CTA 5939000479"}
+{"bank_line": "BL0005508", "booking_date": "2026-04-02", "value_date": "2026-04-02", "amount": 90000000, "currency": "EUR", "text": "TRASPASO CASH POOLING SALDO CERO"}
+{"bank_line": "BL0004146", "booking_date": "2026-04-06", "value_date": "2026-04-06", "amount": -7555000, "currency": "EUR", "text": "TRANSFERENCIA A UTE KALMORA HIDROCON L9"}
+{"bank_line": "BL0004555", "booking_date": "2026-04-06", "value_date": "2026-04-06", "amount": -20000000, "currency": "EUR", "text": "TRASPASO A CTA 5939000479"}
+{"bank_line": "BL0005510", "booking_date": "2026-04-06", "value_date": "2026-04-06", "amount": 27555000, "currency": "EUR", "text": "TRASPASO CASH POOLING SALDO CERO"}
+{"bank_line": "BL0000579", "booking_date": "2026-04-10", "value_date": "2026-04-10", "amount": 65195228, "currency": "EUR", "text": "TRANSFERENCIA DE AYUNTAMIENTO DE ALCANZAR"}
+{"bank_line": "BL0002830", "booking_date": "2026-04-10", "value_date": "2026-04-10", "amount": -75091219, "currency": "EUR", "text": "ORDEN TRANSFERENCIAS SEPA REMESA 20260410-383"}
+{"bank_line": "BL0002831", "booking_date": "2026-04-10", "value_date": "2026-04-10", "amount": -1225, "currency": "EUR", "text": "COMISION EMISION TRANSFERENCIAS SEPA"}
+{"bank_line": "BL0005516", "booking_date": "2026-04-10", "value_date": "2026-04-10", "amount": 9897216, "currency": "EUR", "text": "TRASPASO CASH POOLING SALDO CERO"}
+{"bank_line": "BL0004651", "booking_date": "2026-04-16", "value_date": "2026-04-16", "amount": -20000000, "currency": "EUR", "text": "TRASPASO A CTA 1390150259"}
+{"bank_line": "BL0005520", "booking_date": "2026-04-16", "value_date": "2026-04-16", "amount": 20000000, "currency": "EUR", "text": "TRASPASO CASH POOLING SALDO CERO"}
+{"bank_line": "BL0000704", "booking_date": "2026-04-20", "value_date": "2026-04-20", "amount": 16546502, "currency": "EUR", "text": "TRANSFERENCIA DE TESORERIA DIPUTACIÓN PROVINCIA"}
+{"bank_line": "BL0005526", "booking_date": "2026-04-20", "value_date": "2026-04-20", "amount": -16546502, "currency": "EUR", "text": "TRASPASO CASH POOLING SALDO CERO"}
+{"bank_line": "BL0000698", "booking_date": "2026-04-23", "value_date": "2026-04-23", "amount": 38966757, "currency": "EUR", "text": "TRANSFERENCIA DE DIPUTACIÓN PROVINCIAL DE PUERT"}
+{"bank_line": "BL0005534", "booking_date": "2026-04-23", "value_date": "2026-04-23", "amount": -38966757, "currency": "EUR", "text": "TRASPASO CASH POOLING SALDO CERO"}
+{"bank_line": "BL0004653", "booking_date": "2026-04-24", "value_date": "2026-04-24", "amount": -80000000, "currency": "EUR", "text": "TRASPASO A CTA 1390150259"}
+{"bank_line": "BL0004809", "booking_date": "2026-04-24", "value_date": "2026-04-24", "amount": -20000000, "currency": "EUR", "text": "TRANSFERENCIA A UTE KALMORA HIDROCON L9"}
+{"bank_line": "BL0005536", "booking_date": "2026-04-24", "value_date": "2026-04-24", "amount": 100000000, "currency": "EUR", "text": "TRASPASO CASH POOLING SALDO CERO"}
+{"bank_line": "BL0001601", "booking_date": "2026-04-27", "value_date": "2026-04-27", "amount": -5416779, "currency": "EUR", "text": "TRANSF. EXTERIOR USD 67,200.00 NINGBO HENGFA FORMWORK"}
+{"bank_line": "BL0001602", "booking_date": "2026-04-27", "value_date": "2026-04-27", "amount": -3200, "currency": "EUR", "text": "COMISION TRANSFERENCIA EXTERIOR OUR"}
+{"bank_line": "BL0001603", "booking_date": "2026-04-27", "value_date": "2026-04-27", "amount": -950, "currency": "EUR", "text": "GASTOS SWIFT"}
+{"bank_line": "BL0002887", "booking_date": "2026-04-27", "value_date": "2026-04-27", "amount": -34879537, "currency": "EUR", "text": "ORDEN TRANSFERENCIAS SEPA REMESA 20260427-393"}
+{"bank_line": "BL0002888", "booking_date": "2026-04-27", "value_date": "2026-04-27", "amount": -595, "currency": "EUR", "text": "COMISION EMISION TRANSFERENCIAS SEPA"}
+{"bank_line": "BL0005540", "booking_date": "2026-04-27", "value_date": "2026-04-27", "amount": 40301061, "currency": "EUR", "text": "TRASPASO CASH POOLING SALDO CERO"}
+{"bank_line": "BL0000711", "booking_date": "2026-04-30", "value_date": "2026-04-30", "amount": 2574148, "currency": "EUR", "text": "TRANSFERENCIA DE LOGÍSTICA LEÓN, S.L."}
+{"bank_line": "BL0003597", "booking_date": "2026-04-30", "value_date": "2026-04-30", "amount": -3000, "currency": "EUR", "text": "COMISION MANTENIMIENTO CUENTA"}
+{"bank_line": "BL0003964", "booking_date": "2026-04-30", "value_date": "2026-04-30", "amount": -42907230, "currency": "EUR", "text": "ORDEN NOMINAS 04/2026"}
+{"bank_line": "BL0005546", "booking_date": "2026-04-30", "value_date": "2026-04-30", "amount": 40336082, "currency": "EUR", "text": "TRASPASO CASH POOLING SALDO CERO"}

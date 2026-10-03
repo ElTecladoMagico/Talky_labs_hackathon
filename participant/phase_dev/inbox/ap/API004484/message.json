@@ -1,0 +1,13 @@
+{
+ "doc_id": "API004484",
+ "channel": "email",
+ "received_at": "2026-07-14T07:02:00",
+ "mailbox": "facturas.proveedores@kalmora.example",
+ "attachments": [
+  "invoice_FV-2026-11396.pdf"
+ ],
+ "from": "facturacion@ledgerlineanalytic.com",
+ "to": "facturas.proveedores@kalmora.example",
+ "subject": "Envío de factura nº FV-2026-11396",
+ "body": ""
+}

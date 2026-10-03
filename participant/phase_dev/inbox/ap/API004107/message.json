@@ -1,0 +1,13 @@
+{
+ "doc_id": "API004107",
+ "channel": "email",
+ "received_at": "2026-07-03T13:40:00",
+ "mailbox": "facturas.proveedores@kalmora.example",
+ "attachments": [
+  "factura_2026-029948.pdf"
+ ],
+ "from": "facturacion@vigilanciatorrecas.es",
+ "to": "facturas.proveedores@kalmora.example",
+ "subject": "Factura 2026-029948",
+ "body": "Saludos cordiales,\nDpto. Administración"
+}

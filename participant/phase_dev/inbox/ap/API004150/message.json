@@ -1,0 +1,10 @@
+{
+ "doc_id": "API004150",
+ "channel": "paper",
+ "received_at": "2026-07-07T16:16:00",
+ "mailbox": "facturas.proveedores@kalmora.example",
+ "attachments": [
+  "factura_N26-17783.pdf"
+ ],
+ "source": "Registro de entrada en papel (escaneado en recepción)"
+}

@@ -1,0 +1,13 @@
+{
+ "doc_id": "API005597",
+ "channel": "email",
+ "received_at": "2026-07-21T12:17:00",
+ "mailbox": "facturas.proveedores@kalmora.example",
+ "attachments": [
+  "statement_API005597.pdf"
+ ],
+ "from": "facturacion@reddeestacionessol.es",
+ "to": "facturas.proveedores@kalmora.example",
+ "subject": "Recordatorio de pago – extracto de cuenta",
+ "body": ""
+}

@@ -1,0 +1,14 @@
+{
+ "doc_id": "API005228",
+ "channel": "cfdi",
+ "received_at": "2026-07-06T08:44:00",
+ "mailbox": "facturas.proveedores@kalmora.example",
+ "attachments": [
+  "factura_2026-007838.pdf",
+  "F0657FA0-7679-4741-9B0E-130EA86E8A94.xml"
+ ],
+ "from": "facturacion@comisióndeenergíad.mx",
+ "to": "facturas.proveedores@kalmora.example",
+ "subject": "FRA 2026-007838 KALMORA MEXICO",
+ "body": "Adjunto remitimos la documentación indicada en el asunto."
+}
