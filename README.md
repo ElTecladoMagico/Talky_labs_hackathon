@@ -65,5 +65,7 @@ CC o PEP (no ambos) y cuadre por sociedad. `propose(conn, "bank:BL0000123", "P2"
 1. Las reglas deciden lo que pueden. Lo que ninguna regla resuelve llama a `review.decide(conn, key, task, evidencia, opciones, prudente)`.
 2. Si `cache/<fase>/review.jsonl` tiene una decisión para esa `key` con `confidence ≥ 0.8` y dentro de las opciones → se usa.
 3. Si no → se aplica la opción **prudente** (la que no asienta) y el caso va a `submission/<fase>/doubts.jsonl` con toda la evidencia.
-4. La IA (sesión de Claude Code) lee `doubts.jsonl` y escribe en `review.jsonl` `{"key", "decision", "confidence", "reason"}`; si sigue sin estar segura, `"decision": "DUDA"`. Commit y se vuelve a ejecutar.
-5. Lo que siga en `doubts.jsonl` es la lista para la revisión cruzada humana. La IA nunca corre dentro de `run.py`: ejecuciones reproducibles y sin red.
+4. `python3 run.py <fase> --review`: si hay dudas, llama a `claude -p` (sin interfaz, sin herramientas de escritura) con las políticas y la evidencia,
+   valida su respuesta como dato no fiable (claves existentes, opciones permitidas o `DUDA`, confianza en [0, 1]), la guarda en `review.jsonl`
+   y vuelve a ejecutar una vez. Coste ≈ 0,4 $ por llamada. Haced commit de `review.jsonl` para que todos ejecuten igual.
+5. Lo que siga en `doubts.jsonl` es la lista para la revisión cruzada humana. Sin `--review`, `run.py` no llama a la IA: ejecuciones reproducibles y sin red.

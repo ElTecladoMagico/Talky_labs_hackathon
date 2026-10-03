@@ -1,4 +1,4 @@
-"""python run.py dev|test [--rebuild]  →  submission/<fase>/*.jsonl (+ score.py en dev)
+"""python run.py dev|test [--rebuild] [--review]  →  submission/<fase>/*.jsonl (+ score.py en dev)
 
 Cada tarea es tasks/<nombre>.py con `def run(conn) -> list[dict]` (filas del jsonl de entrega).
 El orden respeta las dependencias: AP antes que banco/intragrupo/cierre; banco antes que cobros.
@@ -69,13 +69,23 @@ def run_tasks(conn, out_dir):
         print(f"AVISO: asientos entregados ≠ propose() en {len(bad)} cuentas: {dict(list(bad.items())[:5])}")
 
 
-def main(phase, rebuild=False):
+def main(phase, rebuild=False, ai_review=False):
     conn = db.connect(phase, rebuild)
     out = ROOT / "submission" / phase
-    review.load(conn, db.CACHE / db.PHASES[phase].name / "review.jsonl")  # decisiones de la IA, versionadas
+    decisions = db.CACHE / db.PHASES[phase].name / "review.jsonl"  # decisiones de la IA, versionadas en git
+    review.load(conn, decisions)
     run_tasks(conn, out)
     n = review.dump_doubts(conn, out / "doubts.jsonl")
-    print(f"dudas: {n} → {out / 'doubts.jsonl'}" + ("  (pasar a la IA; sus decisiones van a cache/<fase>/review.jsonl)" if n else ""))
+    if n and ai_review:  # una sola ronda: claude -p decide lo que pueda, se valida, se guarda y se vuelve a ejecutar
+        doubts = [json.loads(l) for l in (out / "doubts.jsonl").read_text(encoding="utf-8").splitlines()]
+        got = review.ask_claude(doubts, (ROOT / "participant/POLITICAS_CONTABLES.md").read_text(encoding="utf-8"))
+        print(f"revisión IA: {len(got)} decisiones válidas de {n} dudas ({sum(d['decision'] != 'DUDA' for d in got)} resueltas)")
+        if got:
+            review.merge(decisions, got)
+            review.load(conn, decisions)
+            run_tasks(conn, out)
+            n = review.dump_doubts(conn, out / "doubts.jsonl")
+    print(f"dudas: {n} → {out / 'doubts.jsonl'}" + ("  (revisión humana; o `--review` para que decida claude -p)" if n else ""))
     if phase == "dev":
         res = out / "score.json"
         subprocess.run([sys.executable, str(ROOT / "participant/score.py"), str(db.PHASES["dev"]), str(db.PHASES["dev"]), str(out), "--json", str(res)],
@@ -85,4 +95,4 @@ def main(phase, rebuild=False):
 
 
 if __name__ == "__main__":
-    main(sys.argv[1], "--rebuild" in sys.argv)
+    main(sys.argv[1], "--rebuild" in sys.argv, "--review" in sys.argv)
