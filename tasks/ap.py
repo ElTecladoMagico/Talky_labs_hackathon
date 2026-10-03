@@ -97,26 +97,21 @@ def _recurring_cost(conn, d, vendor, docs, rows):
     return mapping[norm_num(d['invoice_number'])]
 
 
-def _bank_recipients(conn, phase):
-    accounts = {a['id']: a for a in _rows(conn, 'bank_accounts')}
+def _bank_recipients(conn):
+    """Recibos domiciliados del banco por (proveedor, nº de factura, moneda, importe): mandato y sociedad que paga.
+    Lee bank_line (N43, camt y CSV ya parseados por common.statements) hasta el mes de cierre."""
     month = db.get_json(conn, 'tasks/close')['month']
+    ext = {'n43': 'n43', 'camt053': 'camt053.xml', 'csv_mx': 'csv'}
     found = defaultdict(list)
-    for path in sorted((phase / 'bank').glob('*/*.n43')):
-        account = accounts.get(path.parent.name)
-        if not account or path.stem > month:
+    for account, company, currency, fmt, stmt, amount, detail in conn.execute(
+            """SELECT a.id, a.company, a.currency, a.statement_format, b.month, b.amount, b.detail FROM bank_line b
+               JOIN bank_accounts a ON a.id = b.account WHERE b.month <= ? AND b.amount < 0 ORDER BY a.id, b.month, b.rowid""", (month,)):
+        mandate = re.search(r'\bMANDATO\s+([A-Z0-9-]+)-(\d{4})\b', detail or '')
+        invoice = re.search(r'\bFRA\s+(\S+)', detail or '')
+        if not mandate or not invoice or mandate[2] != company:
             continue
-        for record in re.split(r'(?m)(?=^22)', path.read_text(encoding='latin1')):
-            header = record.splitlines()[0]
-            mandate = re.search(r'\bMANDATO\s+([A-Z0-9-]+)-(\d{4})\b', record)
-            invoice = re.search(r'(?m)^2302FRA\s+(\S+)', record)
-            if not header.startswith('22') or len(header) < 42 or header[27] != '1' or not mandate or not invoice:
-                continue
-            vendor, company = mandate.groups()
-            if company != account['company'] or not header[28:42].isdigit():
-                continue
-            key = (vendor, norm_num(_number(invoice[1])), account['currency'], int(header[28:42]))
-            found[key].append(dict(company=company, account=account['id'], mandate=mandate[0],
-                                   source=str(path.relative_to(phase))))
+        found[(mandate[1], norm_num(_number(invoice[1])), currency, -amount)].append(
+            dict(company=company, account=account, mandate=mandate[0], source=f'bank/{account}/{stmt}.{ext.get(fmt, fmt)}'))
     return found
 
 
@@ -379,7 +374,7 @@ def run(conn):
     conn.execute('CREATE INDEX IF NOT EXISTS ix_ap_history_lines ON je_line(entry_id, company, account)')
     phase = _phase(conn)
     docs = extract_phase(conn, phase)
-    recipients = _bank_recipients(conn, phase)
+    recipients = _bank_recipients(conn)
     vendors = {v['id']: v for v in _rows(conn, 'vendors')}
     companies = {c['code']: c for c in _rows(conn, 'companies')}
     pos = {p['id']: p for p in _rows(conn, 'purchase_orders')}
