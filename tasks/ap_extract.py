@@ -174,7 +174,7 @@ def parse_xml(path):
     return {"document_type": "CREDIT_NOTE" if txt("InvoiceClass") in {"OR", "CR"} else "INVOICE", "invoice_number": txt("InvoiceNumber"), "invoice_date": date_iso(txt("IssueDate")), "currency": txt("InvoiceCurrencyCode"), "seller_tax_id": txt("SellerParty/TaxIdentification/TaxIdentificationNumber"), "buyer_tax_id": txt("BuyerParty/TaxIdentification/TaxIdentificationNumber"), "net": cents("InvoiceTotals/TotalGrossAmountBeforeTaxes"), "tax": cents("InvoiceTotals/TotalTaxOutputs"), "gross": cents("InvoiceTotals/InvoiceTotal"), "withholding": cents("InvoiceTotals/TotalTaxesWithheld") or 0, "retention": cents("InvoiceTotals/AmountsWithheld/WithholdingAmount") or 0, "payable": cents("InvoiceTotals/TotalOutstandingAmount"), "items": items, "po_refs": list(dict.fromkeys(e["po"] for e in items if e["po"])), "text": txt("InvoiceAdditionalInformation") or ""}
 
 
-def extract_document(folder):
+def extract_document(folder, cached=None):
     folder = Path(folder)
     metadata = json.loads((folder / "message.json").read_text(encoding="utf-8"))
     paths = [(folder / name).resolve() for name in metadata["attachments"]]
@@ -183,12 +183,18 @@ def extract_document(folder):
     d = dict.fromkeys(("invoice_number", "invoice_date", "currency", "seller_tax_id", "buyer_tax_id", "net", "tax", "gross", "payable", "iban", "credit_reference"))
     d.update(doc_id=metadata.get("doc_id", folder.name), document_type=None, items=[], po_refs=[], withholding=0, retention=0, text="", issues=[], metadata=metadata, schema_version=VERSION, extraction_methods=[])
     digest = hashlib.sha256((folder / "message.json").read_bytes())
+    for p in paths:
+        if p.is_file():
+            digest.update(p.name.encode() + p.read_bytes())
+        else:
+            digest.update(b"MISSING:" + p.name.encode())
+    if cached and cached.get("schema_version") == VERSION and cached.get("source_hash") == digest.hexdigest():
+        return json.loads(json.dumps(cached))
     pdfs, xmls = [], []
     for p in paths:
         if not p.is_file():
             d["issues"].append(f"MISSING_ATTACHMENT:{p.name}")
             continue
-        digest.update(p.name.encode() + p.read_bytes())
         try:
             if p.suffix.lower() == ".xml":
                 xmls.append(parse_xml(p))
@@ -253,7 +259,8 @@ def extract_phase(conn, phase_dir):
     vendors, companies = _rows(conn, "vendors"), _rows(conn, "companies")
     docs = []
     for (doc_id,) in conn.execute("SELECT id FROM task_ap_documents ORDER BY id").fetchall():
-        d = extract_document(Path(phase_dir) / "inbox/ap" / doc_id)
+        saved = conn.execute("SELECT data FROM doc_extract WHERE doc_id=?", (doc_id,)).fetchone()
+        d = extract_document(Path(phase_dir) / "inbox/ap" / doc_id, cached=json.loads(saved[0]) if saved else None)
         vendor = next((v for v in vendors if _tax_id(v["tax_id"]) == _tax_id(d["seller_tax_id"]) and d["seller_tax_id"]), None)
         if vendor is None and d["document_type"] not in INVOICE_KINDS:
             vendor = next((v for v in vendors if fold(v["name"]) in fold(d["text"])), None)
