@@ -1,0 +1,6 @@
+# Enable ECC and Ponytail for this project and its subdirectories.
+[plugins."ecc@ecc"]
+enabled = true
+
+[plugins."ponytail@ponytail"]
+enabled = true
