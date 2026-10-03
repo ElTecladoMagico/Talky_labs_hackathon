@@ -28,6 +28,17 @@ def test_deposit_request_has_priority_over_proforma():
     d = extract_document(DEV / 'API004469')
     assert d['document_type'] == 'DOWN_PAYMENT_REQUEST'
 
+def test_electricity_cups_is_not_an_iban():
+    from tasks.ap_extract import extract_document
+    assert extract_document(DEV / 'API004109')['iban'] == 'ES8191037660131301125190'
+
+@pytest.mark.parametrize('doc_id', ['API004095', 'API004091'])
+def test_billing_period_is_separate_from_invoice_date(doc_id):
+    from tasks.ap_extract import extract_document
+    d = extract_document(DEV / doc_id)
+    assert d['period_start'] == '2026-06-01'
+    assert d['period_end'] == '2026-06-30'
+
 
 @pytest.mark.parametrize("raw,expected", [
     ("1.234,56", 123456), ("-825,96", -82596),
