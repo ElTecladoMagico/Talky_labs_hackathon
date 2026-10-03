@@ -1,10 +1,130 @@
 """P3 — facturación AR: una fila de ar_billing.jsonl por billing_item de tasks/ar_billing_items.json."""
+import base64
+import calendar
+import json
+import re
+import zlib
+from datetime import date, timedelta
+
+from common import db
+from common.je import make_je, propose
+
+OBRA_ACCOUNT = "70510000"
+
+
+def pdf_lines(path):
+    """Texto de un PDF de ReportLab (ASCII85 + Flate) como lista de líneas; sin dependencias."""
+    out = []
+    for m in re.finditer(rb"stream\r?\n(.*?)endstream", open(path, "rb").read(), re.S):
+        s = m.group(1).strip()
+        s = zlib.decompress(base64.a85decode(s[:-2]) if s.endswith(b"~>") else s).decode("latin1")
+        for a, b in re.findall(r"\[(.*?)\]\s*TJ|\((.*?)(?<!\\)\)\s*Tj", s):
+            t = "".join(re.findall(r"\((.*?)(?<!\\)\)", a)) if a else b
+            out.append(re.sub(r"\\(\d{3}|.)", lambda m: chr(int(m.group(1), 8)) if len(m.group(1)) == 3 else m.group(1), t))
+    return out
+
+
+def cents(s):
+    return int(re.sub(r"\D", "", s))  # "8.596.118,68" → 859611868
+
+
+def pct(base, bp):
+    return (base * bp + 5000) // 10000  # redondeo half-up; bp = puntos básicos
+
+
+def q(conn, sql, *args):
+    cur = conn.execute(sql, args)
+    return [dict(zip([d[0] for d in cur.description], r)) for r in cur]
+
+
+def certification(path):
+    """Datos de una certificación de obra desde su PDF: aprobada, a origen, anterior, líneas (capítulo, descripción, importe)."""
+    t = pdf_lines(path)
+    txt = "\n".join(t)
+    money = lambda label: cents(re.search(label + r"[^\d\n]*([\d.]+,\d\d)", txt).group(1))
+    lines = [(l, t[i + 1], cents(t[i + 2])) for i, l in enumerate(t) if re.fullmatch(r"\d\d", l)]
+    return dict(approved="CONFORME" in t, origin=money("a origen"), previous=money("anterior"), lines=lines,
+                currency=re.search(r"\d,\d\d (EUR|MXN)", txt).group(1))
+
+
+def next_number(conn, ctx, company, contract, day):
+    """Siguiente nº de factura de la serie del contrato (prefijo de su última factura, con el año cambiado)."""
+    last = q(conn, "SELECT id FROM ar_invoices WHERE contract = ? ORDER BY date DESC, rowid DESC LIMIT 1", contract) \
+        or q(conn, "SELECT id FROM ar_invoices WHERE company = ? ORDER BY date DESC, rowid DESC LIMIT 1", company)
+    prefix = re.sub(r"\d+$", "", last[0]["id"])
+    prefix = re.sub(r"(?<=\D)(\d{4}|\d{2})-$", lambda m: f"{day.year}-" if len(m.group(1)) == 4 else f"{day.year % 100:02d}-", prefix)
+    if prefix not in ctx["seq"]:
+        ctx["seq"][prefix] = max([int(i[len(prefix):]) for (i,) in conn.execute("SELECT id FROM ar_invoices WHERE id LIKE ?", (prefix + "%",))
+                                  if i[len(prefix):].isdigit()] or [0])
+    ctx["seq"][prefix] += 1
+    return f"{prefix}{ctx['seq'][prefix]:05d}"
+
+
+def advance_left(conn, contract):
+    """Anticipo pendiente de amortizar: facturas ANT del contrato − amortizaciones ya aplicadas."""
+    adv = sum(r["gross"] for r in q(conn, "SELECT gross FROM ar_invoices WHERE contract = ? AND id LIKE 'ANT-%'", contract))
+    used = sum(d["amount"] for r in q(conn, "SELECT deductions FROM ar_invoices WHERE contract = ?", contract)
+               for d in json.loads(r["deductions"] or "[]") if d["code"] == "ADV_AMORT")
+    return adv - used
+
+
+def obra(conn, ctx, item):
+    c = ctx["contracts"][item["contract"]]
+    cust = ctx["customers"][item["customer"]]
+    cert = certification(ctx["root"] / "inbox/ar/billing" / item["billing_item"] / item["documents"][0])
+    if not cert["approved"]:
+        return dict(billing_item=item["billing_item"], type=item["type"], company=item["company"], customer=item["customer"],
+                    contract=item["contract"], expected="SKIP_PENDING_APPROVAL")
+    net = cert["origin"] - cert["previous"]  # esta certificación = a origen − anterior
+    caps = [[cap, desc, amt] for cap, desc, amt in cert["lines"]]
+    caps[max(range(len(caps)), key=lambda i: caps[i][2])][2] += net - sum(x[2] for x in caps)  # ponytail: el descuadre de redondeo va al capítulo mayor
+    y, m = map(int, item["month"].split("-"))
+    day = date(y, m, calendar.monthrange(y, m)[1])
+    code = c["tax"]
+    rate = ctx["tax"][code]["rate"] if ctx["tax"][code]["kind"] == "output" else 0
+    tax = pct(net, rate)
+    ret = pct(net, c["retention_bp"])
+    ded = []
+    if c.get("mx5mill"):
+        ded.append(dict(code="MX5MILL", amount=pct(net, 50), account="63100000"))
+    if c.get("advance_bp"):
+        ded.append(dict(code="ADV_AMORT", amount=min(pct(net + tax, c["advance_bp"]), advance_left(conn, c["id"])), account="43800000"))
+    payable = net + tax - ret - sum(d["amount"] for d in ded)
+    num = next_number(conn, ctx, item["company"], item["contract"], day)
+    p = cust["id"]
+    lines = [dict(account="43000000", debit=payable, partner=p, assignment=num), dict(account="43000900", debit=ret, partner=p, assignment=num)]
+    lines += [dict(account=d["account"], debit=d["amount"], partner=p if d["account"] == "43800000" else None) for d in ded]
+    lines.append(dict(account="47700000", credit=tax, tax_code=code))
+    lines += [dict(account=OBRA_ACCOUNT, credit=amt, wbs=f"{c['project']}.{cap}", tax_code=code, text=desc) for cap, desc, amt in caps]
+    face = json.loads(cust["dir3"]) if cust["kind"] == "public" and cust["country"] == "ES" else None
+    inv = dict(date=day.isoformat(), due_date=(day + timedelta(days=c["terms_days"])).isoformat(), tax_code=code, net=net, tax=tax,
+               gross=net + tax, retention=ret, deductions=ded, payable=payable, currency=cust["currency"],
+               lines=[dict(description=d, amount=a, account=OBRA_ACCOUNT, cost_center=None, wbs=f"{c['project']}.{cap}") for cap, d, a in caps])
+    if face:
+        inv["face"] = face
+    return dict(billing_item=item["billing_item"], type=item["type"], company=item["company"], customer=p, contract=c["id"],
+                expected="INVOICE", invoice=inv, journal_entry=make_je(item["company"], [l for l in lines if l.get("debit") or l.get("credit")]))
+
+
+HANDLERS = {"OBRA_CERTIFICATION": obra}
 
 
 def billing_rows(conn):
     """Filas de entrega, sin efectos. close.py la reutiliza para las SKIP_PENDING_APPROVAL (obra pendiente de certificar)."""
-    return []
+    ctx = dict(root=db.phase_dir(conn), seq={}, tax=db.get_json(conn, "erp/tax_codes")["tax_codes"],
+               contracts={r["id"]: r for r in q(conn, "SELECT * FROM sales_contracts")},
+               customers={r["id"]: r for r in q(conn, "SELECT * FROM customers")})
+    rows = []
+    for (bid,) in conn.execute("SELECT id FROM task_ar_billing_items ORDER BY rowid").fetchall():
+        item = json.loads((ctx["root"] / "inbox/ar/billing" / bid / "item.json").read_text())
+        if item["type"] in HANDLERS:
+            rows.append(HANDLERS[item["type"]](conn, ctx, item))
+    return rows
 
 
 def run(conn):
-    return billing_rows(conn)
+    rows = billing_rows(conn)
+    for r in rows:
+        if r["expected"] == "INVOICE":
+            propose(conn, f"ar:{r['billing_item']}", "P3", "ar_billing", r["journal_entry"])
+    return rows
