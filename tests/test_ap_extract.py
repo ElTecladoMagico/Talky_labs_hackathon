@@ -91,6 +91,9 @@ def test_shared_extraction_is_pending_and_never_proposes_journal(tmp_path):
     from tasks.ap_extract import extract_phase
     conn = sqlite3.connect(":memory:")
     conn.executescript(db.SHARED + "CREATE TABLE task_ap_documents(id TEXT)")
+    # Publication names its columns: future optional fields cannot shift values.
+    conn.execute("ALTER TABLE doc_extract ADD COLUMN review_note TEXT")
+    conn.execute("ALTER TABLE ap_result ADD COLUMN review_note TEXT")
     conn.executemany("INSERT INTO task_ap_documents VALUES (?)", [("API004203",), ("API005600",)])
     conn.execute("CREATE TABLE vendors(id TEXT, tax_id TEXT, name TEXT)")
     conn.execute("INSERT INTO vendors VALUES ('V1','A41691415','Ferrer y Cano Hierros y Aceros, S.L.')")
@@ -102,8 +105,10 @@ def test_shared_extraction_is_pending_and_never_proposes_journal(tmp_path):
     assert r[:4] == ("1100", "V1", 867829, None)
     assert json.loads(r[4])["status"] == "EXTRACTED_PENDING_DECISION"
     assert conn.execute("SELECT count(*) FROM proposed_je").fetchone()[0] == 0
+    conn.execute("UPDATE doc_extract SET review_note='keep' WHERE doc_id='API004203'")
     conn.execute("UPDATE ap_result SET payable=0 WHERE doc_id='API004203'")
     extract_phase(conn, ROOT / "participant/phase_dev")
+    assert conn.execute("SELECT review_note FROM doc_extract WHERE doc_id='API004203'").fetchone()[0] == 'keep'
     assert conn.execute("SELECT payable FROM ap_result WHERE doc_id='API004203'").fetchone()[0] == 867829
     conn.execute("UPDATE ap_result SET decision='REJECT' WHERE doc_id='API004203'")
     extract_phase(conn, ROOT / "participant/phase_dev")
@@ -222,5 +227,34 @@ def test_complete_phase_produces_pending_identity_for_every_source(phase, count,
         assert conn.execute("SELECT count(*) FROM proposed_je").fetchone()[0] == 0
         assert all(d["document_type"] and d["source_hash"] for d in docs)
         assert not any("NO_READABLE_DOCUMENT" in d["issues"] for d in docs)
+    finally:
+        conn.close()
+
+
+@pytest.mark.parametrize("seller,buyer,expected", [
+    (" esa41691415 ", " esa12359962 ", ("V1", "1100")),
+    (None, None, (None, None)),
+    ("UNKNOWN", "UNKNOWN", (None, None)),
+])
+def test_identity_resolution_normalizes_once_without_guessing(seller, buyer, expected, monkeypatch):
+    from tasks import ap_extract
+    document = ap_extract.extract_document(DEV / "API004203")
+    document.update(seller_tax_id=seller, buyer_tax_id=buyer)
+    monkeypatch.setattr(ap_extract, "extract_document", lambda *a, **kw: document)
+    conn = sqlite3.connect(":memory:")
+    conn.executescript(db.SHARED + """
+        CREATE TABLE task_ap_documents(id TEXT);
+        INSERT INTO task_ap_documents VALUES ('API004203');
+        CREATE TABLE vendors(id TEXT, tax_id TEXT, name TEXT);
+        INSERT INTO vendors VALUES ('EMPTY', NULL, 'Unknown');
+        INSERT INTO vendors VALUES ('V1', 'A41691415', 'Ferrer y Cano Hierros y Aceros, S.L.');
+        CREATE TABLE companies(code TEXT, tax_id TEXT, name TEXT);
+        INSERT INTO companies VALUES ('EMPTY', NULL, 'Unknown');
+        INSERT INTO companies VALUES ('1100', 'A12359962', 'Kalmora Construcción, S.A.U.');
+    """)
+    try:
+        result = ap_extract.extract_phase(conn, DEV.parents[1])[0]
+        assert (result["vendor_id"], result["company"]) == expected
+        assert conn.row_factory is None
     finally:
         conn.close()
